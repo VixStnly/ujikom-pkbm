@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+@import "@public/frontend/vendor/spinkit.css";
+@import "@public/frontend/vendor/perfect-scrollbar.css";
+@import "@public/frontend/css/material-icons.css";
+@import "@public/frontend/css/fontawesome.css";
+@import "@public/frontend/css/preloader.css";
+@import "@public/frontend/css/app.css"; /* Pastikan path ini benar */
+
+/* app.css atau styles.css */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import 'daisyui/dist/full.css';
