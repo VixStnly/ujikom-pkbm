@@ -31,11 +31,13 @@ use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\VisiController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DataGuruController;
 use App\Http\Controllers\ViewBlogController;
 use App\Http\Controllers\HistoriController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\FisologiController;
 use App\Models\Blog;
 
 Route::get('/generate', function(){
@@ -89,6 +91,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // routes/web.php
 Route::get('/gallery', [GalleryController::class, 'showCategories'])->name('gallery.categories');
+
+Route::get('/Visi&Misi', [VisiController::class, 'index'])->name('Visi');
+
+Route::get('/Profile', [FisologiController::class, 'index'])->name('Profile');
 
 
 Route::get('/gallery/album/{kategori_id}', [GalleryController::class, 'showAlbum'])->name('gallery.album');
@@ -326,6 +332,27 @@ Route::put('guru/tugas/{tugas}', [TugasController::class, 'update'])->name('guru
 Route::delete('guru/tugas/{tugas}', [TugasController::class, 'destroy'])->name('guru.tugas.destroy');
 
 
+//route tampilan depan
+Route::get('/paketA-SD', function () {
+    return view('landing.Program_Sd');
+});
+
+Route::get('/paketB-SMP', function () {
+    return view('landing.Program_Smp');
+});
+
+Route::get('/paketC-SMA', function () {
+    return view('landing.Program_Sma');
+});
+
+Route::get('/pendaftaran', function () {
+    return view('landing.Pendaftaran');
+});
+
+Route::get('/bloglist', function () {
+    return view('landing.Bloglist');
+});
+Route::get('/bloglist', [BlogsController::class, 'landing'])->name('landing.Bloglist');
 
 
 

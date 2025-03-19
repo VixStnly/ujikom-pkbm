@@ -174,7 +174,7 @@
                                     <p class="text-muted">Tidak ada berita yang tersedia.</p>
                                 </div>
                                 @else
-                                @foreach ($blogs as $blog)
+                                @foreach ($blogs->take(3) as $blog)
                                 <div class="mb-6 p-4 row no-gutters justify-content-center" data-toggle="modal" data-target="#blogModal{{ $blog->id }}">
                                     <div class="col-md-4">
                                         @if ($blog->image)
@@ -220,7 +220,7 @@
                                 </div>
                                 @else
                                 @foreach ($announcements as $announcement)
-                                <div class="media mb-3">
+                                <div class="media mb-0 mt-3">
                                     <div class="media-left mr-10pt">
                                         <a href="#" class="avatar avatar-sm">
                                             <i class="material-icons" style="font-size: 24px;">comment</i>
@@ -240,7 +240,9 @@
                                         <p class="mt-1 mb-0 text-70">{!! $announcement->description !!}</p>
                                     </div>
                                 </div>
-                                <div style="height: 0.5px; background-color: #ccc; margin: 18px 0;"></div> <!-- Pembatas -->
+                                @if (!$loop->last)
+                                <div style="height: 1px; background-color: #ccc; margin: 5px 0;"></div> <!-- Pembatas -->
+                                @endif
                                 @endforeach
                                 @endif
                             </div>

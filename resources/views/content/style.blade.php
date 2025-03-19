@@ -59,6 +59,14 @@
       href="{{ asset('frontend/css/toastr.css')}}"
       rel="stylesheet">
 
+            <!-- Flatpickr -->
+            <link type="text/css"
+              href="{{ asset('frontend/css/flatpickr.css')}}"
+              rel="stylesheet">
+        <link type="text/css"
+              href="{{ asset('frontend/css/flatpickr-airbnb.css')}}"
+              rel="stylesheet">
+
 <style>
       .toast {
             background-color: #f44336 !important;

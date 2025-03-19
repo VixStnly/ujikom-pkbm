@@ -21,6 +21,14 @@ class BlogsController extends Controller
 
         return view('admin.blogs.index', compact('blogs', 'user'));
     }
+    public function landing()
+    {
+
+        $blogs = Blog::with('user')->paginate(5); // Display 5 items per page
+        $user = Auth::user();
+
+        return view('landing.Bloglist', compact('blogs', 'user'));
+    }
 
     // Menampilkan form untuk membuat blog baru
     public function create()
