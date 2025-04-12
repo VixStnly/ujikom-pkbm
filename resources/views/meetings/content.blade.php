@@ -188,6 +188,8 @@
         <!-- Meeting is today and hasn't started yet -->
         <div class="button-container" style="display: flex; flex-direction: column; gap: 8px;">
             <button onclick="location.href='{{ route('siswa.absensi', ['meeting' => $meeting->id]) }}'" class="btn-attend rounded">Absen</button>
+            <a href="{{ route('forum.index', $meeting->id) }}" class="btn btn-info">Forum Chat</a>
+
         </div>
     @else
         <div class="text-warning no-material">
