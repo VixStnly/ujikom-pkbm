@@ -9,9 +9,8 @@
 @import "@public/frontend/css/material-icons.css";
 @import "@public/frontend/css/fontawesome.css";
 @import "@public/frontend/css/preloader.css";
-@import "@public/frontend/css/app.css"; /* Pastikan path ini benar */
+@import "@public/frontend/css/app.css";
 
-/* app.css atau styles.css */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';

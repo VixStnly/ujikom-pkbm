@@ -4,7 +4,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-image: url('https://img.freepik.com/free-photo/fuji-mountain-kawaguchiko-lake-morning-autumn-seasons-fuji-mountain-yamanachi-japan_335224-102.jpg?t=st=1742388101~exp=1742391701~hmac=f40a01e3639a778da549a6dbeb7620f8455a5ae1e982834972bf54419d378ec6&w=1800');
+        background-image: url("{{ asset('images/background-login.jpg') }}");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;

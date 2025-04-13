@@ -135,158 +135,44 @@
                  style="white-space: nowrap;">
                 <h5 class="mr-24pt mb-md-0 d-md-inline-block">Popular topics</h5>
                 <a href=""
-                   class="chip mb-16pt mb-md-0 chip-secondary">Design</a>
-                <a href=""
-                   class="chip mb-16pt mb-md-0 chip-outline-secondary">Development</a>
-                <a href=""
-                   class="chip mb-16pt mb-md-0 chip-outline-secondary">Photography</a>
-                <a href=""
-                   class="chip mb-16pt mb-md-0 chip-outline-secondary d-md-none d-lg-inline-flex">Business</a>
+                   class="chip mb-16pt mb-md-0 chip-secondary">Berita</a>
             </div>
 
             <div class="row card-group-row">
 
-                <div class="col-md-6 col-lg-4 card-group-row__col">
+            @foreach ($blogs->sortByDesc('created_at') as $blog)
+                <div class="col-md-4 card-group-row__col">
+                        <div class="card card--elevated posts-card-popular overlay m-2" style="flex: 0 0 100%;">
+                            @if ($blog->image)
+                                <a href="{{ url('/blog/' . $blog->id) }}">
+                                    <img src="{{ Storage::url('blog/' . $blog->image) }}"
+                                         alt="{{ $blog->title }}"
+                                         class="card-img-top"
+                                         style="object-fit: cover; height: 200px; width: 100%;">
+                                </a>
+                            @endif
 
-                    <div class="card card--elevated posts-card-popular overlay card-group-row__card">
-                        <img src="../../public/images/paths/sketch_430x168.png"
-                             alt=""
-                             class="card-img">
-                        <div class="fullbleed bg-primary"
-                             style="opacity: .5"></div>
-                        <div class="posts-card-popular__content">
-                            <div class="card-body d-flex align-items-center">
-                                <div class="avatar-group flex">
-                                    <div class="avatar avatar-xs"
-                                         data-toggle="tooltip"
-                                         data-placement="top"
-                                         title="Janell D.">
-                                        <a href=""><img src="../../public/images/256_luke-porter-261779-unsplash.jpg"
-                                                 alt="Avatar"
-                                                 class="avatar-img rounded-circle"></a>
-                                    </div>
+                            <div class="fullbleed bg-primary" style="opacity: .5;"></div>
+
+                            <div class="posts-card-popular__content">
+                                <div class="card-body d-flex justify-content-end align-items-center">
+                                    <a href="{{ url('/blog/' . $blog->id) }}"
+                                       class="d-flex align-items-center text-white text-decoration-none">
+                                        <i class="material-icons mr-1" style="font-size: inherit;">remove_red_eye</i>
+                                        <small>{{ $blog->views ?? '0' }}</small>
+                                    </a>
                                 </div>
-                                <a style="text-decoration: none;"
-                                   class="d-flex align-items-center"
-                                   href=""><i class="material-icons mr-1"
-                                       style="font-size: inherit;">remove_red_eye</i> <small>327</small></a>
-                            </div>
-                            <div class="posts-card-popular__title card-body">
-                                <small class="text-muted text-uppercase">sketch</small>
-                                <a class="card-title"
-                                   href="blog-post.html">Merge Duplicates Inconsistent Symbols</a>
+
+                                <div class="posts-card-popular__title card-body">
+                                    <small class="text-muted text-uppercase">{{ $blog->category->name ?? 'Kategori' }}</small>
+                                    <a href="{{ url('/blog/' . $blog->id) }}" class="card-title text-white">{{ $blog->title }}</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
                 </div>
-
-                <div class="col-md-6 col-lg-4 card-group-row__col">
-
-                    <div class="card card--elevated posts-card-popular overlay card-group-row__card">
-                        <img src="../../public/images/paths/invision_430x168.png"
-                             alt=""
-                             class="card-img">
-                        <div class="fullbleed bg-primary"
-                             style="opacity: .5"></div>
-                        <div class="posts-card-popular__content">
-                            <div class="card-body d-flex align-items-center">
-                                <div class="avatar-group flex">
-                                    <div class="avatar avatar-xs"
-                                         data-toggle="tooltip"
-                                         data-placement="top"
-                                         title="Janell D.">
-                                        <a href=""><img src="../../public/images/256_michael-dam-258165-unsplash.jpg"
-                                                 alt="Avatar"
-                                                 class="avatar-img rounded-circle"></a>
-                                    </div>
-                                </div>
-                                <a style="text-decoration: none;"
-                                   class="d-flex align-items-center"
-                                   href=""><i class="material-icons mr-1"
-                                       style="font-size: inherit;">remove_red_eye</i> <small>327</small></a>
-                            </div>
-                            <div class="posts-card-popular__title card-body">
-                                <small class="text-muted text-uppercase">invision</small>
-                                <a class="card-title"
-                                   href="blog-post.html">Design Systems Essentials</a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-md-6 col-lg-4 card-group-row__col">
-
-                    <div class="card card--elevated posts-card-popular overlay card-group-row__card">
-                        <img src="../../public/images/paths/photoshop_430x168.png"
-                             alt=""
-                             class="card-img">
-                        <div class="fullbleed bg-primary"
-                             style="opacity: .5"></div>
-                        <div class="posts-card-popular__content">
-                            <div class="card-body d-flex align-items-center">
-                                <div class="avatar-group flex">
-                                    <div class="avatar avatar-xs"
-                                         data-toggle="tooltip"
-                                         data-placement="top"
-                                         title="Janell D.">
-                                        <a href=""><img src="../../public/images/256_rsz_1andy-lee-642320-unsplash.jpg"
-                                                 alt="Avatar"
-                                                 class="avatar-img rounded-circle"></a>
-                                    </div>
-                                </div>
-                                <a style="text-decoration: none;"
-                                   class="d-flex align-items-center"
-                                   href=""><i class="material-icons mr-1"
-                                       style="font-size: inherit;">remove_red_eye</i> <small>327</small></a>
-                            </div>
-                            <div class="posts-card-popular__title card-body">
-                                <small class="text-muted text-uppercase">photoshop</small>
-                                <a class="card-title"
-                                   href="blog-post.html">Semantic Logo Design</a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+            @endforeach
 
             </div>
-
-            <ul class="pagination justify-content-start pagination-xsm m-0">
-                <li class="page-item disabled">
-                    <a class="page-link"
-                       href="#"
-                       aria-label="Previous">
-                        <span aria-hidden="true"
-                              class="material-icons">chevron_left</span>
-                        <span>Prev</span>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link"
-                       href="#"
-                       aria-label="Page 1">
-                        <span>1</span>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link"
-                       href="#"
-                       aria-label="Page 2">
-                        <span>2</span>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link"
-                       href="#"
-                       aria-label="Next">
-                        <span>Next</span>
-                        <span aria-hidden="true"
-                              class="material-icons">chevron_right</span>
-                    </a>
-                </li>
-            </ul>
 
         </div>
     </div>
@@ -328,7 +214,7 @@
                     </div>
                     </div>
 
-                    <!-- <ul class="pagination justify-content-start pagination-xsm m-0">
+                    <ul class="pagination justify-content-start pagination-xsm m-0">
                         <li class="page-item disabled">
                             <a class="page-link"
                                href="#"
@@ -361,84 +247,14 @@
                                       class="material-icons">chevron_right</span>
                             </a>
                         </li>
-                    </ul> -->
+                    </ul>
 
                 </div>
-                <div class="col-lg-4">
 
-<!-- Section: Author -->
-<div class="page-separator">
-    <div class="page-separator__text">Outher</div>
-</div>
+                <x-content.outher-landing>
+                            <a href="teacher-profile.html" class="btn btn-outline-primary w-100 mt-3" style="border-radius: 0;">Informasi Pendaftaran</a>
+                </x-content.outher-landing>
 
-<!-- Search Widget -->
-<div class="card search-widget mb-3 bg-gray" style="border-radius: 0; box-shadow: none;">
-    <div class="card-body">
-        <form action="#" method="GET">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search..." name="query">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Latest Posts Widget -->
-<div class="card post-widget" style="border-radius: 0; box-shadow: none;">
-    <div class="card-header">
-        <h4 class="card-title mb-0">Latest Posts</h4>
-    </div>
-    <div class="card-body">
-        <ul class="list-unstyled latest-posts">
-            <li class="d-flex mb-3">
-                <div class="post-thumb me-3">
-                    <a href="/paketA-SD">
-                        <img class="img-fluid rounded" src="https://penapijar.com/wp-content/uploads/2022/01/PKBM-Mawar.png" alt="" style="width: 90px; height: 60px;">
-                    </a>
-                </div>
-                <div class="post-info">
-                    <h6 class="mb-1">
-                        <a href="/paketA-SD" class="text-decoration-none">Paket Kesetaraan A</a>
-                    </h6>
-                    <p class="text-muted small mb-0"><i class="far fa-calendar-alt"></i> 4 Dec 2019</p>
-                </div>
-            </li>
-            <li class="d-flex mb-3">
-                <div class="post-thumb me-3">
-                    <a href="/paketB-SMP">
-                        <img class="img-fluid rounded" src="https://i.imgur.com/e9tLRO1.jpg" alt="" style="width: 90px; height: 60px;">
-                    </a>
-                </div>
-                <div class="post-info">
-                    <h6 class="mb-1">
-                        <a href="/paketB-SMP" class="text-decoration-none">Paket Kesetaraan B</a>
-                    </h6>
-                    <p class="text-muted small mb-0"><i class="far fa-calendar-alt"></i> 4 Dec 2019</p>
-                </div>
-            </li>
-            <li class="d-flex mb-3">
-                <div class="post-thumb me-3">
-                <a href="/paketC-SMA">
-                        <img class="img-fluid rounded" src="https://www.radarbogor.id/files/2020/08/PKBM.jpg" alt="" style="width: 90px; height: 60px;">
-                    </a>
-                </div>
-                <div class="post-info">
-                    <h6 class="mb-1">
-                        <a href="/paketC-SMA" class="text-decoration-none">Paket Kesetaraan C</a>
-                    </h6>
-                    <p class="text-muted small mb-0"><i class="far fa-calendar-alt"></i> 4 Dec 2019</p>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
-
-<!-- Follow Button -->
-<a href="teacher-profile.html" class="btn btn-outline-primary w-100 mt-3" style="border-radius: 0;">Informasi Pendaftaran</a>
-
-</div>
             </div>
 
         </div>
