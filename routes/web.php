@@ -39,6 +39,12 @@ use App\Http\Controllers\HistoriController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\FisologiController;
 use App\Models\Blog;
+use App\Http\Controllers\ForumController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/forum/{meeting}', [ForumController::class, 'index'])->name('forum.index');
+    Route::post('/forum/{meeting}', [ForumController::class, 'store'])->name('forum.store');
+});
 
 Route::get('/generate', function(){
    \Illuminate\Support\Facades\Artisan::call('storage:link');

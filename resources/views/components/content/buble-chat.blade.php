@@ -1,0 +1,149 @@
+<!-- Daftar Pertanyaan -->
+@foreach ($forums->where('parent_id', null) as $forum)
+<div class="bg-white p-6 rounded-lg shadow-md mb-6 transition duration-300 ease-in-out transform hover:scale-105 fade-in">
+    <div class="flex justify-between items-center text-sm text-gray-600">
+        <span class="font-semibold">{{ $forum->user->name }}</span>
+        <span class="text-gray-400">{{ $forum->created_at->diffForHumans() }}</span>
+    </div>
+    <p class="mt-3 text-gray-700">{{ $forum->message }}</p>
+    @if ($forum->image_path)
+    <img src="{{ asset('storage/' . $forum->image_path) }}" class="mt-3 rounded-lg max-w-full shadow-lg zoom-in">
+    @endif
+
+    <!-- Love -->
+    <button type="submit" class="text-sm text-blue-600 mr-3 hover:text-blue-800 mt-3 focus:outline-none">
+        <i class='bx bxs-heart text-red-500 text-base'></i>
+        <span>0</span>
+    </button>
+
+    <!-- Balasan -->
+    <button class="text-sm text-blue-600 hover:text-blue-800 mt-3 mr-2 focus:outline-none" data-bs-toggle="collapse" data-bs-target="#replies-{{ $forum->id }}">
+        <i class='bx bx-comment-dots text-base'></i>
+        <span>({{ $forum->replies->count() }})</span>
+    </button>
+
+    <div class="collapse mt-4 slide-up" id="replies-{{ $forum->id }}">
+
+        <ul class="d-flex flex-column list-unstyled" id="messages">
+            @foreach ($forum->replies as $reply)
+            @php
+            $isMe = auth()->id() === $reply->user_id;
+            @endphp
+            <li class="message d-inline-flex {{ $isMe ? 'justify-content-end' : 'justify-content-start' }}">
+                {{-- Wrapper untuk avatar + bubble --}}
+                <div class="d-flex align-items-start {{ $isMe ? 'flex-row-reverse' : '' }}">
+                    {{-- Avatar (selalu kiri) --}}
+                    <div class="mx-2">
+                        <a href="profile.html" class="avatar avatar-sm">
+                            <img src="{{ $reply->user->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($reply->user->name) }}"
+                                class="avatar-img rounded-circle">
+                        </a>
+                    </div>
+
+                    {{-- Bubble Chat --}}
+                    <div class="message__body card {{ $isMe ? 'bg-primary text-white' : 'bg-light' }}">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex mr-3">
+                                    <strong class="{{ $isMe ? 'text-white' : 'text-dark' }}">{{ $reply->user->name }}</strong>
+                                </div>
+                                <div>
+                                    <small class="{{ $isMe ? 'text-light' : 'text-70' }}">{{ $reply->created_at->diffForHumans() }}</small>
+                                </div>
+                            </div>
+                            <div class="{{ $isMe ? 'text-white' : 'text-dark' }}">
+                                {{ $reply->message }}
+                            </div>
+
+                            @if ($reply->image_path)
+                            <div class="mt-2">
+                                <img src="{{ asset('storage/' . $reply->image_path) }}"
+                                    class="img-fluid rounded shadow"
+                                    style="max-width: 400px; max-height: 400px;">
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </li>
+            @endforeach
+        </ul>
+
+
+    </div>
+
+    <!-- Form Balas Toggle -->
+    <button class="text-sm text-blue-600 hover:text-blue-800 mt-3 focus:outline-none" data-bs-toggle="collapse" data-bs-target="#form-reply-{{ $forum->id }}">
+        <i class='bx bx-reply text-base'></i>
+        Balas
+    </button>
+    <div class="collapse mt-3 slide-up" id="form-reply-{{ $forum->id }}">
+        <form action="{{ route('forum.store', $meeting->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+            @csrf
+            <input type="hidden" name="parent_id" value="{{ $forum->id }}">
+            <textarea name="message" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Tulis balasan..."></textarea>
+            <input type="file" name="image" class="w-full p-2 border border-gray-300 rounded-lg">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">Kirim Balasan</button>
+        </form>
+    </div>
+</div>
+@endforeach
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+
+    .animate-fade-out {
+        animation: fadeOut 0.2s ease-in forwards;
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Apply animations to specific elements */
+    .fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    .zoom-in {
+        animation: zoomIn 0.5s ease-out forwards;
+    }
+
+    .slide-up {
+        animation: slideUp 0.5s ease-out forwards;
+    }
+</style>

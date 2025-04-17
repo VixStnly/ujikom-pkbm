@@ -152,8 +152,8 @@
                     </form>
                 </div>
             </div>
-
         </div>
+        @include ('Page.footer')
     </div>
 
     @include('content.js')
