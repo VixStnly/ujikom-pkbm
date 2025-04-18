@@ -35,7 +35,7 @@
                             <div class="text-center mb-4">
                                 <img src="https://murnajati.jatimprov.go.id/assets/img/profil-instansi/visimisi.png" alt="Visi PKBM" style="width: 500px;">
                             </div>
-                            <h4>Fisiologi Logo</h4>
+                            <h4>Filosofi Logo</h4>
 
                             <div class="d-flex flex-column flex-md-row mb-32pt">
                                 <div class="flex mb-16pt mb-md-0 mr-md-16pt">

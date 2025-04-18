@@ -37,13 +37,15 @@
 
                             <div class="d-flex flex-column flex-md-row mb-32pt">
                                 <div class="flex mb-16pt mb-md-0 mr-md-16pt">
-                                    <p class="lead text-70 measure-paragraph-max">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, accusamus culpa deserunt distinctio, eos expedita inventore labore laborum libero magnam nisi recusandae sapiente sunt unde, voluptatibus? Accusantium distinctio laborum nihil, nostrum possimus quos rem repellendus tenetur voluptatem! A, ad adipisci commodi doloribus id maxime provident quo suscipit. Itaque, recusandae ut.</p>
+                                    <p class="lead text-70 measure-paragraph-max" style="text-align: justify;">Menjadi aplikasi pendidikan non-formal terpercaya yang memudahkan masyarakat dalam mengakses, memilih, dan mengikuti program pendidikan kesetaraan dengan cara yang mudah, terbuka untuk semua kalangan, dan didukung oleh sistem pembelajaran yang efektif.</p>
 
                                     <blockquote class="blockquote">
-                                        <p class="text-50">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque debitis distinctio earum et fugiat id itaque officia provident quasi! Dolorem, fuga modi molestias natus non nulla optio porro praesentium provident quaerat.</p>
-                                        <footer class="blockquote-footer">Someone famous in
-                                            <cite title="Source Title">Source Title</cite>
-                                        </footer>
+                                        <p class="text-50" style="text-align: justify;">
+                                            1. Menjadi platform pendidikan non-formal digital yang terpercaya dan mudah diakses oleh seluruh lapisan masyarakat.<br>
+                                            2. Meningkatkan kualitas dan pemerataan pendidikan kesetaraan melalui teknologi yang inovatif dan ramah pengguna.<br>
+                                            3. Mendorong terciptanya masyarakat yang lebih cerdas dan mandiri melalui layanan pendidikan yang adaptif dan berkelanjutan.
+                                        </p>
+                                        <footer class="blockquote-footer">PKBM Vision and Mission</footer>
                                     </blockquote>
                                 </div>
                                 <div>
@@ -61,13 +63,13 @@
 
                             <div class="d-flex flex-column flex-md-row mb-32pt">
                                 <div class="flex mb-16pt mb-md-0 mr-md-16pt">
-                                    <p class="lead text-70 measure-paragraph-max">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, accusamus culpa deserunt distinctio, eos expedita inventore labore laborum libero magnam nisi recusandae sapiente sunt unde, voluptatibus? Accusantium distinctio laborum nihil, nostrum possimus quos rem repellendus tenetur voluptatem! A, ad adipisci commodi doloribus id maxime provident quo suscipit. Itaque, recusandae ut.</p>
+                                    <p class="lead text-70 measure-paragraph-max" style="text-align: justify;">Aplikasi ini hadir untuk memudahkan masyarakat dalam mengakses informasi dan mendaftar program Paket A, B, dan C secara praktis. Dengan tampilan yang ramah pengguna dan fitur interaktif, aplikasi ini mendukung proses belajar yang fleksibel dan efisien. Kami berkomitmen bekerja sama dengan PKBM dan para pendidik untuk menjaga kualitas layanan serta mendorong pemerataan pendidikan bagi semua kalangan, tanpa batasan usia atau lokasi.</p>
 
                                 </div>
                                 <div>
                                     <div class="rounded p-relative o-hidden overlay overlay--primary" style="width: 200px; height: 168px;">
                                         <img class="img-fluid rounded"
-                                            src="https://murnajati.jatimprov.go.id/assets/img/profil-instansi/visimisi.png"
+                                            src="{{ asset('images/MISI.png') }}"
                                             alt="Image"
                                             style="width: 100%; height: 100%; object-fit: cover;">
                                         <div class="overlay__content"></div>

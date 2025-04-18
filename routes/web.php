@@ -14,6 +14,7 @@ use App\Http\Controllers\ErrorController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\KategoriGaleriController;
+use App\Http\Controllers\PendaftaranController;
 
 use App\Http\Controllers\SiswaCreateController;
 
@@ -43,7 +44,10 @@ use App\Http\Controllers\ForumController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/forum/{meeting}', [ForumController::class, 'index'])->name('forum.index');
+    Route::put('/forum/{meeting}', [ForumController::class, 'update'])->name('forum.update');
+    Route::delete('/forum/{meeting}', [ForumController::class, 'destroy'])->name('forum.destroy');
     Route::post('/forum/{meeting}', [ForumController::class, 'store'])->name('forum.store');
+    Route::post('/forums/{id}/like', [ForumController::class, 'like'])->name('forums.like');
 });
 
 Route::get('/generate', function(){
@@ -351,9 +355,12 @@ Route::get('/paketC-SMA', function () {
     return view('landing.Program_Sma');
 });
 
-Route::get('/pendaftaran', function () {
-    return view('landing.Pendaftaran');
-});
+
+Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.form');
+Route::post('/pendaftaran', [PendaftaranController::class, 'store'])->name('pendaftaran.store');
+Route::get('/admin/pendaftaran', [PendaftaranController::class, 'adminView'])->name('admin.pendaftaran.index');
+Route::delete('admin/pendaftaran/{pendaftaran}', [PendaftaranController::class, 'destroy'])->name('admin.pendaftaran.destroy');
+
 
 Route::get('/bloglist', function () {
     return view('landing.Bloglist');

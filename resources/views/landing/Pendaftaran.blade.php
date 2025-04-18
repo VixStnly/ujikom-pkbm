@@ -31,6 +31,15 @@
 
                     <div class="row">
                         <div class="col-lg-8">
+                            @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                            @elseif (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                            @endif
 
                             <div class="card" style="border: 1px solid #ddd; border-radius: 1;">
                                 <div class="card-header text-center" style="background: #e3efff; color: #1d4ed8; padding: 25px; border-radius: 10px 10px 0 0;">
@@ -38,26 +47,28 @@
                                     <p class="text-muted" style="margin: 0; font-weight: normal;">Silakan isi formulir pendaftaran dengan lengkap dan benar</p>
                                 </div>
                                 <div class="card-body">
-                                    <form id="registrationForm">
+                                    <form id="registrationForm" method="POST" action="{{ route('pendaftaran.store') }}">
+                                        @csrf
+
                                         <div class="form-row">
                                             <div class="col-12 col-md-6 mb-3">
                                                 <label class="form-label" for="namaLengkap">Nama Lengkap</label>
-                                                <input type="text" class="form-control" id="namaLengkap" placeholder="Masukkan Nama Lengkap" required>
+                                                <input type="text" class="form-control" id="namaLengkap" name="nama_lengkap" placeholder="Masukkan Nama Lengkap" required>
                                             </div>
                                             <div class="col-12 col-md-6 mb-3">
                                                 <label class="form-label" for="nik">NIK</label>
-                                                <input type="text" class="form-control" id="nik" placeholder="Masukkan NIK" required>
+                                                <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK" required>
                                             </div>
                                         </div>
 
                                         <div class="form-row">
                                             <div class="col-12 col-md-6 mb-3">
                                                 <label class="form-label" for="tempatLahir">Tempat Lahir</label>
-                                                <input type="text" class="form-control" id="tempatLahir" placeholder="Masukkan Tempat Lahir" required>
+                                                <input type="text" class="form-control" id="tempatLahir" name="tempat_lahir" placeholder="Masukkan Tempat Lahir" required>
                                             </div>
                                             <div class="col-12 col-md-6 mb-3">
-                                                <label class="form-label">Tanggal Lahir</label>
-                                                <input id="tanggalLahir" placeholder="mm/dd/yyyy" type="text" class="form-control flatpickr-input" data-toggle="flatpickr" value="mm/dd/yyyy">
+                                                <label class="form-label" for="tanggalLahir">Tanggal Lahir</label>
+                                                <input id="tanggalLahir" name="tanggal_lahir" type="text" class="form-control flatpickr-input" placeholder="mm/dd/yyyy" data-toggle="flatpickr" required>
                                             </div>
                                         </div>
 
@@ -66,81 +77,97 @@
                                                 <label class="form-label">Jenis Kelamin</label>
                                                 <div class="custom-controls-stacked">
                                                     <div class="custom-control custom-radio">
-                                                        <input id="lakiLaki" name="jenisKelamin" type="radio" class="custom-control-input" required>
+                                                        <input id="lakiLaki" name="jenis_kelamin" type="radio" class="custom-control-input" value="Laki-laki" required>
                                                         <label for="lakiLaki" class="custom-control-label">Laki-laki</label>
                                                     </div>
                                                     <div class="custom-control custom-radio">
-                                                        <input id="perempuan" name="jenisKelamin" type="radio" class="custom-control-input">
+                                                        <input id="perempuan" name="jenis_kelamin" type="radio" class="custom-control-input" value="Perempuan">
                                                         <label for="perempuan" class="custom-control-label">Perempuan</label>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="col-12 col-md-6 mb-3">
-                                                <label class="form-label" for="select01">Agama</label>
-                                                <select id="select01" data-toggle="select" class="form-control">
-                                                    <option selected="">Pilih Agama</option>
-                                                    <option>Islam</option>
-                                                    <option>Kristen</option>
-                                                    <option>Katholik</option>
-                                                    <option>Hindu</option>
-                                                    <option>Buddha</option>
-                                                    <option>Konghucu</option>
+                                                <label class="form-label" for="selectAgama">Agama</label>
+                                                <select id="selectAgama" name="agama" class="form-control" required>
+                                                    <option value="">Pilih Agama</option>
+                                                    <option value="Islam">Islam</option>
+                                                    <option value="Kristen">Kristen</option>
+                                                    <option value="Katholik">Katholik</option>
+                                                    <option value="Hindu">Hindu</option>
+                                                    <option value="Buddha">Buddha</option>
+                                                    <option value="Konghucu">Konghucu</option>
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="form-label" for="email">Email</label>
-                                            <input type="email" class="form-control" id="email" placeholder="Masukkan Email" required>
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan Email" required>
                                         </div>
+
                                         <div class="form-group">
                                             <label class="form-label" for="telepon">Nomor Telepon</label>
-                                            <input type="text" class="form-control" id="telepon" placeholder="Masukkan Nomor Telepon" required>
+                                            <input type="text" class="form-control" id="telepon" name="telepon" placeholder="Masukkan Nomor Telepon" required>
                                         </div>
+
                                         <div class="form-group">
                                             <label class="form-label" for="alamat">Alamat</label>
-                                            <textarea id="alamat" class="form-control" placeholder="Masukkan Alamat Lengkap" required></textarea>
+                                            <textarea id="alamat" class="form-control" name="alamat" placeholder="Masukkan Alamat Lengkap" required></textarea>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label" for="paket">Pilih Paket</label>
+                                            <select id="paket" name="paket" class="form-control" required>
+                                                <option value="">Pilih Paket</option>
+                                                <option value="A">A: SD</option>
+                                                <option value="B">B: SMP</option>
+                                                <option value="C">C: SMA</option>
+                                            </select>
+                                        </div>
+                                        <input type="hidden" name="status" value="Proses">
+
                                         <div>
                                             <button type="submit" class="btn btn-primary">Daftar</button>
                                         </div>
                                     </form>
+
                                 </div>
                             </div>
-
-
-                            <script>
-                                document.getElementById("registrationForm").addEventListener("submit", function(event) {
-                                    event.preventDefault();
-
-                                    var namaLengkap = document.getElementById("namaLengkap").value;
-                                    var nik = document.getElementById("nik").value;
-                                    var tempatLahir = document.getElementById("tempatLahir").value;
-                                    var tanggalLahir = document.getElementById("tanggalLahir").value;
-                                    var jenisKelamin = document.querySelector('input[name="jenisKelamin"]:checked').nextElementSibling.innerText;
-                                    var agama = document.getElementById("select01").value;
-                                    var email = document.getElementById("email").value;
-                                    var telepon = document.getElementById("telepon").value;
-                                    var alamat = document.getElementById("alamat").value;
-
-                                    var message = `Halo, saya ingin mendaftar PKBM.\nNama Lengkap: \`${namaLengkap}\`\nNIK: \`${nik}\`\nTempat Lahir: \`${tempatLahir}\`\nTanggal Lahir: \`${tanggalLahir}\`\nJenis Kelamin: \`${jenisKelamin}\`\nAgama: \`${agama}\`\nEmail: \`${email}\`\nNomor Telepon: \`${telepon}\`\nAlamat: \`${alamat}\`\n\nMohon informasi lebih lanjut terkait pendaftaran saya. Terima kasih.`;
-                                    var waLink = `https://wa.me/62895613113418?text=${encodeURIComponent(message)}`;
-                                    window.location.href = waLink;
-                                });
-                            </script>
                         </div>
 
                         <x-content.outher-landing />
 
+                        <script>
+                            document.getElementById("registrationForm").addEventListener("submit", function(event) {
+                                event.preventDefault();
+
+                                var namaLengkap = document.getElementById("namaLengkap").value;
+                                var nik = document.getElementById("nik").value;
+                                var tempatLahir = document.getElementById("tempatLahir").value;
+                                var tanggalLahir = document.getElementById("tanggalLahir").value;
+                                var jenisKelamin = document.querySelector('input[name="jenisKelamin"]:checked').nextElementSibling.innerText;
+                                var agama = document.getElementById("select01").value;
+                                var email = document.getElementById("email").value;
+                                var telepon = document.getElementById("telepon").value;
+                                var alamat = document.getElementById("alamat").value;
+
+                                var message = `Halo, saya ingin mendaftar PKBM.\nNama Lengkap: \`${namaLengkap}\`\nNIK: \`${nik}\`\nTempat Lahir: \`${tempatLahir}\`\nTanggal Lahir: \`${tanggalLahir}\`\nJenis Kelamin: \`${jenisKelamin}\`\nAgama: \`${agama}\`\nEmail: \`${email}\`\nNomor Telepon: \`${telepon}\`\nAlamat: \`${alamat}\`\n\nMohon informasi lebih lanjut terkait pendaftaran saya. Terima kasih.`;
+                                var waLink = `https://wa.me/62895613113418?text=${encodeURIComponent(message)}`;
+                                window.location.href = waLink;
+                            });
+                        </script>
                     </div>
 
                 </div>
+
             </div>
         </div>
-        <!-- // END Header Layout Content -->
+    </div>
+    <!-- // END Header Layout Content -->
 
-        <!-- Footer -->
-        @include ('Page.footer')
+    <!-- Footer -->
+    @include ('Page.footer')
     </div>
 
     <!-- Drawer -->

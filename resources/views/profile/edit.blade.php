@@ -86,10 +86,11 @@
                             <h5 class="card-header">Profile Details</h5>
                             <div class="card-body mt-2">
                                 <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                    <img id="uploadedAvatar"
-                                        src="{{ $user->profile_image ? asset('storage/profil/' . $user->profile_image) : 'default_avatar.png' }}"
-                                        alt="{{ $user->name }}'s Profile Picture" class="mb-2"
-                                        style="max-width: 100px; max-height: 100px;">
+                                <img id="uploadedAvatar"
+                                    src="{{ $user->profile_image ? asset('storage/profil/' . $user->profile_image) : asset('https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1745006517~exp=1745010117~hmac=ef314be0dba1d776e00b1771f75f14e66087c55d7cf1e1d79d7a444213100f2b&w=900') }}"
+                                    alt="{{ $user->name }}'s Profile Picture" class="mb-2"
+                                    style="max-width: 100px; max-height: 100px;">
+
                                     <div class="button-wrapper">
                                         <label for="profile_image" class="btn btn-primary me-2 mb-4" tabindex="0">
                                             <span class="d-none d-sm-block">Upload {{ __('Foto Profil') }}</span>
