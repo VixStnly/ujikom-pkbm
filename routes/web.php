@@ -40,6 +40,7 @@ use App\Http\Controllers\ViewBlogController;
 use App\Http\Controllers\HistoriController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\FisologiController;
+use App\Http\Controllers\NotificationController;
 use App\Models\Blog;
 use App\Http\Controllers\ForumController;
 // Admin memilih guru dan melihat data kelas si guru
@@ -51,7 +52,13 @@ Route::post('/admin/clear-guru-view', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/forum/{meeting}', [ForumController::class, 'index'])->name('forum.index');
+    Route::put('/forum/{meeting}', [ForumController::class, 'update'])->name('forum.update');
+    Route::delete('/forum/{meeting}', [ForumController::class, 'destroy'])->name('forum.destroy');
     Route::post('/forum/{meeting}', [ForumController::class, 'store'])->name('forum.store');
+    Route::post('/forums/{id}/like', [ForumController::class, 'like'])->name('forums.like');
+
+    Route::get('/notifications', [NotificationController::class, 'fetch'])->name('notifications');
+    Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.read-all');
 });
 
 Route::get('/generate', function(){

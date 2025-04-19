@@ -29,6 +29,18 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
+    public function likedForums()
+    {
+        return $this->belongsToMany(Forum::class, 'forum_user_likes')->withTimestamps();
+    }
+
+
+
     // Relasi ke kelas sebagai guru
     public function kelasDiaajar()
     {

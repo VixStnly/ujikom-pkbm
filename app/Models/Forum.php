@@ -27,4 +27,10 @@ public function replies()
     return $this->hasMany(Forum::class, 'parent_id');
 }
 
+public function likes()
+{
+    return $this->belongsToMany(User::class, 'forum_user_likes')->withTimestamps();
+}
+
+
 }
