@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
 
     // Check if the CAPTCHA is correct
     if ($request->captcha !== session('captcha')) {
-        return redirect()->back()->withErrors(['captcha' => 'Incorrect CAPTCHA. Please try again.']);
+        return redirect()->back()->withErrors(['captcha' => 'Captcha Tidak Valid.']);
     }
 
     $credentials = $request->only('email', 'password');
@@ -40,7 +40,7 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended(route('dashboard'))->with('success', 'Login berhasil!');
     }
 
-    return redirect()->back()->withErrors(['email' => 'Invalid email or password. Please try again.']);
+    return redirect()->back()->withErrors(['email' => 'Email Atau Password Salah Silahkan Coba Lagi.']);
 }
 
 
