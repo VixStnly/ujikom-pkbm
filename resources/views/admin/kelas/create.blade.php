@@ -46,12 +46,15 @@
                                             data-toggle="select"
                                             data-minimum-results-for-search="-1"
                                             class="form-control">
-                                            <option value="" disabled selected>Select Kelas</option>
-                                            <option value="SD">SD</option>
-                                            <option value="SMP">SMP</option>
-                                            <option value="SMA">SMA</option>
+                                            <option value="" disabled selected>Pilih Paket</option>
+                                            <option value="Paket A">Paket A</option>
+                                            <option value="Paket B">Paket B</option>
+                                            <option value="Paket C">Paket C</option>
                                     </select>
                                 </div>
+                                @error('grade')
+    <div class="text-danger">{{ $message }}</div>
+@enderror
 
                                     <!-- Nama Kelas -->
                                     <div class="form-group">

@@ -17,6 +17,7 @@ use App\Http\Controllers\KategoriGaleriController;
 use App\Http\Controllers\PendaftaranController;
 
 use App\Http\Controllers\SiswaCreateController;
+use App\Http\Controllers\FaceVerificationController;
 
 use App\Http\Controllers\ReviewMateriSiswaController;
 use App\Http\Controllers\AbsensiController;
@@ -41,6 +42,12 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\FisologiController;
 use App\Models\Blog;
 use App\Http\Controllers\ForumController;
+// Admin memilih guru dan melihat data kelas si guru
+Route::get('/admin/view-guru/{id}/kelas', [\App\Http\Controllers\AdminViewGuruController::class, 'kelasGuru'])->name('admin.viewGuru.kelas');
+Route::post('/admin/clear-guru-view', function () {
+    session()->forget('view_as_guru_id');
+    return redirect('/admin/guru'); // Atau ke halaman yang kamu mau
+})->name('admin.clearGuruView');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/forum/{meeting}', [ForumController::class, 'index'])->name('forum.index');
@@ -51,6 +58,7 @@ Route::get('/generate', function(){
    \Illuminate\Support\Facades\Artisan::call('storage:link');
    echo 'ok';
 });
+
 // Route to impersonate a user
 Route::post('/impersonate/{user}', [DataGuruController::class, 'impersonate'])->name('impersonate');
 Route::post('/imperson/leave', [DataGuruController::class, 'leaveImpersonation'])->name('imperson.leave');
@@ -186,6 +194,13 @@ Route::get('/admin/absensi/{absensi}/edit', [AbsensiController::class, 'edit'])-
 // Route to update a specific absensi
 Route::put('/admin/absensi/{absensi}', [AbsensiController::class, 'update'])->name('admin.absensi.update');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/absence', [AbsensiController::class, 'showAbsenceForm'])->name('absence.form');
+    Route::post('/absence', [AbsensiController::class, 'processAbsence'])->name('absence.process');
+
+    // Real-time API hit Face++ buat deteksi persentase
+    Route::post('/api/compare-face', [AbsensiController::class, 'compareFace'])->name('api.face.compare');
+});
 // Route to delete a specific absensi
 Route::delete('/admin/absensi/{absensi}', [AbsensiController::class, 'destroy'])->name('admin.absensi.destroy');
 
@@ -198,6 +213,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/siswa/absensi/{meeting}', [AbsensiController::class, 'SiswaAbsensiForm'])->name('siswa.absensi');
     Route::post('/siswa/absensi/{meeting}', [AbsensiController::class, 'siswaAbsensiStore'])->name('siswa.absensi.store');
 });
+Route::post('/verify-face', [FaceVerificationController::class, 'verifyFace']);
 
 
 Route::resource('kategori_galeri', KategoriGaleriController::class);
@@ -286,6 +302,7 @@ Route::get('/kelas/{kelas}/siswa/{meetingId}', [KelasController::class, 'showSis
 Route::get('/guru/kelas/{kelas}/subject/{subject}/meeting', [KelasController::class, 'showMeeting'])->name('guru.kelas.meeting');
 Route::get('/guru/kelas/{kelas}/subject', [KelasController::class, 'subject'])->name('guru.kelas.pelajaran');
 // Di routes/web.php
+Route::get('/guru/siswa/export', [KelasController::class, 'exportSiswa'])->name('guru.siswa.export');
 
 
 // Route untuk halaman utama yang menampilkan daftar kelas
@@ -297,6 +314,8 @@ Route::get('guru/reports/laporan/create/{studentId}/{kelasId}', [ReportControlle
 // Rute untuk menyimpan nilai yang dimasukkan
 Route::post('guru/reports/laporan/store/{studentId}/{kelasId}', [ReportController::class, 'store'])->name('guru.reports.laporan.store');
 // Rute untuk melihat semua laporan nilai siswa
+Route::get('/guru/reports/{studentId}/{kelasId}/export-pdf', [ReportController::class, 'exportPDF'])->name('guru.reports.export.pdf');
+
 Route::get('guru/reports/laporan{studentId}/{kelasId}', [ReportController::class, 'indexL'])->name('guru.reports.laporan.index');
 Route::delete('/guru/reports/{reportId}/destroy/{studentId}/{kelasId}', [ReportController::class, 'destroy'])->name('guru.reports.laporan.destroy');
 
@@ -323,6 +342,8 @@ Route::post('guru/materi', [MateriController::class, 'store'])->name('guru.mater
 Route::get('guru/materi/{materi}/edit', [MateriController::class, 'edit'])->name('guru.materi.edit');
 Route::put('guru/materi/{materi}', [MateriController::class, 'update'])->name('guru.materi.update');
 Route::delete('guru/materi/{materi}', [MateriController::class, 'destroy'])->name('guru.materi.destroy');
+Route::post('/siswa/save-face', [AbsensiController::class, 'saveFace'])->name('siswa.saveFace');
+Route::post('/siswa/verify-face', [AbsensiController::class, 'verifyFace'])->name('siswa.verifyFace');
 
 // Mengubah nama parameter resource dari {tuga} ke {tugas}
 Route::resource('guru/tugas', TugasController::class)
@@ -357,6 +378,9 @@ Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('penda
 Route::post('/pendaftaran', [PendaftaranController::class, 'store'])->name('pendaftaran.store');
 Route::get('/admin/pendaftaran', [PendaftaranController::class, 'adminView'])->name('admin.pendaftaran.index');
 Route::delete('admin/pendaftaran/{pendaftaran}', [PendaftaranController::class, 'destroy'])->name('admin.pendaftaran.destroy');
+Route::get('/admin/pendaftaran/{id}', [PendaftaranController::class, 'show'])->name('admin.pendaftaran.show');
+Route::get('pendaftaran/{id}/edit', [PendaftaranController::class, 'edit'])->name('admin.pendaftaran.edit');
+Route::put('pendaftaran/{id}', [PendaftaranController::class, 'update'])->name('admin.pendaftaran.update');
 
 
 Route::get('/bloglist', function () {

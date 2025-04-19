@@ -98,15 +98,11 @@
                                                             class="chip chip-outline-secondary d-inline-flex align-items-center">
                                                             {{ $user->role->name }}
                                                         </span></td>
-
-                                                        <td class="py-2 px-4 text-center">
-    <form action="{{ route('impersonate', $user->id) }}" method="POST">
-        @csrf
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-            Monitoring
-        </button>
-    </form>
-</td>
+                                                        <td>
+            <a href="{{ route('admin.viewGuru.kelas', $user->id) }}" class="btn btn-info btn-sm">
+                👁 Monitoring
+            </a>
+        </td>
 
 
 

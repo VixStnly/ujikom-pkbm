@@ -84,33 +84,42 @@
             </div>
         </div>
     @else<!-- Inside the meeting loop -->
+    
 @foreach($meetings as $meeting)
     @php
         // Parse tanggal pertemuan
         $meetingDate = \Carbon\Carbon::parse($meeting->meeting_time);
         $meetingDate->locale('id'); // Mengatur locale ke bahasa Indonesia
-        
+        $today = \Carbon\Carbon::today();
+        $isToday = $meetingDate->isSameDay($today);
+        $isUpcoming = $meetingDate->isAfter($today);
         // Check if the user has marked attendance for this meeting using Absensi model
         $hasAttended = $meeting->absensi()->where('user_id', $user->id)->exists();
+        $isPast = $meetingDate->isBefore($today); // Cek apakah meeting sudah lewat
+
     @endphp
 
     <div class="accordion accordion-without-arrow mb-0" id="accordionIcon">
         <div class="accordion-item card">
-            <h2 class="accordion-header d-flex justify-between" id="heading-{{ $meeting->id }}">
-                <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#details-{{ $meeting->id }}" aria-controls="details-{{ $meeting->id }}">
-                    <div class="mt-3 relative">
-                        <h5 class="text-xl font-semibold">{{ $meeting->title }}</h5>
-                        <h6 class="text-sm text-gray-500">{{ $meetingDate->translatedFormat('l, d F Y') }}</h6>
-                        <p class="text-gray-600">{{ $meeting->description }}</p>
-                        <!-- Status Badge -->
-                        @if($isToday)
-                            <span class="absolute top-0 right-0 m-4 bg-green-500 text-white text-sm px-2 py-1 rounded">Sedang Dimulai</span>
-                        @elseif($isUpcoming)
-                            <span class="absolute top-0 right-0 m-4 bg-yellow-500 text-white text-sm px-2 py-1 rounded">Akan Dimulai</span>
-                        @endif
-                    </div>
-                </button>
-            </h2>
+        <h2 class="accordion-header d-flex justify-between position-relative" id="heading-{{ $meeting->id }}">
+    <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#details-{{ $meeting->id }}" aria-controls="details-{{ $meeting->id }}">
+        <div class="mt-3">
+            <h5 class="text-xl font-semibold">{{ $meeting->title }}</h5>
+            <h6 class="text-sm text-gray-500">{{ $meetingDate->translatedFormat('l, d F Y') }}</h6>
+            <p class="text-gray-600">{{ $meeting->description }}</p>
+        </div>
+    </button>
+
+    {{-- Status Badge --}}
+        @if($isToday)
+            <span class="position-absolute top-0 end-0 m-3 badge bg-success">Sedang Dimulai</span>
+        @elseif($isUpcoming)
+            <span class="position-absolute top-0 end-0 m-3 badge bg-warning text-white">Akan Dimulai</span>
+        @elseif($isPast)
+            <span class="position-absolute top-0 end-0 m-3 badge bg-secondary text-white">Sudah Berakhir</span>
+        @endif
+</h2>
+
 
             <div id="details-{{ $meeting->id }}" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
                 <div class="accordion-body" style="background-color: #f8f9fa; border-radius: 8px; padding: 16px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">

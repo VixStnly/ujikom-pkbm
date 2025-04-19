@@ -18,6 +18,9 @@ class Absensi extends Model
         'meeting_id',
         'tanggal_absen',
         'status',
+        'foto',
+        'latitude',
+        'longitude',
     ];
 
     // Define the relationship to the User model

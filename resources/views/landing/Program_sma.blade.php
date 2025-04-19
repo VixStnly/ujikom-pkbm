@@ -60,7 +60,8 @@
 
                                 <div class="d-flex flex-column flex-md-row mb-32pt">
                                     <div class="flex mb-16pt mb-md-0 mr-md-16pt">
-                                        <p class="lead text-50">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, accusamus culpa deserunt distinctio, eos expedita inventore labore laborum libero magnam nisi recusandae sapiente sunt unde, voluptatibus? Accusantium distinctio laborum nihil, nostrum possimus quos rem repellendus tenetur voluptatem! A, ad adipisci commodi doloribus id maxime provident quo suscipit. Itaque, recusandae ut.</p>
+                                        <p class="lead text-50">Paket C adalah program pendidikan yang setara dengan jenjang Sekolah Menengah Atas (SMA). Program ini dirancang untuk lulusan Paket B atau SMP yang ingin mendapatkan ijazah setara SMA, baik untuk keperluan pekerjaan, pengembangan karier, maupun melanjutkan pendidikan ke jenjang yang lebih tinggi.
+                                        </p>
 
                                         <blockquote class="blockquote">
                                             <p class="text-50">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque debitis distinctio earum et fugiat id itaque officia provident quasi! Dolorem, fuga modi molestias natus non nulla optio porro praesentium provident quaerat.</p>

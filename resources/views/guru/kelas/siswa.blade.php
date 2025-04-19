@@ -44,9 +44,19 @@
                     </div>
 
                     <div class="row" role="tablist">
-                    <div class="col-auto">
-                        <a onclick="history.back()" class="btn btn-outline-secondary">Kembali</a>
-                    </div>
+                        
+    <div class="col-auto flex ">
+    <a href="{{ route('guru.siswa.export', ['kelas_id' => $kelas->id, 'meeting_id' => $meeting->id ?? 0]) }}"
+            class="btn btn-success mr-4 ">
+            Export Excel
+        </a>
+        <a onclick="history.back()" class="btn btn-outline-secondary ">Kembali</a>
+    </div>
+    
+</div>
+                  <div class="row" role="tablist">
+  
+
                 </div>
                 </div>
             </div>

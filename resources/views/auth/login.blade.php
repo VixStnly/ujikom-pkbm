@@ -65,11 +65,11 @@
             <div class="col-md-6">
                 <div class="login-card text-center">
                     <h5 class="login-title">LOGIN <span>ELEARNING</span></h5>
-                    <p class="text-muted">Access to our dashboard</p>
+                    <p class="text-muted">Untuk Akses Kedalam Dashboard</p>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="mb-2 text-start">
-                            <label class="form-label" for="email">Email Address</label>
+                            <label class="form-label" for="email">Alamat Email</label>
                             <input type="email" id="email" name="email" class="form-control form-control-sm" style="transition: box-shadow 0.3s;">
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
@@ -126,13 +126,13 @@
                                 <span class="captcha-char color-{{ $index % 5 }}">{{ $char }}</span>
                                 @endforeach
                             </div>
-                            <input id="captcha" type="text" name="captcha" class="form-control form-control-sm captcha-input" placeholder="Enter CAPTCHA" required>
+                            <input id="captcha" type="text" name="captcha" class="form-control form-control-sm captcha-input" placeholder="Masukan CAPTCHA" required>
                             <x-input-error :messages="$errors->get('captcha')" class="mt-1" />
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-sm w-100" style="font-weight: bold; background-color:rgb(72, 151, 231); border-color: #4da6ff;" onmouseover="this.style.backgroundColor='#4da6ff';" onmouseout="this.style.backgroundColor='rgb(72, 151, 231)';">Login</button>
                     </form>
-                    <p class="mt-2">Don't have an account? <a href="#" class="text-primary">Register</a></p>
+                    <p class="mt-2">Belum Mempunyai Akun? <a href="/pendaftaran" class="text-primary">Daftar</a></p>
                 </div>
             </div>
         </div>

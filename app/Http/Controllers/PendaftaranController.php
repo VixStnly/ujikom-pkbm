@@ -15,14 +15,90 @@ class PendaftaranController extends Controller
     {
         return view('landing.pendaftaran');
     }
-
-    public function adminView()
+    public function show()
     {
-        $user = Auth::user(); // Ambil data pengguna yang sedang login
+        $user = Auth::user(); // Get the logged-in user
 
-        $pendaftarans = Pendaftaran::latest()->paginate(10); // Add pagination
-        return view('admin.pendaftaran.index', compact('pendaftarans','user'));
+        // Fetch all pendaftaran records
+        $pendaftarans = Pendaftaran::all(); // This will fetch all records
+        
+        // Pass the data to the view
+        return view('admin.pendaftaran.show', compact('pendaftarans','user'));
     }
+    public function adminView(Request $request)
+    {
+        $user = Auth::user(); // Get the logged-in user
+    
+        // Fetch paginated data with optional search filter
+        $pendaftarans = Pendaftaran::query()
+            ->when($request->search, function ($query) use ($request) {
+                return $query->where('nama_lengkap', 'like', '%' . $request->search . '%');
+            })
+            ->paginate(10); // Adjust the number per page as needed
+    
+        return view('admin.pendaftaran.index', compact('pendaftarans', 'user'));
+    }
+    public function edit($id)
+{
+    $user = Auth::user(); // Get the logged-in user
+
+    // Find the existing pendaftaran record by its ID
+    $pendaftaran = Pendaftaran::findOrFail($id);
+
+    // Pass the pendaftaran data to the edit view
+    return view('admin.pendaftaran.edit', compact('pendaftaran','user'));
+}
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'nama_lengkap' => 'required',
+        'nik' => 'required|unique:pendaftaran,nik,' . $id, // Allow the current record to keep its unique value
+        'tempat_lahir' => 'required',
+        'tanggal_lahir' => 'required|date',
+        'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+        'agama' => 'required',
+        'email' => 'required|email|unique:pendaftaran,email,' . $id, // Allow the current record to keep its unique value
+        'telepon' => 'required',
+        'alamat' => 'required',
+        'paket' => 'required|in:A,B,C',
+        'status' => 'required',
+    ]);
+
+    try {
+        // 1. Find the existing pendaftaran record
+        $pendaftaran = Pendaftaran::findOrFail($id);
+
+        // 2. Update the pendaftaran table
+        $pendaftaran->update([
+            'nama_lengkap' => $request->nama_lengkap,
+            'nik' => $request->nik,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'agama' => $request->agama,
+            'email' => $request->email,
+            'telepon' => $request->telepon,
+            'alamat' => $request->alamat,
+            'paket' => $request->paket,
+            'status' => $request->status,
+        ]);
+
+        // Flash success message
+        session()->flash('success', 'Pendaftaran berhasil diupdate.');
+
+        // Redirect back to the pendaftaran list
+        return redirect()->route('admin.pendaftaran.index');
+
+    } catch (\Exception $e) {
+        // Flash error message
+        session()->flash('error', 'Terjadi kesalahan, update pendaftaran gagal. Silakan coba lagi.');
+
+        // Kembali ke halaman pendaftaran dengan error
+        return redirect()->route('admin.pendaftaran.index');
+    }
+}
+
+
     public function destroy($id)
     {
         try {
@@ -42,6 +118,8 @@ class PendaftaranController extends Controller
         // Redirect back to the Pendaftaran index page
         return redirect()->route('admin.pendaftaran.index');
     }
+
+
     public function store(Request $request)
     {
         $request->validate([

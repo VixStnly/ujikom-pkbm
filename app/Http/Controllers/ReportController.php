@@ -12,29 +12,48 @@ use App\Models\Submission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
+
+
+public function exportPdf($studentId, $kelasId)
+{
+    $student = User::findOrFail($studentId);
+    $reports = Report::where('student_id', $studentId)
+        ->join('meetings', 'meetings.id', '=', 'reports.meeting')
+        ->with('subject', 'teacher')
+        ->select('reports.*', 'meetings.title as meeting_title')
+        ->orderBy('reports.meeting')
+        ->get();
+
+    $pdf = Pdf::loadView('guru.reports.laporan.pdf', compact('student', 'reports', 'kelasId'));
+    return $pdf->download('raport_' . $student->name . '.pdf');
+}
+
+    
     public function index()
     {
         $this->authorizeAccess(); // Memeriksa akses
-        $user = Auth::user(); // Ambil data pengguna yang sedang login
-        $guruId = Auth::id(); // Ambil ID guru yang sedang login
-
-        // Ambil kelas berdasarkan guru yang sedang login
+    
+        $user = Auth::user(); // Data user yang login
+        $guruId = session('view_as_guru_id', Auth::id()); // Pakai ID guru impersonate jika ada
+    
+        // Ambil kelas berdasarkan guru yang sedang login atau dilihat
         $kelas = Kelas::whereHas('users', function ($query) use ($guruId) {
             $query->where('user_id', $guruId);
         })
-            ->with([
-                'users' => function ($query) {
-                    $query->whereHas('role', fn($q) => $q->where('name', 'siswa'));
-                }
-            ])
-            ->paginate(3); // Paginasi kelas
-
+        ->with([
+            'users' => function ($query) {
+                $query->whereHas('role', fn($q) => $q->where('name', 'siswa'));
+            }
+        ])
+        ->paginate(3);
+    
         return view('guru.reports.index', compact('kelas', 'user'));
     }
-
+    
 
     public function report($kelasId)
     {
@@ -258,7 +277,7 @@ class ReportController extends Controller
         $user = Auth::user();
 
         // Memeriksa apakah pengguna memiliki role_id 4 atau 3
-        if (!$user || !in_array($user->role_id, [4, 3])) {
+        if (!$user || !in_array($user->role_id, [4, 3,1])) {
             throw new HttpResponseException(response()->json([
                 'error' => 'Unauthorized access'
             ], 403));

@@ -13,49 +13,42 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UserController extends Controller
 {
-    
-    // Display a listing of the users
-   public function index(Request $request)
-    {
-        $this->authorizeAccess(); // Memeriksa akses
-        $user = Auth::user(); // Ambil data pengguna yang sedang login
+    public function index(Request $request)
+{
+    $this->authorizeAccess();
 
-        $user = Auth::user();
+    $user = Auth::user();
 
-        $search = $request->input('search');
-        $role_id = $request->query('role_id');
-    
-        // Ambil semua roles untuk dropdown
-        $roles = Role::all(); // Assuming you have a Role model
-    
-        // Default query untuk semua user dengan subjects dan kelas
-        $query = User::with(['role', 'subjects.kelas']); // Eager load roles and subjects with kelas
-    
-        // Jika ada parameter role_id, tambahkan filter berdasarkan role_id
-        if ($role_id) {
-            $query->where('role_id', $role_id);
-        }
-    
-        // Jika ada parameter pencarian, tambahkan filter pencarian
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('nisn_nip', 'like', "%{$search}%");
-            });
-        }
-    
-        // Paginate results
-        $users = $query->paginate(8); // Change 10 to the number of items you want per page
-    
-        // Fetch the 5 most recent activities
-        $recentActivities = User::orderBy('created_at', 'desc')
-                                 ->limit(10)
-                                 ->get();
-    
-        return view('admin.users.index', compact('users', 'roles', 'search','user'));
+    $search = $request->input('search');
+    $role_id = $request->query('role_id');
 
+    $roles = Role::all();
+
+    // Default query: ambil semua user kecuali role_id 1
+    $query = User::with(['role', 'subjects.kelas'])
+                 ->where('role_id', '!=', 1); // Jangan tampilkan user dengan role_id 1
+
+    // Jika ada filter role_id, override pengecualian
+    if ($role_id) {
+        $query->where('role_id', $role_id);
     }
+
+    // Jika ada pencarian
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('email', 'like', "%{$search}%")
+              ->orWhere('nisn_nip', 'like', "%{$search}%");
+        });
+    }
+
+    $users = $query->paginate(8);
+
+    $recentActivities = User::orderBy('created_at', 'desc')->limit(10)->get();
+
+    return view('admin.users.index', compact('users', 'roles', 'search','user'));
+}
+
     public function show($id)
     {
         $this->authorizeAccess(); // Authorization check

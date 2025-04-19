@@ -65,7 +65,7 @@ class HistoriController extends Controller
     public function index()
     {
         $user = Auth::user(); // Ambil data pengguna yang sedang login
-        $guruId = Auth::id(); // Ambil ID guru yang sedang login
+        $guruId = session('view_as_guru_id', Auth::id()); // Pakai ID guru impersonate jika ada
 
         // Ambil kelas berdasarkan guru yang sedang login
         $kelas = Kelas::whereHas('users', function ($query) use ($guruId) {
@@ -138,26 +138,26 @@ class HistoriController extends Controller
 
     public function indexH($studentId, $kelasId)
     {
-        $user = Auth::user(); // Mendapatkan pengguna yang sedang login (guru)
-
-        // Ambil data nilai untuk siswa yang dipilih dan dinilai oleh guru yang sedang login
-        $historyData = Score::whereHas('submission', function ($query) use ($user, $studentId) {
+        $user = Auth::user(); // User yang login (admin atau guru)
+        $guruId = session('view_as_guru_id', $user->id); // Ambil ID guru dari session jika impersonate
+    
+        // Ambil data nilai untuk siswa yang dipilih dan dinilai oleh guru tersebut
+        $historyData = Score::whereHas('submission', function ($query) use ($guruId, $studentId) {
             $query->where('user_id', $studentId) // Hanya ambil data untuk siswa yang dipilih
-                ->whereHas('tugas.meeting', function ($query) use ($user) {
+                ->whereHas('tugas.meeting', function ($query) use ($guruId) {
                     // Filter tugas berdasarkan guru yang mengajar
-                    $query->where('user_id', $user->id);
+                    $query->where('user_id', $guruId);
                 });
         })
             ->with(['submission.tugas.meeting.subject']) // Tambahkan relasi untuk memuat data yang dibutuhkan
             ->orderBy('created_at', 'desc')
-            ->paginate(10); // Menggunakan pagination dengan 10 item per halaman
-
-        // Dapatkan informasi siswa yang dipilih
+            ->paginate(10);
+    
         $student = User::find($studentId);
-
+    
         return view('guru.history.siswa.index', compact('historyData', 'user', 'student', 'kelasId'));
     }
-
+    
 
 
 }

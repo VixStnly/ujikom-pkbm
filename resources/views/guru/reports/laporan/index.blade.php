@@ -28,10 +28,22 @@
                         </div>
                     </div>
                     <div class="row" role="tablist">
-                        <div class="col-auto">
-                            <a href="{{ route('guru.reports.laporan.create', ['studentId' => $student->id, 'kelasId' => $kelasId]) }}"
-                                class="btn btn-outline-secondary">Buat atau Edit Laporan</a>
-                        </div>
+                    @php
+    $user = Auth::user();
+@endphp
+
+@if($user->role_id == 3)
+    <div class="col-auto flex">
+        <a href="{{ route('guru.reports.laporan.create', ['studentId' => $student->id, 'kelasId' => $kelasId]) }}"
+            class="btn btn-outline-secondary">Buat atau Edit Laporan</a>
+            <div class="col-auto">
+    <a href="{{ route('guru.reports.export.pdf', ['studentId' => $student->id, 'kelasId' => $kelasId]) }}"
+       class="btn btn-outline-success">Export PDF</a>
+</div>
+
+    </div>
+@endif
+
                         <div class="col-auto">
                             <a onclick="history.back()" class="btn btn-outline-secondary">Kembali</a>
                         </div>
@@ -60,10 +72,12 @@
                                 <td class="py-2 px-4 border-b">{{ $report->score }}</td>
                                 <td class="py-2 px-4 border-b">{{ $report->feedback }}</td>
                                 <td class="py-2 px-4 border-b">
+                                @if($user->role_id == 3)
+
                                     <!-- Button to trigger modal with report ID -->
                                     <button class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded"
                                         onclick="openDeleteModal({{ $report->id }}, '{{ $student->id }}', '{{ $kelasId }}')">Hapus</button>
-
+@endif
                                 </td>
                             </tr>
                         @endforeach

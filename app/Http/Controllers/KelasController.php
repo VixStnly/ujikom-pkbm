@@ -11,9 +11,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\SiswaExport;
+
 
 class KelasController extends Controller
 {
+    
+   
+    
+    public function exportSiswa(Request $request)
+    {
+        $kelasId = $request->kelas_id;
+        $meetingId = $request->meeting_id;
+    
+        return Excel::download(new SiswaExport($kelasId, $meetingId), 'daftar_siswa.xlsx');
+    }
+    
     public function index()
     {
         $user = Auth::user();
@@ -27,13 +41,13 @@ class KelasController extends Controller
     public function indexGuru()
     {
         $this->authorizeAccess(); // Memeriksa akses
-
-        $guruId = auth()->user()->id; // Ambil ID guru yang sedang login
-        $user = Auth::user(); // Ambil data pengguna yang sedang login
-
-        $userId = auth()->id();
-        
-
+    
+        // Cek apakah ada session untuk guru yang dipilih
+        $guruId = session('view_as_guru_id', auth()->user()->id); // Default ke id guru yang sedang login
+    
+        // Ambil data pengguna yang sedang login
+        $user = Auth::user();
+    
         // Ambil kelas yang diajarkan oleh guru ini
         $kelas = Kelas::whereHas('users', function ($query) use ($guruId) {
             $query->where('user_id', $guruId);
@@ -44,56 +58,51 @@ class KelasController extends Controller
                 }
             ])
             ->paginate(3);
-
+    
         // Ambil pertemuan (meeting) yang dibuat oleh guru ini
         $meetingId = Meeting::where('user_id', $guruId)->latest()->first();
-
+    
         // Tambahkan atribut jumlah siswa ke setiap kelas
         foreach ($kelas as $kelasItem) {
             $kelasItem->jumlah_siswa = $kelasItem->users->count();
         }
-
+    
         // Ambil mata pelajaran yang diikuti oleh guru
         $enrolledSubjects = Auth::user()->enrolledSubjects()->orderBy('kelas_id', 'asc')->paginate(6);
-
+    
         // Ambil semua subject yang terkait dengan kelas berdasarkan meeting
         $subjects = Subject::whereIn('id', function ($query) use ($user) {
             $query->select('subject_id')
                 ->from('meetings')
                 ->where('user_id', $user->id);
         })->get();
-
-
-
-        // $results = DB::table('kelas')
-        //     ->join('kelas_user', 'kelas.id', 'kelas_user.kelas_id') // Menggabungkan tabel 'users' dengan 'posts' berdasarkan 'user_id'
-        //     ->where('kelas_user.user_id', 8) // Menambahkan kondisi where untuk user dengan id 1
-        //     ->select('kelas_user.*', 'kelas.name') // Memilih kolom yang diinginkan
-        //     ->get();
-
-
+    
         return view('guru.kelas.index', compact('kelas', 'meetingId', 'user', 'subjects', 'enrolledSubjects'));
     }
+    
 
     public function subject($kelasId)
-    {
-        $this->authorizeAccess();
-        $user = Auth::user(); // Ambil data pengguna yang sedang login
-        $userId = $user->id;
+{
+    $this->authorizeAccess();
 
-        $kelas = Kelas::findOrFail($kelasId);
-        $subjects = $kelas->subjects; // Asumsikan kelas memiliki relasi 'subjects'
-        $subjects = $kelas->subjects()->where('user_id', $userId)->paginate(6); // Asumsikan kelas memiliki relasi 'subjects'
+    $user = Auth::user(); // Data user yg login (admin/guru)
+    $userId = session('view_as_guru_id', $user->id); // Gunakan ID guru impersonate kalau ada
 
-        return view('guru.kelas.pelajaran', compact('user','kelas', 'subjects'));
-    }
+    $kelas = Kelas::findOrFail($kelasId);
+
+    // Ambil hanya subject yang dibuat oleh guru yang sesuai (real guru atau impersonated)
+    $subjects = $kelas->subjects()->where('user_id', $userId)->paginate(6);
+
+    return view('guru.kelas.pelajaran', compact('user', 'kelas', 'subjects'));
+}
+
 
     public function showMeeting($kelasId, $subjectId)
     {
         $this->authorizeAccess();
 
         $user = Auth::user(); // Ambil data pengguna yang sedang login
-        $userId = $user->id;
+        $userId = session('view_as_guru_id', $user->id); // Gunakan ID guru impersonate kalau ada
 
         $kelas = Kelas::findOrFail($kelasId);
         $subject = Subject::findOrFail($subjectId);
@@ -170,12 +179,12 @@ class KelasController extends Controller
 
         // Definisikan aturan validasi dengan pesan
         $request->validate([
-            'grade' => 'required|string|max:5',
+            'grade' => 'required|string|max:100',
             'name' => 'required|string|max:55',
         ], [
             'grade.required' => 'Tingkatan harus diisi.',
             'grade.string' => 'Tingkatan harus berupa teks.',
-            'grade.max' => 'Tingatan tidak boleh lebih dari 100 karakter.',
+            'grade.max' => 'Tingkatan tidak boleh lebih dari 100 karakter.',
             'name.required' => 'Nama harus diisi.',
             'name.string' => 'Nama harus berupa teks.',
             'name.max' => 'Nama tidak boleh lebih dari 255 karakter.',
@@ -213,12 +222,12 @@ class KelasController extends Controller
 
         // Definisikan aturan validasi dengan pesan
         $request->validate([
-            'grade' => 'required|string|max:10',
+            'grade' => 'required|string|max:100',
             'name' => 'required|string|max:55',
         ], [
             'grade.required' => 'Tingkatan harus diisi.',
             'grade.string' => 'Tingkatan harus berupa teks.',
-            'grade.max' => 'Tingkatan tidak boleh lebih dari 10 karakter.',
+            'grade.max' => 'Tingkatan tidak boleh lebih dari 100 karakter.',
             'name.required' => 'Nama harus diisi.',
             'name.string' => 'Nama harus berupa teks.',
             'name.max' => 'Nama tidak boleh lebih dari 55 karakter.',

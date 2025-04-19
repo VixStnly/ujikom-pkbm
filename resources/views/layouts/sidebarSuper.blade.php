@@ -49,6 +49,12 @@
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button" href="/admin/pendaftaran">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">people_outline</span>
+                        <span class="sidebar-menu-text">Pendaftaran</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
                     <a class="sidebar-menu-button" href="/admin/guru">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">people_outline</span>
                         <span class="sidebar-menu-text">Data Guru</span>

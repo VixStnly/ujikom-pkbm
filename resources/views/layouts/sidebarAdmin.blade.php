@@ -31,7 +31,7 @@
                         <span class="sidebar-menu-text">Data User</span>
                     </a>
                 </li>
-
+               
                 <li class="sidebar-menu-item {{ Request::is('admin/courses') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ url('/admin/courses') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>

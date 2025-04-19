@@ -82,6 +82,9 @@
                                 <th class="px-6 py-3 text-left text-sm font-semibold">Pertemuan</th>
                                 <!-- Kolom baru untuk Meeting -->
                                 <th class="px-6 py-3 text-left text-sm font-semibold">Status Kehadiran</th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold">Foto</th>
+<th class="px-6 py-3 text-left text-sm font-semibold">Lokasi</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -102,6 +105,21 @@
                                                                 {{ $absen->status }}
                                                             </span>
                                                         </td>
+                                                        <!-- Kolom Foto -->
+                                                        <td class="px-6 py-3 border-b border-gray-200 text-sm">
+    <button 
+        onclick="showFotoModal('{{ asset('storage/' . $absen->foto) }}')" 
+        class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">
+        Foto
+    </button>
+</td>
+
+
+<!-- Kolom Lokasi -->
+<td class="px-6 py-3 border-b border-gray-200">
+        <button onclick="showModal('{{ $absen->latitude }}', '{{ $absen->longitude }}', null)" class="button-custom text-sm">Lihat Lokasi</button>
+    </td>
+
                                                     </tr>
                             @empty
                                 <tr>
@@ -148,7 +166,77 @@
         </div>
 
         @include('layouts.sidebarGuru')
+
     </div>
+<!-- Modal -->
+<!-- Modal -->
+<div id="absenModal" class="fixed inset-0 hidden bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
+        <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">✖</button>
+        <div id="modalContent" class="space-y-4 text-center">
+            <!-- Content diisi oleh JS -->
+        </div>
+    </div>
+</div>
+<!-- Modal Foto -->
+<div id="fotoModal" class="fixed z-50 inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+    <div class="bg-white p-5 rounded shadow-lg max-w-md w-full relative">
+        <button onclick="closeFotoModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl">&times;</button>
+        <img id="fotoModalImage" src="" alt="Foto Absen" class="w-full rounded">
+    </div>
+</div>
+<script>
+      function showFotoModal(fotoUrl) {
+        document.getElementById('fotoModalImage').src = fotoUrl;
+        document.getElementById('fotoModal').classList.remove('hidden');
+        document.getElementById('fotoModal').classList.add('flex');
+    }
+
+    function closeFotoModal() {
+        document.getElementById('fotoModal').classList.add('hidden');
+        document.getElementById('fotoModal').classList.remove('flex');
+        document.getElementById('fotoModalImage').src = '';
+    }
+    function showModal(lat, lng, photoUrl) {
+        const modal = document.getElementById("absenModal");
+        const content = document.getElementById("modalContent");
+        let html = '';
+
+        if (photoUrl) {
+            html += `
+                <div>
+                    <h2 class="text-lg font-semibold mb-2">Foto Absensi</h2>
+                    <img src="${photoUrl}" alt="Foto Absensi" class="mx-auto max-h-64 rounded border border-gray-300 mb-4">
+                </div>
+            `;
+        }
+
+        if (lat && lng) {
+            const mapEmbed = `https://www.google.com/maps?q=${lat},${lng}&output=embed`;
+            html += `
+                <div>
+                    <h2 class="text-lg font-semibold mb-2">Lokasi</h2>
+                    <iframe
+                        width="100%"
+                        height="300"
+                        style="border:0"
+                        loading="lazy"
+                        allowfullscreen
+                        src="${mapEmbed}">
+                    </iframe>
+                </div>
+            `;
+        }
+
+        content.innerHTML = html;
+        modal.classList.remove("hidden");
+    }
+
+    function closeModal() {
+        document.getElementById("absenModal").classList.add("hidden");
+    }
+</script>
+
 
     <!-- JavaScript dependencies -->
     <script src="{{ asset('frontend/vendor/jquery.min.js')}}"></script>
@@ -171,6 +259,7 @@
     <script src="{{ asset('frontend/js/list.js')}}"></script>
     <script src="{{ asset('frontend/js/toggle-check-all.js')}}"></script>
     <script src="{{ asset('frontend/js/check-selected-row.js')}}"></script>
+
 
 </body>
 

@@ -38,9 +38,9 @@
                                     <div class="form-group">
                                         <label class="form-label" for="grade">Grade Kelas</label>
                                         <select id="grade" name="grade" class="form-control" required>
-                                            <option value="SD" {{ $kelas->grade == 'SD' ? 'selected' : '' }}>SD</option>
-                                            <option value="SMP" {{ $kelas->grade == 'SMP' ? 'selected' : '' }}>SMP</option>
-                                            <option value="SMA" {{ $kelas->grade == 'SMA' ? 'selected' : '' }}>SMA</option>
+                                            <option value="Paket A" {{ $kelas->grade == 'Paket A' ? 'selected' : '' }}>Paket A</option>
+                                            <option value="Paket B" {{ $kelas->grade == 'Paket B' ? 'selected' : '' }}>Paket B</option>
+                                            <option value="Paket C" {{ $kelas->grade == 'Paket C' ? 'selected' : '' }}>Paket C</option>
                                         </select>
                                     </div>
 
