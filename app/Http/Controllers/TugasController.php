@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Submission;
 use App\Models\User;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
@@ -75,20 +76,17 @@ class TugasController extends Controller
     // Form tambah tugas baru
     public function createM($meeting_id)
     {
-        $this->authorizeAccess(); // Memeriksa akses
+        $this->authorizeAccess();
 
-        $user = Auth::user(); // Ambil data pengguna yang sedang login
+        $user = Auth::user();
 
-        $user = Auth::user(); // Ambil data pengguna yang sedang login
+        $user = Auth::user();
 
-        // Ambil semua meeting yang terkait dengan user saat ini (optional jika diperlukan)
         $meetings = Meeting::where('user_id', auth()->id())->get();
 
-        // Ambil meeting spesifik berdasarkan meeting_id
         $meeting = Meeting::findOrFail($meeting_id);
 
-        // Ambil subject yang terkait dengan meeting (pastikan meeting memiliki relasi dengan subject)
-        $subject = $meeting->subject;  // Ambil subjek terkait dengan meeting
+        $subject = $meeting->subject; 
 
         // Kirimkan data meeting dan subject ke view
         return view('guru.tugas.createM', compact('meetings', 'meeting', 'subject', 'user'));
@@ -136,9 +134,20 @@ class TugasController extends Controller
 
         $validatedData['user_id'] = auth()->id();
 
-        \DB::enableQueryLog(); // Aktifkan query log
-        Tugas::create($validatedData);
+        \DB::enableQueryLog();
+        $tugas = Tugas::create($validatedData);
         \Log::info('Query yang dijalankan:', \DB::getQueryLog());
+
+        $tugas->load('meeting.subject');
+        $subjectName = $tugas->meeting->subject->name ?? 'Mata Pelajaran';
+
+        Notification::create([
+            'user_id' => null,
+            'message' => "📌 Tugas baru untuk mata pelajaran: {$subjectName}",
+            'icon' => 'assignment',
+            'icon_color' => 'warning',
+        ]);
+        
 
         return redirect()->route('guru.tugas.index', ['meeting_id' => $validatedData['meeting_id']])
             ->with('success', 'Tugas berhasil ditambahkan');
@@ -199,6 +208,11 @@ class TugasController extends Controller
     public function destroy(Tugas $tugas)
     {
         $this->authorizeAccess(); // Memeriksa akses
+
+        $subjectName = $tugas->meeting->subject->name ?? '';
+        $message = "📌 Tugas baru untuk mata pelajaran: {$subjectName}";
+    
+        Notification::where('message', $message)->delete();
 
         // Pastikan hanya guru yang menambahkan tugas yang dapat menghapusnya
         if ($tugas->user_id === auth()->id()) {

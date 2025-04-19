@@ -92,25 +92,15 @@
                         </div>
                         <div class="col-lg-4">
 
-                            <div class="page-separator">
-                                <div class="page-separator__text">-</div>
-                            </div>
-
                             <div id="carouselExampleFade" class="carousel carousel-card slide mb-24pt">
                                 <div class="carousel-inner">
-
                                     <div class="carousel-item active">
-
-                                        <a class="card border-0 mb-0" href="">
-                                            <img src="{{ asset('frontend/images/achievements/gif.gif') }}" alt="Flinto"
+                                        <a class="card border-0 mb-0 shadow-sm" href="javascript:void(0);">
+                                            <img src="{{ asset('frontend/images/achievements/banner-pembalajaran.gif') }}" alt="Flinto"
                                                 class="card-img" style="max-height: 100%; width: initial;">
-
-
                                         </a>
                                     </div>
                                 </div>
-
-
                             </div>
 
                             <div class="page-separator">

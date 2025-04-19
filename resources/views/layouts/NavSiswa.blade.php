@@ -3,10 +3,14 @@
     <style>
         /* Ensure rounded avatar images */
         .img-profile img {
-            border-radius: 50%; /* Round shape */
-            width: 32px; /* Set width */
-            height: 32px; /* Set height */
-            object-fit: cover; /* Maintain aspect ratio */
+            border-radius: 50%;
+            /* Round shape */
+            width: 32px;
+            /* Set width */
+            height: 32px;
+            /* Set height */
+            object-fit: cover;
+            /* Maintain aspect ratio */
         }
     </style>
 </head>
@@ -45,11 +49,30 @@
                         <span class="material-icons">short_text</span>
                     </button>
 
-                    <ul class="nav navbar-nav d-none d-sm-flex flex justify-content-start ml-8pt"></ul>
+                    @auth
+                        @php
+                        $notifications = \App\Models\Notification::where(function ($query) {
+                                $query->whereNull('user_id') // notifikasi global
+                                    ->orWhere('user_id', auth()->id()); // atau personal
+                            })
+                            ->latest()
+                            ->take(5)
+                            ->get();
 
-                    <div class="profile-info ml-16pt ml-auto">
-                        <p class="user-name mb-4pt">{{ Str::limit($user->name, 8) }}</p>
-                    </div>
+                        $unreadCount = \App\Models\Notification::where(function ($query) {
+                                $query->whereNull('user_id')
+                                    ->orWhere('user_id', auth()->id());
+                            })
+                            ->where('is_read', false)
+                            ->count();
+
+                    @endphp
+
+                    @include('components.content.notification-siswa', [
+                        'notifications' => $notifications,
+                        'unreadCount' => $unreadCount,
+                    ])
+                    @endauth
 
                     <!-- Account dropdown -->
                     <div class="nav-item dropdown">
@@ -57,11 +80,11 @@
                             <div class="flex items-center">
                                 <span class="avatar img-profile mr-2" style="width: 32px; height: 42px;">
                                     @if ($user->profile_image)
-                                        <img src="{{ Storage::url('profil/' . $user->profile_image) }}" alt="{{ $user->name }}" class="rounded-full w-8 h-8 object-cover" style="width: 42px; height: 42px;" />
+                                    <img src="{{ Storage::url('profil/' . $user->profile_image) }}" alt="{{ $user->name }}" class="rounded-full w-8 h-8 object-cover" style="width: 42px; height: 42px;" />
                                     @else
-                                        <span class="avatar avatar-sm mr-1pt2 ">
-                                            <span class="avatar-title rounded-circle bg-primary"><i class="material-icons">account_box</i></span>
-                                        </span>
+                                    <span class="avatar avatar-sm mr-1pt2 ">
+                                        <span class="avatar-title rounded-circle bg-primary"><i class="material-icons">account_box</i></span>
+                                    </span>
                                     @endif
                                 </span>
                             </div>
@@ -85,6 +108,14 @@
                             </a>
                         </div>
                     </div>
+
+                    <div class="profile-info d-flex flex-column align-items-start text-right ml-16pt ml-auto">
+                        <span class="user-name font-weight-bold text-dark" style="font-size: 14px;">
+                            {{ Str::limit($user->name, 12) }}
+                        </span>
+                        <span class="text-muted" style="font-size: 12px;">Online</span>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -39,6 +39,7 @@ use App\Http\Controllers\ViewBlogController;
 use App\Http\Controllers\HistoriController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\FisologiController;
+use App\Http\Controllers\NotificationController;
 use App\Models\Blog;
 use App\Http\Controllers\ForumController;
 
@@ -48,6 +49,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/forum/{meeting}', [ForumController::class, 'destroy'])->name('forum.destroy');
     Route::post('/forum/{meeting}', [ForumController::class, 'store'])->name('forum.store');
     Route::post('/forums/{id}/like', [ForumController::class, 'like'])->name('forums.like');
+
+    Route::get('/notifications', [NotificationController::class, 'fetch'])->name('notifications');
+    Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.read-all');
 });
 
 Route::get('/generate', function(){

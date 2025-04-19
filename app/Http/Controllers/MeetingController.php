@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Subject;
 use App\Models\Meeting;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -105,24 +107,33 @@ class MeetingController extends Controller
 
         return view('guru.meeting.createS', compact('meetings', 'subjects', 'user'));
     }
+    
+public function store(Request $request)
+{
+    $this->authorizeAccess();
 
-    public function store(Request $request)
-    {
-        $this->authorizeAccess();
+    $request->validate([
+        'subject_id' => 'required',
+        'title' => 'required|string|max:255',
+        'meeting_time' => 'required|date',
+        'description' => 'nullable|string',
+    ]);
 
-        $request->validate([
-            'subject_id' => 'required',
-            'title' => 'required|string|max:255',
-            'meeting_time' => 'required|date',
-            'description' => 'nullable|string',
+    $data = $request->all();
+    $data['user_id'] = auth()->id();
+
+    $meeting = Meeting::create($data);
+
+        Notification::create([
+            'user_id' => null,
+            'message' => auth()->user()->name . ' membuat pertemuan baru: ' . $meeting->title,
+            'icon' => 'group_add',
+            'icon_color' => 'primary',
         ]);
 
-        $data = $request->all();
-        $data['user_id'] = auth()->id(); // Tambahkan user_id dari user yang sedang login
-
-        Meeting::create($data);
-        return redirect()->route('guru.meeting.index')->with('success', 'Pertemuan berhasil dibuat.');
-    }
+    return redirect()->route('guru.meeting.index')->with('success', 'Pertemuan berhasil dibuat.');
+}
+    
 
     public function edit(Meeting $meeting)
     {
