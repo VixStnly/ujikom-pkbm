@@ -241,7 +241,126 @@
             <!-- END KONTENT -->
     @include ('content.js')
 
-    <script>
+    <script>// Enhanced script for edit user page
+$(document).ready(function () {
+    // Initialize Select2 for all dropdown elements
+    $('#guru_id, #kelas_id, #subject_id').select2({
+        placeholder: 'Pilih...',
+        allowClear: true
+    });
+
+    // Save initial subjects for reference
+    let allSubjects = [];
+    $('#subject_id option').each(function() {
+        allSubjects.push({
+            id: $(this).val(),
+            text: $(this).text(),
+            selected: $(this).is(':selected')
+        });
+    });
+
+    // Function to load classes and subjects based on selected teachers
+    function loadDataByTeacher(guruIds) {
+        if (guruIds && guruIds.length > 0) {
+            $.ajax({
+                url: '{{ route('get.kelas.by.guru') }}',
+                type: 'GET',
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                data: { guru_ids: guruIds },
+                dataType: 'json',
+                success: function (data) {
+                    // Store currently selected values
+                    var selectedKelasIds = $('#kelas_id').val();
+                    
+                    // Update kelas dropdown
+                    $('#kelas_id').empty().append('<option value="" disabled>Pilih Kelas</option>');
+                    
+                    if (data.kelas && data.kelas.length > 0) {
+                        $.each(data.kelas, function (index, kelas) {
+                            var option = new Option(kelas.name, kelas.id, false, 
+                                     selectedKelasIds && selectedKelasIds.includes(kelas.id.toString()));
+                            $('#kelas_id').append(option);
+                        });
+                    }
+                    
+                    // Trigger change to update subjects
+                    $('#kelas_id').trigger('change');
+                },
+                error: function () {
+                    toastr.error('Tidak ada data kelas untuk guru yang dipilih', 'Error');
+                }
+            });
+        } else {
+            // If no teachers selected, clear the dependent dropdowns
+            $('#kelas_id').empty().append('<option value="" disabled>Pilih Kelas</option>');
+            $('#subject_id').empty().append('<option value="" disabled>Pilih Pelajaran</option>');
+        }
+    }
+
+    // Handle teacher selection change
+    $('#guru_id').on('change', function () {
+        var guruIds = $(this).val();
+        loadDataByTeacher(guruIds);
+    });
+
+    // Handle class selection change
+    $('#kelas_id').on('change', function () {
+        var kelasIds = $(this).val();
+        var guruIds = $('#guru_id').val();
+
+        if (kelasIds && kelasIds.length > 0 && guruIds && guruIds.length > 0) {
+            $.ajax({
+                url: '{{ route('get.subjects.by.kelas') }}',
+                type: 'GET',
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                data: { kelas_ids: kelasIds, guru_ids: guruIds },
+                dataType: 'json',
+                success: function (data) {
+                    // Store currently selected values
+                    var selectedSubjectIds = $('#subject_id').val();
+                    
+                    // Update subjects dropdown
+                    $('#subject_id').empty().append('<option value="" disabled>Pilih Pelajaran</option>');
+                    
+                    if (data.subjects && data.subjects.length > 0) {
+                        $.each(data.subjects, function (index, subject) {
+                            var option = new Option(subject.name, subject.id, false, 
+                                     selectedSubjectIds && selectedSubjectIds.includes(subject.id.toString()));
+                            $('#subject_id').append(option);
+                        });
+                    } else {
+                        toastr.info('Tidak ada pelajaran yang ditemukan untuk kombinasi guru dan kelas ini.', 'Info');
+                    }
+                    
+                    // Refresh Select2
+                    $('#subject_id').trigger('change');
+                },
+                error: function() {
+                    toastr.error('Gagal memuat data pelajaran', 'Error');
+                }
+            });
+        } else if (!kelasIds || kelasIds.length === 0) {
+            // Clear subjects if no classes selected
+            $('#subject_id').empty().append('<option value="" disabled>Pilih Pelajaran</option>');
+        }
+    });
+
+    // Initialize data loading if teachers are already selected (for edit page)
+    var initialGuruIds = $('#guru_id').val();
+    if (initialGuruIds && initialGuruIds.length > 0) {
+        loadDataByTeacher(initialGuruIds);
+    }
+
+    // Role change handling to show/hide fields based on user role
+    $('#role_id').on('change', function() {
+        var roleId = $(this).val();
+        if (roleId == 1 || roleId == 2) { // Admin or Superadmin
+            $('.kelas-subject-container').hide();
+        } else {
+            $('.kelas-subject-container').show();
+        }
+    }).trigger('change'); // Trigger on page load
+});
     $(document).ready(function () {
         toastr.options = {
             "closeButton": true,
