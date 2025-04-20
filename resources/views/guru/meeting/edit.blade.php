@@ -53,11 +53,13 @@
                                 <div class="form-group mb-24pt">
                                     <label for="subject_id">Mata Pelajaran</label>
                                     <select name="subject_id" id="subject_id" class="form-control" required>
-                                        <option value="">Pilih Mata Pelajaran</option>
-                                        @foreach($subjects as $subject)
-                                        <option value="{{ $subject->id }}">
-                {{ $subject->name }} -  {{ $subject->kelas->name }}
-            </option>                                        @endforeach
+                                    @foreach($subjects as $subject)
+    <option value="{{ $subject->id }}" 
+        {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
+        {{ $subject->name }} - {{ $subject->kelas->name }}
+    </option>
+@endforeach
+                  
                                     </select>
                                     @error('subject_id')
                                         <div class="text-danger">{{ $message }}</div>

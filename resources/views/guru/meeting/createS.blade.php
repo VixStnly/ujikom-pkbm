@@ -53,8 +53,8 @@
                                         @if($subjects)
                                             <input type="text" class="form-control"
                                                 value="{{ $subjects->name }} - {{ $subjects->kelas->name }}" readonly>
-                                            <input type="hidden" name="subjects_id" value="{{ $subjects->id }}">
-                                        @else
+                                                <input type="hidden" name="subject_id" value="{{ $subjects->id }}">
+                                                @else
                                             <p class="text-muted">Tidak ada mata pelajaran yang tersedia.</p>
                                         @endif
                                     </div>

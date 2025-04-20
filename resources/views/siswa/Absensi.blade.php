@@ -390,10 +390,16 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div id="gagalSubmit" class="alert alert-danger text-center d-none">
+                        !! Wajah Tidak Dikenali Silahkan Cek Wajah Ulang</div>
                         <button onclick="capturePhoto()" class="btn btn-primary w-100 mb-3" id="captureBtn">
-                            Ambil Foto & Cek Wajah
+                           Cek Wajah 
                         </button>
+<!-- Submit Info - hidden by default -->
+<div id="infoSubmit" class="alert alert-success text-center d-none">
+    ✅ Anda bisa melanjutkan untuk submit absen.
+</div>
+
 
                         <!-- Hidden canvas -->
                         <canvas id="canvas" width="640" height="480" class="d-none"></canvas>
@@ -436,9 +442,10 @@
                                 <button type="button" class="btn btn-outline-secondary me-2" onclick="backToSelection()">
                                     Kembali
                                 </button>
-                                <button type="submit" class="btn btn-success flex-grow-1 py-2 d-none" id="submitBtn">
-                                    Submit Absensi
-                                </button>
+                                <button type="submit" class="btn btn-success flex-grow-1 py-2 d-none" id="submitBtn" onclick="handleSubmit(this)">
+    Submit Absensi
+</button>
+
                             </div>
                         </form>
                     </div>
@@ -457,13 +464,23 @@ const photoInput = document.getElementById('photo_data');
 const confidenceDisplay = document.getElementById('confidenceDisplay');
 const confidenceText = document.getElementById('confidence');
 const submitBtn = document.getElementById('submitBtn');
+const infoBtn = document.getElementById('infoBtn');
 const loading = document.getElementById('loading');
 const progressBar = document.getElementById('progressBar');
 const progressPercentage = document.getElementById('progressPercentage');
 
 // Container to hold video and captured image
 const videoContainer = document.querySelector('.position-relative');
-
+function handleSubmit(button) {
+        // Ganti teks tombol menjadi "Proses..."
+        button.innerText = "Proses...";
+        
+        // Disable tombol agar tidak bisa diklik lagi
+        button.disabled = true;
+        
+        // Optional: jika kamu ingin tetap submit form secara normal
+        button.form.submit();
+    }
 // Get current date and time function
 function getCurrentDateTime() {
     const now = new Date();
@@ -552,44 +569,39 @@ function backToSelection() {
     // Show video element
     if (video) video.style.display = 'block';
 }
-
 function capturePhoto() {
-    // Reset and show loading
+    
+    // Reset dan tampilkan loading
     progressBar.style.width = '0%';
     progressPercentage.textContent = '0';
     loading.classList.remove('d-none');
-    
-    // Hide any previous confidence display
+
+    // Sembunyikan hasil sebelumnya
     confidenceDisplay.classList.add('d-none');
-    
+
+    // Ambil gambar dari video
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     const dataURL = canvas.toDataURL('image/png');
     photoInput.value = dataURL;
 
-    // Animate progress bar
+    // Animasi progress
     let progress = 0;
     let fakeProcessing = setInterval(() => {
-        // Increment faster at first, then slow down
-        if (progress < 50) {
-            progress += 2;
-        } else if (progress < 80) {
-            progress += 1;
-        } else if (progress < 90) {
-            progress += 0.5;
-        }
-        
-        // Cap at 90% until we get real results
+        if (progress < 50) progress += 2;
+        else if (progress < 80) progress += 1;
+        else if (progress < 90) progress += 0.5;
+
         if (progress > 90) {
             progress = 90;
             clearInterval(fakeProcessing);
         }
-        
+
         progressBar.style.width = progress + '%';
         progressPercentage.textContent = Math.round(progress);
     }, 30);
 
-    // Kirim ke API untuk deteksi
+    // Kirim ke API
     fetch("{{ route('api.face.compare') }}", {
         method: "POST",
         headers: {
@@ -600,28 +612,23 @@ function capturePhoto() {
     })
     .then(res => res.json())
     .then(data => {
-        // Clear the fake processing interval
         clearInterval(fakeProcessing);
-        
-        // Complete the progress bar to 100%
+
+        // Lanjutkan progress ke 100%
         let finalProgress = 90;
         let finalizing = setInterval(() => {
             finalProgress += 2;
             if (finalProgress >= 100) {
                 finalProgress = 100;
                 clearInterval(finalizing);
-                
-                // Hide loading and show result after a short delay
+
                 setTimeout(() => {
                     loading.classList.add('d-none');
-                    
-                    // Show confidence result
+
                     const conf = parseFloat(data.confidence ?? 0);
                     confidenceText.textContent = conf.toFixed(2);
-                    confidenceDisplay.classList.remove('d-none');
-
-                    // Ubah warna bubble confidence
                     confidenceDisplay.className = 'position-absolute top-0 start-50 translate-middle-x mt-2 px-3 py-1 rounded-pill shadow-sm';
+
                     if (conf >= 90) {
                         confidenceDisplay.classList.add('bg-success', 'text-white');
                     } else if (conf >= 70) {
@@ -630,93 +637,60 @@ function capturePhoto() {
                         confidenceDisplay.classList.add('bg-danger', 'text-white');
                     }
 
-                    // Tampilkan tombol submit jika valid
+                    confidenceDisplay.classList.remove('d-none');
+
+                    // Tampilkan tombol submit jika confidence cukup
                     if (conf >= 80) {
                         submitBtn.classList.remove('d-none');
+                        document.getElementById('captureBtn').classList.add('d-none'); // Sembunyikan tombol
+                        document.getElementById('infoSubmit').classList.remove('d-none'); // Tampilkan info submit
+
                     } else {
                         submitBtn.classList.add('d-none');
+                        document.getElementById('gagalSubmit').classList.remove('d-none'); // Tampilkan info submit
+                        const messageDiv = document.createElement('div');
+                        messageDiv.className = 'alert alert-warning mt-2 mb-2';
+                        messageDiv.id = 'retake-message';
+                        messageDiv.innerHTML = '<strong>Verifikasi wajah kurang optimal.</strong> Silakan coba lagi dengan pencahayaan yang lebih baik dan wajah terlihat jelas.';
+                        videoContainer.appendChild(messageDiv);
+
+                        setTimeout(() => {
+                            const msg = document.getElementById('retake-message');
+                            if (msg) msg.remove();
+                        }, 5000);
                     }
-                    
-                    // Stop the video stream
-                    if (video.srcObject) {
-                        const tracks = video.srcObject.getTracks();
-                        tracks.forEach(track => track.stop());
-                        video.srcObject = null;
-                    }
-                    
-                    // Create a new image element to show the captured photo
-                    const capturedImage = document.createElement('img');
-                    capturedImage.src = dataURL;
-                    capturedImage.className = 'rounded-lg shadow border w-100';
-                    capturedImage.id = 'capturedImage';
-                    
-                    // Replace video with the captured image
-                    video.style.display = 'none';
-                    videoContainer.appendChild(capturedImage);
-                    
-                    // Add "Try Again" button under the image
-                    const retakeButton = document.createElement('button');
-                    retakeButton.className = 'btn btn-outline-secondary w-100 mt-2';
-                    retakeButton.innerText = 'Ambil Foto Ulang';
-                    retakeButton.onclick = function() {
-                        // Remove captured image and "Try Again" button
-                        document.getElementById('capturedImage').remove();
-                        retakeButton.remove();
-                        
-                        // Hide confidence and submit button
-                        confidenceDisplay.classList.add('d-none');
-                        submitBtn.classList.add('d-none');
-                        
-                        // Show video again
-                        video.style.display = 'block';
-                        
-                        // Restart camera
-                        navigator.mediaDevices.getUserMedia({ video: true })
-                            .then((stream) => {
-                                video.srcObject = stream;
-                            });
-                    };
-                    
-                    // Add the retake button to the DOM after the image
-                    videoContainer.appendChild(retakeButton);
+
                 }, 300);
             }
+
             progressBar.style.width = finalProgress + '%';
             progressPercentage.textContent = Math.round(finalProgress);
         }, 30);
     })
-    .catch(() => {
-        // Clear intervals and hide loading
+    .catch((error) => {
         clearInterval(fakeProcessing);
         loading.classList.add('d-none');
-        
-        // Show error
+
+        console.error("Error during face comparison:", error);
+
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'alert alert-danger mt-2';
+        errorDiv.id = 'error-message';
+        errorDiv.innerHTML = '<strong>Gagal memproses foto!</strong> Silakan coba lagi dalam beberapa saat.';
+        videoContainer.insertBefore(errorDiv, video);
+
         confidenceText.textContent = 'Gagal';
         confidenceDisplay.className = 'position-absolute top-0 start-50 translate-middle-x mt-2 bg-danger text-white px-3 py-1 rounded-pill shadow-sm';
         confidenceDisplay.classList.remove('d-none');
         submitBtn.classList.add('d-none');
+
+        setTimeout(() => {
+            const err = document.getElementById('error-message');
+            if (err) err.remove();
+        }, 5000);
     });
 }
 
-// Add some styling for the attendance options
-document.addEventListener('DOMContentLoaded', function() {
-    const attendanceOptions = document.querySelectorAll('.attendance-option');
-    
-    attendanceOptions.forEach(option => {
-        option.style.cursor = 'pointer';
-        option.style.transition = 'transform 0.2s, box-shadow 0.2s';
-        
-        option.addEventListener('mouseover', function() {
-            this.style.transform = 'translateY(-5px)';
-            this.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
-        });
-        
-        option.addEventListener('mouseout', function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
-        });
-    });
-});
 </script>
 
 <style>
