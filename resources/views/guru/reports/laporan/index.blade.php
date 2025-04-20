@@ -38,7 +38,7 @@
             class="btn btn-outline-secondary">Buat atau Edit Laporan</a>
             <div class="col-auto">
     <a href="{{ route('guru.reports.export.pdf', ['studentId' => $student->id, 'kelasId' => $kelasId]) }}"
-       class="btn btn-outline-success">Export PDF</a>
+       class="btn btn-outline-danger">Export PDF</a>
 </div>
 
     </div>

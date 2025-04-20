@@ -38,7 +38,7 @@
                         <a href="{{ url('/') }}" class="navbar-brand mr-16pt">
                             <span class="avatar avatar-sm navbar-brand-icon mr-0 mr-lg-8pt">
                                 <span class="rounded">
-                                    <img src="{{ asset('frontend/images/illustration/student/128/triwala.png') }}" alt="logo" class="img-fluid" />
+                                    <img src="{{ asset('frontend/images/illustration/student/128/ACADEMIA.png') }}" alt="logo" class="img-fluid" />
                                 </span>
                             </span>
                             <span class="d-none d-lg-block">PKBM</span>
@@ -113,7 +113,7 @@
 
                     <div class="hero container page__container text-center text-md-left py-5 py-112pt">
                     <h1 class="text-white text-shadow text-4xl md:text-4xl lg:text-8xl">Selamat Datang</h1>
-                        <p class="lead measure-hero-lead mx-auto mx-md-0 text-white text-shadow mb-48pt">PKBM Triwala. Sekolah SD, SMP, SMA dimana kamu ingin mengembangkan hobi mu dan sekolah</p>
+                        <p class="lead measure-hero-lead mx-auto mx-md-0 text-white text-shadow mb-48pt">PKBM ACADEMIA. Sekolah SD, SMP, SMA dimana kamu ingin mengembangkan hobi mu dan sekolah</p>
 
                         <a href="/login"
                            class="btn btn-lg btn-white btn--raised mb-16pt">Masuk Sekarang</a>
