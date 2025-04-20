@@ -3,20 +3,6 @@
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('content.style')
-
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.0/ckeditor5.css" />
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5-premium-features/43.3.0/ckeditor5-premium-features.css" />
-    <script type="importmap">
-        {
-            "imports": {
-                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.3.0/ckeditor5.js",
-                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.3.0/",
-                "ckeditor5-premium-features": "https://cdn.ckeditor.com/ckeditor5-premium-features/43.3.0/ckeditor5-premium-features.js",
-                "ckeditor5-premium-features/": "https://cdn.ckeditor.com/ckeditor5-premium-features/43.3.0/"
-            }
-        }
-    </script>
-
     <style>
         .ck-editor__editable_inline {
             height: 200px;
@@ -121,24 +107,5 @@
         @include('layouts.sidebarSuper')
     </div>
     @include('content.js')
-
-    <script>
-    $(document).ready(function () {
-        toastr.options = {
-            "closeButton": true,
-            "progressBar": true,
-            "timeOut": "5000",
-            "positionClass": "toast-top-right"
-        };
-
-        @if(session('success'))
-            toastr.success("{!! addslashes(session('success')) !!}", "Berhasil!");
-        @endif
-
-        @if($errors->any())
-            toastr.error("{!! addslashes($errors->first()) !!}", "Terjadi Kesalahan!");
-        @endif
-    });
-</script>
 
 </body>

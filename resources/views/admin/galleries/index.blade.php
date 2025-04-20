@@ -1,4 +1,5 @@
 @include('content.html')
+
 <head>
     @include('content.style')
     <script src="https://cdn.tailwindcss.com"></script>
@@ -9,17 +10,6 @@
         <div class="mdk-drawer-layout__content page-content">
             <!-- Navbar -->
             @include('layouts.NavSuper')
-
-            @if(session('success'))
-                <script>
-                    $(document).ready(function() {
-                        toastr.success("{{ session('success') }}", "Well Done!", {
-                            closeButton: true,
-                            progressBar: true,
-                        });
-                    });
-                </script>
-            @endif
 
             <div class="pt-32pt">
                 <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
@@ -58,9 +48,9 @@
                                     <select name="kategori_id" id="kategori_id" class="form-control" onchange="this.form.submit()">
                                         <option value="">-- Semua Kategori --</option>
                                         @foreach($categories as $category)
-                                            <option value="{{ $category->id }}" {{ request('kategori_id') == $category->id ? 'selected' : '' }}>
-                                                {{ $category->name }}
-                                            </option>
+                                        <option value="{{ $category->id }}" {{ request('kategori_id') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </form>
@@ -68,19 +58,54 @@
 
                             <div class="row">
                                 @foreach ($galleries as $gallery)
-                                    <div class="col-md-4 mb-3"> <!-- Use col-md-3 for 4 cards per row -->
-                                        <div class="card flex">
-                                            <img src="{{ asset('storage/' . $gallery->image) }}" class="card-img-top object-cover w-full h-48" alt="Gallery Image"> <!-- Added classes for fixed size -->
-                                            <div class="card-body">
-                                                <a href="{{ route('admin.gallery.edit', $gallery->id) }}" class="btn btn-primary">Edit</a>
-                                                <form action="{{ route('admin.gallery.destroy', $gallery->id) }}" method="POST" style="display: inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this image?');">Delete</button>
-                                                </form>
-                                            </div>
+                                <div class="col-md-4 mb-3"> <!-- Use col-md-3 for 4 cards per row -->
+                                    <div class="card flex">
+                                        <img src="{{ asset('storage/' . $gallery->image) }}" class="card-img-top object-cover w-full h-48" alt="Gallery Image"> <!-- Added classes for fixed size -->
+                                        <div class="card-body">
+                                            <a href="{{ route('admin.gallery.edit', $gallery->id) }}" class="btn btn-primary">Edit</a>
+                                            <form id="delete-form-{{ $gallery->id }}" action="{{ route('admin.gallery.destroy', $gallery->id) }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="btn btn-danger" id="delete-button-{{ $gallery->id }}">Delete</button>
+                                            </form>
+
+                                            <script>
+                                                document.getElementById('delete-button-{{ $gallery->id }}').addEventListener('click', function() {
+                                                    Swal.fire({
+                                                        title: 'Apakah Anda yakin?',
+                                                        text: "Data ini akan dihapus secara permanen dan tidak dapat dikembalikan!",
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonColor: '#d33',
+                                                        cancelButtonColor: '#3085d6',
+                                                        confirmButtonText: 'Ya, hapus!',
+                                                        cancelButtonText: 'Batal',
+                                                        reverseButtons: true,
+                                                        customClass: {
+                                                            popup: 'animated fadeInDown faster',
+                                                            confirmButton: 'bg-red-600 text-white px-4 py-2 rounded ml-2',
+                                                            cancelButton: 'bg-gray-300 text-black px-4 py-2 rounded ml-3'
+                                                        }
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            Swal.fire({
+                                                                title: 'Terhapus!',
+                                                                text: 'Data berhasil dihapus.',
+                                                                icon: 'success',
+                                                                timer: 2000,
+                                                                showConfirmButton: false
+                                                            });
+                                                            setTimeout(() => {
+                                                                document.getElementById('delete-form-{{ $gallery->id }}').submit();
+                                                            }, 2000);
+                                                        }
+                                                    });
+                                                });
+                                            </script>
+
                                         </div>
                                     </div>
+                                </div>
                                 @endforeach
                             </div>
                             <div class="flex justify-center mt-4">
@@ -93,22 +118,32 @@
             <!-- END CONTENT -->
             @include ('guru.footer')
         </div>
-        
+
 
         <!-- Sidebar -->
         @include('layouts.sidebarSuper')
     </div>
-
-    <script>
-        $(document).ready(function() {
-            // Additional toastr settings (optional)
-            toastr.options = {
-                "closeButton": true,
-                "progressBar": true,
-                "timeOut": "5000", // 5 seconds
-            };
-        });
-    </script>
-
     @include('content.js')
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Scripts -->
+    <script src="{{ asset('frontend/vendor/jquery.min.js') }}"></script>
+    <script src="{{ asset('frontend/vendor/popper.min.js') }}"></script>
+    <script src="{{ asset('frontend/vendor/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('frontend/vendor/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('frontend/vendor/dom-factory.js') }}"></script>
+    <script src="{{ asset('frontend/vendor/material-design-kit.js') }}"></script>
+    <script src="{{ asset('frontend/js/app.js') }}"></script>
+    <script src="{{ asset('frontend/js/preloader.js') }}"></script>
+    <script src="{{ asset('frontend/js/settings.js') }}"></script>
+    <script src="{{ asset('frontend/vendor/moment.min.js') }}"></script>
+    <script src="{{ asset('frontend/vendor/moment-range.js') }}"></script>
+    <script src="{{ asset('frontend/vendor/Chart.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/chartjs-rounded-bar.js') }}"></script>
+    <script src="{{ asset('frontend/js/chartjs.js') }}"></script>
+    <script src="{{ asset('frontend/vendor/list.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/list.js') }}"></script>
+
 </body>

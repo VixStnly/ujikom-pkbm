@@ -108,26 +108,5 @@
     </div>
 
     @include('content.js')
-
-    <!-- Toastr Notifications -->
-    <script>
-      $(document).ready(function () {
-          toastr.options = {
-              "closeButton": true,
-              "progressBar": true,
-              "timeOut": "5000",
-              "positionClass": "toast-top-right"
-          };
-
-          @if(session('success'))
-              toastr.success("{!! addslashes(session('success')) !!}", "Berhasil!");
-          @endif
-
-          @if($errors->any())
-              toastr.error("{!! addslashes($errors->first()) !!}", "Terjadi Kesalahan!");
-          @endif
-      });
-    </script>
-
     
 </body>

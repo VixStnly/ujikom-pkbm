@@ -1,5 +1,6 @@
 <!-- HTML -->
 @include ('content.html')
+
 <head>
     @include('content.style')
     <script src="https://cdn.tailwindcss.com"></script>
@@ -40,9 +41,9 @@
 
                                     <!-- Grade -->
                                     <div class="form-group">
-                                    <label class="form-label"
-                                           for="grade">Pilih Tingkatan</label>
-                                    <select id="grade" name="grade"
+                                        <label class="form-label"
+                                            for="grade">Pilih Tingkatan</label>
+                                        <select id="grade" name="grade"
                                             data-toggle="select"
                                             data-minimum-results-for-search="-1"
                                             class="form-control">
@@ -50,18 +51,18 @@
                                             <option value="Paket A">Paket A</option>
                                             <option value="Paket B">Paket B</option>
                                             <option value="Paket C">Paket C</option>
-                                    </select>
-                                </div>
-                                @error('grade')
-    <div class="text-danger">{{ $message }}</div>
-@enderror
+                                        </select>
+                                    </div>
+                                    @error('grade')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
 
                                     <!-- Nama Kelas -->
                                     <div class="form-group">
                                         <label class="form-label" for="name">Nama Kelas</label>
-                                        <input type="text" id="name" name="name" 
-                                               class="form-control" 
-                                               placeholder="Masukkan Nama Kelas" required>
+                                        <input type="text" id="name" name="name"
+                                            class="form-control"
+                                            placeholder="Masukkan Nama Kelas" required>
                                     </div>
 
                                 </div>
@@ -90,20 +91,5 @@
         @include ('layouts.sidebarSuper')
     </div>
     @include ('content.js')
-
-    <script>
-    $(document).ready(function () {
-        toastr.options = {
-            "closeButton": true,
-            "progressBar": true,
-            "timeOut": "5000",
-            "positionClass": "toast-top-right"
-        };
-
-        @if($errors->any())
-            toastr.error("{!! addslashes($errors->first()) !!}", "Terjadi Kesalahan!");
-        @endif
-    });
-</script>
 
 </body>

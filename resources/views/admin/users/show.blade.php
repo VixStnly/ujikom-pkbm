@@ -38,65 +38,65 @@
                 <div class="bg-white p-4 rounded-lg shadow-md mb-6">
                     <div class="mb-2">
                         <h3 class="font-semibold text-lg">INFORMASI ACCOUNT:</h3>
-                        <strong class="text-gray-700">Email:</strong> 
+                        <strong class="text-gray-700">Email:</strong>
                         <span class="text-gray-600">{{ $user->email }}</span>
                     </div>
                     <div class="mb-2">
-                        <strong class="text-gray-700">NISN/NIP:</strong> 
+                        <strong class="text-gray-700">NISN/NIP:</strong>
                         <span class="text-gray-600">{{ $user->nisn_nip }}</span>
                     </div>
                     <div class="mb-2">
-                        <strong class="text-gray-700">Role:</strong> 
+                        <strong class="text-gray-700">Role:</strong>
                         <span class="text-gray-600">{{ $user->role->name }}</span>
                     </div>
-                    
+
                     <!-- Divider -->
                     <hr class="my-4 border-gray-400" />
 
                     <!-- Kelas Information -->
                     <h4 class="font-semibold text-lg text-gray-800 mt-3">KELAS:</h4>
-                    <div class="d-flex flex-wrap mt-2"> 
+                    <div class="d-flex flex-wrap mt-2">
                         @foreach($user->kelas as $kelas)
-                            <div class="mb-3 me-2"> <!-- Margin end for spacing -->
-                                <span class="chip chip-outline-secondary d-inline-flex align-items-center"> 
-                                    <i class="material-icons icon--left">school</i> 
-                                    {{ $kelas->name }}
-                                </span>
-                            </div>
+                        <div class="mb-3 me-2"> <!-- Margin end for spacing -->
+                            <span class="chip chip-outline-secondary d-inline-flex align-items-center">
+                                <i class="material-icons icon--left">school</i>
+                                {{ $kelas->name }}
+                            </span>
+                        </div>
                         @endforeach
                     </div>
 
-                  <!-- Mata Pelajaran Information -->
-<h4 class="font-semibold text-lg text-gray-800 mt-4">MATA PELAJARAN:</h4>
-<div class="d-flex flex-wrap mt-2">
-    @foreach($user->subjects as $subject)
-        <div class="mb-3 me-2">
-            <span class="chip chip-outline-secondary d-inline-flex align-items-center">
-                <i class="material-icons icon--left">book</i>
-                {{ $subject->name }} - {{ $subject->kelas ? $subject->kelas->name : 'N/A' }}
-            </span>
-        </div>
-    @endforeach
-</div>
+                    <!-- Mata Pelajaran Information -->
+                    <h4 class="font-semibold text-lg text-gray-800 mt-4">MATA PELAJARAN:</h4>
+                    <div class="d-flex flex-wrap mt-2">
+                        @foreach($user->subjects as $subject)
+                        <div class="mb-3 me-2">
+                            <span class="chip chip-outline-secondary d-inline-flex align-items-center">
+                                <i class="material-icons icon--left">book</i>
+                                {{ $subject->name }} - {{ $subject->kelas ? $subject->kelas->name : 'N/A' }}
+                            </span>
+                        </div>
+                        @endforeach
+                    </div>
 
                     <!-- Guru Information -->
-                 <!-- Guru Information -->
-                 @if($user->role_id == 4) <!-- Menampilkan hanya jika role_id 4 (misalnya Siswa) -->
+                    <!-- Guru Information -->
+                    @if($user->role_id == 4) <!-- Menampilkan hanya jika role_id 4 (misalnya Siswa) -->
 
-<h4 class="font-semibold text-lg text-gray-800 mt-4">GURU YANG MENGAJAR:</h4>
-<div class="d-flex flex-wrap mt-2">
-   
-        @foreach($user->guru as $gurus) <!-- Mengecek apakah ada guru yang terkait -->
-            <div class="mb-3 me-2">
-                <span class="chip chip-outline-secondary d-inline-flex align-items-center"> 
-                    <i class="material-icons icon--left">person</i> 
-                    {{ $gurus->name }} ({{ $gurus->role->name }})
-                </span>
-            </div>
-        @endforeach
-  
-</div>
-@endif
+                    <h4 class="font-semibold text-lg text-gray-800 mt-4">GURU YANG MENGAJAR:</h4>
+                    <div class="d-flex flex-wrap mt-2">
+
+                        @foreach($user->guru as $gurus) <!-- Mengecek apakah ada guru yang terkait -->
+                        <div class="mb-3 me-2">
+                            <span class="chip chip-outline-secondary d-inline-flex align-items-center">
+                                <i class="material-icons icon--left">person</i>
+                                {{ $gurus->name }} ({{ $gurus->role->name }})
+                            </span>
+                        </div>
+                        @endforeach
+
+                    </div>
+                    @endif
 
                 </div>
             </div>

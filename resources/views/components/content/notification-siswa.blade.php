@@ -1,6 +1,6 @@
-<div class="nav navbar-nav d-none d-sm-flex flex justify-content-end ml-8pt">
-    <!-- Notifications dropdown -->
-    <div class="nav-item dropdown dropdown-notifications dropdown-xs-down-full"
+<div class="nav navbar-nav d-sm-flex flex justify-content-end ml-8pt">
+    <!-- Message -->
+    <!-- <div class="nav-item dropdown dropdown-notifications dropdown-xs-down-full"
         data-toggle="tooltip"
         data-title="Messages"
         data-placement="bottom"
@@ -60,10 +60,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- // END Notifications dropdown -->
+    </div> -->
 
-    <!-- Notifications dropdown -->
+    <!-- Notifications -->
     <div class="nav-item ml-16pt dropdown dropdown-notifications dropdown-xs-down-full"
         data-toggle="tooltip"
         data-placement="bottom"
@@ -79,16 +78,19 @@
             <div data-perfect-scrollbar class="position-relative">
                 <div class="dropdown-header d-flex justify-content-between">
                     <strong>System notifications</strong>
+                    @if ($hasKelas)
                     <form action="{{ route('notifications.read-all') }}" method="POST">
                         @csrf
                         <button class="btn btn-link p-0 text-primary">Tandai semua dibaca</button>
                     </form>
+                    @endif
                 </div>
 
                 <div class="list-group list-group-flush mb-0">
+                    @if ($hasKelas)
                     @forelse ($notifications as $notif)
                     @php
-                        $isTugas = Str::contains($notif->message, 'Tugas');
+                    $isTugas = Str::contains($notif->message, 'Tugas');
                     @endphp
                     <a href="javascript:void(0);" class="list-group-item list-group-item-action {{ !$notif->is_read ? 'unread' : '' }}">
                         <span class="d-flex align-items-center mb-1">
@@ -110,10 +112,12 @@
                             </span>
                         </span>
                     </a>
-
                     @empty
                     <div class="text-center text-black-50 p-2">Tidak ada notifikasi</div>
                     @endforelse
+                    @else
+                    <div class="text-center text-black-50 p-2">Belum tergabung dalam kelas</div>
+                    @endif
                 </div>
             </div>
         </div>

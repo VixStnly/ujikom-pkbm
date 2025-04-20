@@ -27,8 +27,7 @@
                                 </div>
                             </div>
                             <div class="ml-lg-16pt">
-                                <a href="#"
-                                   class="btn btn-light">Kembali</a>
+                                <a href="{{ url()->previous() }}" class="btn btn-light">Kembali</a>
                             </div>
                         </div>
 

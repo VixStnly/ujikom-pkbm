@@ -10,17 +10,6 @@
         <div class="mdk-drawer-layout__content page-content">
             @include('layouts.NavSuper')
 
-            @if(session('success'))
-                <script>
-                    $(document).ready(function () {
-                        toastr.success("{{ session('success') }}", "Berhasil!", {
-                            closeButton: true,
-                            progressBar: true,
-                        });
-                    });
-                </script>
-            @endif
-
             <div class="pt-32pt">
                 <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
                     <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
@@ -73,42 +62,39 @@
                                     </thead>
                                     <tbody>
                                         @foreach($users as $index => $user)
-                                            @if($user->role_id === 3) <!-- Filter only for role_id 3 (Guru) -->
-                                                <tr class="border-b">
-                                                    <td class="py-2 px-4">
-                                                        {{ ($users->currentPage() - 1) * $users->perPage() + ($index + 1) }}
-                                                    </td>
-                                                    <td class="py-2 px-4 flex items-center">
-                                                        @if ($user->profile_image)
-                                                            <img src="{{ Storage::url('profil/' . $user->profile_image) }}"
-                                                                alt="{{ $user->name }}" class="rounded-circle"
-                                                                style="width: 38px; height: 38px; object-fit: cover; margin-right: 8px;">
-                                                        @else
-                                                            <span
-                                                                class="avatar-title rounded-full bg-primary w-8 h-8 flex items-center justify-center"
-                                                                style="width: 38px; height: 39px; object-fit: cover; margin-right: 8px;">
-                                                                <i class="material-icons text-white">account_box</i>
-                                                            </span>
-                                                        @endif
-                                                    </td>
-                                                    <td class="py-2 px-4">{{ $user->name }}</td>
-                                                    <td class="py-2 px-4">{{ $user->email }}</td>
-                                                    <td class="py-2 px-4">{{ $user->nisn_nip }}</td>
-                                                    <td class="py-2 px-4"><span
-                                                            class="chip chip-outline-secondary d-inline-flex align-items-center">
-                                                            {{ $user->role->name }}
-                                                        </span></td>
-                                                        <td>
-            <a href="{{ route('admin.viewGuru.kelas', $user->id) }}" class="btn btn-info btn-sm">
-                👁 Monitoring
-            </a>
-        </td>
+                                        @if($user->role_id === 3) <!-- Filter only for role_id 3 (Guru) -->
+                                        <tr class="border-b">
+                                            <td class="py-2 px-4">
+                                                {{ ($users->currentPage() - 1) * $users->perPage() + ($index + 1) }}
+                                            </td>
+                                            <td class="py-2 px-4 flex items-center">
+                                                @if ($user->profile_image)
+                                                <img src="{{ Storage::url('profil/' . $user->profile_image) }}"
+                                                    alt="{{ $user->name }}" class="rounded-circle"
+                                                    style="width: 38px; height: 38px; object-fit: cover; margin-right: 8px;">
+                                                @else
+                                                <span
+                                                    class="avatar-title rounded-full bg-primary w-8 h-8 flex items-center justify-center"
+                                                    style="width: 38px; height: 39px; object-fit: cover; margin-right: 8px;">
+                                                    <i class="material-icons text-white">account_box</i>
+                                                </span>
+                                                @endif
+                                            </td>
+                                            <td class="py-2 px-4">{{ $user->name }}</td>
+                                            <td class="py-2 px-4">{{ $user->email }}</td>
+                                            <td class="py-2 px-4">{{ $user->nisn_nip }}</td>
+                                            <td class="py-2 px-4"><span
+                                                    class="chip chip-outline-secondary d-inline-flex align-items-center">
+                                                    {{ $user->role->name }}
+                                                </span></td>
+                                            <td>
+                                                <a href="{{ route('admin.viewGuru.kelas', $user->id) }}" class="btn btn-info btn-sm">
+                                                    👁 Monitoring
+                                                </a>
+                                            </td>
 
-
-
-
-                                                </tr>
-                                            @endif
+                                        </tr>
+                                        @endif
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -124,16 +110,6 @@
         </div>
         @include('layouts.sidebarSuper')
     </div>
-
-    <script>
-        $(document).ready(function () {
-            toastr.options = {
-                "closeButton": true,
-                "progressBar": true,
-                "timeOut": "5000", // 5 seconds
-            };
-        });
-    </script>
 
     @include('content.js')
 </body>

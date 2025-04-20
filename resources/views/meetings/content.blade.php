@@ -47,7 +47,7 @@
     <div class="bg-gray-100 font-sans leading-normal tracking-normal">
         <div class="container mx-auto px-4 py-6">
             <!-- Notification Message -->
-            <div class="rounded mb-4 mt-3">
+            <div class="rounded mb-4 mt-3" style="max-width: 100%;">
                 <div class="alert alert-soft-warning alert-dismissible fade show mb-0" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -70,7 +70,7 @@
                 <div class="lg:col-span-2">
                     <div class="row mb-8pt">
 
-                    <div class="col-lg-8">
+                        <div class="col-lg-8">
                             <div class="page-separator">
                                 <div class="page-separator__text">Pertemuan</div>
                             </div>
@@ -118,8 +118,8 @@
                                                 Akan Dimulai
                                             </span>
                                             @elseif($isPast)
-                                            <span class="alert alert-warning py-1 px-2 mt-2 mt-sm-0 mb-0" role="alert" style="font-size: 0.75rem;">
-                                                Akan Dimulai
+                                            <span class="alert alert-secondary py-1 px-2 mt-2 mt-sm-0 mb-0" role="alert" style="font-size: 0.75rem;">
+                                                Sudah Ditutup
                                             </span>
                                             @endif
 
@@ -141,22 +141,19 @@
                                                         <i class='bx bx-user-check'></i> Absen & Forum
                                                     </button>
                                                 </li>
-
                                             </ul>
 
                                             <div class="tab-content pt-4">
                                                 <!-- Tab: Tugas -->
                                                 <div class="tab-pane fade show active" id="task-{{ $meeting->id }}">
+
+                                                    @forelse ($meeting->tugas as $tugas)
                                                     <div class="card mb-3 border-0 bg-light p-3">
                                                         <div class="d-flex justify-content-between align-items-center mb-2">
-
-                                                        @forelse ($meeting->tugas as $tugas)
-
                                                             <h6 class="fw-bold mb-0">
                                                                 <i class='bx bx-task'></i> Tugas
                                                             </h6>
 
-                                                            
                                                             @php
                                                             $isLate = \Carbon\Carbon::parse($tugas->tanggal_deadline)->isPast();
                                                             @endphp
@@ -176,32 +173,50 @@
                                                             <span class="text-sm text-gray-500">Dibuat oleh: {{ $tugas->user->name }}</span>
                                                         </div>
 
-
-                                                        <div class="d-flex gap-2">
-                                                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" onclick="location.href='{{ route('submit.tugas.show', $tugas->id) }}'">
+                                                        <div class="d-flex flex-column flex-md-row gap-2">
+                                                            <button type="button" class="btn btn-outline-primary btn-sm w-100 w-md-auto" style="max-width: 180px;" onclick="location.href='{{ route('submit.tugas.show', $tugas->id) }}'">
                                                                 <i class='tf-icons bx bx-show'></i>&nbsp; Lihat Tugas
                                                             </button>
 
-                                                            @forelse ($meeting->materi as $materi)
-                                                            <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="tooltip" onclick="location.href='{{ route('materi.show', $materi->id) }}'">
+                                                            @php
+                                                            $materiCount = $meeting->materi->count();
+                                                            @endphp
+
+                                                            @if ($materiCount > 1)
+                                                            <div class="dropdown w-100 w-md-auto" style="max-width: 200px;">
+                                                                <button class="btn btn-outline-info btn-sm dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class='tf-icons bx bx-book-open'></i>&nbsp; Lihat Materi
+                                                                </button>
+                                                                <ul class="dropdown-menu w-100">
+                                                                    @foreach ($meeting->materi as $materi)
+                                                                    <li>
+                                                                        <a class="dropdown-item" href="{{ route('materi.show', $materi->id) }}">
+                                                                            <i class="bx bx-right-arrow-alt"></i> {{ Str::limit($materi->judul, 30) }}
+                                                                        </a>
+                                                                    </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                            @elseif ($materiCount === 1)
+                                                            <button type="button" class="btn btn-outline-info btn-sm w-100 w-md-auto" style="max-width: 200px;" onclick="location.href='{{ route('materi.show', $meeting->materi->first()->id) }}'">
                                                                 <i class='tf-icons bx bx-book-open'></i>&nbsp; Lihat Materi
                                                             </button>
-                                                            @empty
-                                                            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" disabled>
+                                                            @else
+                                                            <button type="button" class="btn btn-outline-secondary btn-sm w-100 w-md-auto" style="max-width: 200px;" disabled>
                                                                 <i class='tf-icons bx bx-book-open'></i>&nbsp; Tidak ada materi
                                                             </button>
-                                                            @endforelse
-
-                                                            @empty
-                                                            <div class="text-center w-100 py-2">
-                                                                <i class='bx bx-info-circle fs-4 mb-1 d-block'></i>
-                                                                <p class="mb-0">Belum ada tugas untuk pertemuan ini.</p>
-                                                            </div>
-                                                            @endforelse
-
+                                                            @endif
                                                         </div>
+
                                                     </div>
+                                                    @empty
+                                                    <div class="card mb-3 border-0 bg-light p-3 text-center">
+                                                        <i class='bx bx-info-circle fs-4 mb-1 d-block'></i>
+                                                        <p class="mb-0">Belum ada tugas untuk pertemuan ini.</p>
+                                                    </div>
+                                                    @endforelse
                                                 </div>
+
 
                                                 <!-- Tab: Absen & Forum -->
                                                 <div class="tab-pane fade" id="absen-forum-{{ $meeting->id }}">
@@ -251,7 +266,7 @@
 
                                                     <div class="card border-0 bg-light p-3">
                                                         <h6 class="fw-bold"><i class='bx bx-conversation'></i> Forum Diskusi</h6>
-                                                        <p class="mb-2">Tanyakan apa saja disini dan diskusi bersama?</p>
+                                                        <p class="mb-2">Topik: Apa manfaat belajar HTML bagi karier kamu?</p>
                                                         <a href="{{ route('forum.index', $meeting->id) }}" class="btn btn-dark btn-sm" data-bs-toggle="tooltip">
                                                             <i class='bx bx-message-square-dots'></i>&nbsp; Buka Forum
                                                         </a>
@@ -280,46 +295,46 @@
                                 }
                             </style>
 
-                    </div>
+                        </div>
 
 
                         <div class="col-lg-4">
-    <div class="page-separator">
-        <div class="page-separator__text">Lainnya</div>
-    </div>
+                            <div class="page-separator">
+                                <div class="page-separator__text">Lainnya</div>
+                            </div>
 
-    <!-- Statistik Kehadiran -->
-    <div class="card mb-4 shadow-sm rounded-3">
-        <div class="card-body">
-            <h5 class="card-title mb-3">📊 Statistik Kehadiran</h5>
-            <p class="mb-1">Total Pertemuan: <strong>12</strong></p>
-            <p class="mb-1">Rata-rata Kehadiran: <strong>87%</strong></p>
-            <p class="mb-0">Pertemuan Terbanyak: <strong>17 siswa</strong></p>
-        </div>
-    </div>
+                            <!-- Statistik Kehadiran -->
+                            <div class="card mb-4 shadow-sm rounded-3">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-3">📊 Statistik Kehadiran</h5>
+                                    <p class="mb-1">Total Pertemuan: <strong>12</strong></p>
+                                    <p class="mb-1">Rata-rata Kehadiran: <strong>87%</strong></p>
+                                    <p class="mb-0">Pertemuan Terbanyak: <strong>17 siswa</strong></p>
+                                </div>
+                            </div>
 
-    <!-- Pertemuan Selanjutnya -->
-    <div class="card mb-4 shadow-sm rounded-3 bg-light border-0">
-        <div class="card-body">
-            <h5 class="card-title mb-3">📅 Pertemuan Selanjutnya</h5>
-            <p class="mb-1">🗓️ Senin, 21 April 2025</p>
-            <p class="mb-1">⏰ Jam 10:00 WIB</p>
-            <p class="mb-0">📍 Ruang Lab 2</p>
-        </div>
-    </div>
+                            <!-- Pertemuan Selanjutnya -->
+                            <div class="card mb-4 shadow-sm rounded-3 bg-light border-0">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-3">📅 Pertemuan Selanjutnya</h5>
+                                    <p class="mb-1">🗓️ Senin, 21 April 2025</p>
+                                    <p class="mb-1">⏰ Jam 10:00 WIB</p>
+                                    <p class="mb-0">📍 Ruang Lab 2</p>
+                                </div>
+                            </div>
 
-    <!-- Pengumuman -->
-    <div class="card mb-4 shadow-sm rounded-3 border-start border-primary border-3">
-        <div class="card-body">
-            <h5 class="card-title mb-3">📢 Pengumuman</h5>
-            <ul class="list-unstyled mb-0">
-                <li>✅ Tugas minggu ini dikumpulkan Jumat</li>
-                <li>📎 Link materi terbaru ada di Google Drive</li>
-                <li>📝 Absensi ditutup jam 12.00 siang</li>
-            </ul>
-        </div>
-    </div>
-</div>
+                            <!-- Pengumuman -->
+                            <div class="card mb-4 shadow-sm rounded-3 border-start border-primary border-3">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-3">📢 Pengumuman</h5>
+                                    <ul class="list-unstyled mb-0">
+                                        <li>✅ Tugas minggu ini dikumpulkan Jumat</li>
+                                        <li>📎 Link materi terbaru ada di Google Drive</li>
+                                        <li>📝 Absensi ditutup jam 12.00 siang</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>

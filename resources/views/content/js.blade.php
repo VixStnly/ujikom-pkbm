@@ -131,3 +131,23 @@
     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
   });
 </script>
+
+<script>
+    // Initialize Toastr
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "timeOut": "5000",
+        "positionClass": "toast-top-right"
+    };
+
+    // Display error message if any
+    @if ($errors->any())
+    toastr.error("{{ $errors->first() }}", "Terjadi Kesalahan");
+    @endif
+
+    // Display success message if any
+    @if (session('success'))
+        toastr.success("{{ session('success') }}", "Berhasil");
+    @endif
+</script>

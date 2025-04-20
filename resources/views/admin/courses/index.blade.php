@@ -65,17 +65,6 @@
         <div class="mdk-drawer-layout__content page-content">
             @include('layouts.NavSuper')
 
-            @if(session('success'))
-                <script>
-                    $(document).ready(function() {
-                        toastr.success("{{ session('success') }}", "Well Done!", {
-                            closeButton: true,
-                            progressBar: true,
-                        });
-                    });
-                </script>
-            @endif
-
             <div class="pt-32pt">
                 <div class="container page__container">
                     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -148,15 +137,6 @@
         // Initialize dropdowns if needed
         $('.dropdown-toggle').dropdown();
     });
-        $(document).ready(function() {
-            // Additional toastr settings (optional)
-            toastr.options = {
-                "closeButton": true,
-                "progressBar": true,
-                "timeOut": "5000", // 5 seconds
-            };
-        });
-
     </script>
 
     @include('content.js')

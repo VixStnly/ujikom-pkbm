@@ -6,14 +6,6 @@
 </head>
 
 <body class="layout-app">
-
-    @if(session('success'))
-        <div class="alert alert-success" role="alert">
-            <span>{{ session('success') }}</span>
-            <span class="close" onclick="this.parentElement.style.display='none'">&times;</span>
-        </div>
-    @endif
-
     @include('layouts.preloader')
 
     <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
@@ -146,25 +138,6 @@
 
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-        $(document).ready(function () {
-            toastr.options = {
-                "closeButton": true,
-                "progressBar": true,
-                "timeOut": "5000",
-                "positionClass": "toast-top-right"
-            };
-
-            @if(session('success'))
-                toastr.success("{{ session('success') }}", "Berhasil!");
-            @endif
-
-            @if($errors->any())
-                toastr.error("{{ $errors->first() }}", "Terjadi Kesalahan!");
-            @endif
-        });
-    </script>
 
     <!-- jQuery -->
     <script src="{{ asset('frontend/vendor/jquery.min.js')}}"></script>

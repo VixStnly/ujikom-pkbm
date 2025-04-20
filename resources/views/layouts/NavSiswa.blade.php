@@ -1,16 +1,11 @@
 <head>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CRoboto:400,500%7CExo+2:600&display=swap" rel="stylesheet">
     <style>
-        /* Ensure rounded avatar images */
         .img-profile img {
             border-radius: 50%;
-            /* Round shape */
             width: 32px;
-            /* Set width */
             height: 32px;
-            /* Set height */
             object-fit: cover;
-            /* Maintain aspect ratio */
         }
     </style>
 </head>
@@ -34,7 +29,7 @@
                 <div class="container page__container">
 
                     <!-- Navbar Brand -->
-                    <a href="index.html" class="navbar-brand mr-16pt d-none d-lg-flex align-items-center">
+                    <a href="index.html" class="navbar-brand mr-16pt">
                         <span class="avatar avatar-sm navbar-brand-icon mr-0 mr-lg-8pt">
                             <span class="avatar-title rounded bg-success">
                                 <img src="{{ asset('frontend/images/illustration/student/128/triwala.png') }}"
@@ -66,11 +61,14 @@
                             ->where('is_read', false)
                             ->count();
 
+                        $hasKelas = $user->kelas()->exists();
+
                     @endphp
 
                     @include('components.content.notification-siswa', [
                         'notifications' => $notifications,
                         'unreadCount' => $unreadCount,
+                        'hasKelas' => $hasKelas,
                     ])
                     @endauth
 
@@ -78,7 +76,7 @@
                     <div class="nav-item dropdown">
                         <a href="" class="nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown" data-caret="false">
                             <div class="flex items-center">
-                                <span class="avatar img-profile mr-2" style="width: 32px; height: 42px;">
+                                <span class="avatar img-profile avatar-sm mr-8pt2" style="width: 32px; height: 42px;">
                                     @if ($user->profile_image)
                                     <img src="{{ Storage::url('profil/' . $user->profile_image) }}" alt="{{ $user->name }}" class="rounded-full w-8 h-8 object-cover" style="width: 42px; height: 42px;" />
                                     @else
@@ -109,9 +107,10 @@
                         </div>
                     </div>
 
-                    <div class="profile-info d-flex flex-column align-items-start text-right ml-16pt ml-auto">
-                        <span class="user-name font-weight-bold text-dark" style="font-size: 14px;">
-                            {{ Str::limit($user->name, 12) }}
+                    <div class="profile-info d-none d-md-flex flex-column align-items-start text-end ms-auto"
+                        style="max-width: 100%;">
+                        <span class="user-name fw-bold text-dark text-truncate" style="font-size: 14px; max-width: 150px;">
+                            {{ Str::limit($user->name, 7) }}
                         </span>
                         <span class="text-muted" style="font-size: 12px;">Online</span>
                     </div>
