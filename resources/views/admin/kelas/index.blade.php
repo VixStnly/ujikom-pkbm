@@ -48,9 +48,9 @@
                 <div class="page-separator">
                         <div class="page-separator__text">Informasi Data Kelas</div>
                     </div>
-                    <div class="container mx-auto" style="width: 56rem;">
+                    <div class=" overflow-x-auto container mx-auto" style="width: 56rem;">
 
-                        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                        <div class=" overflow-x-auto bg-white shadow-md rounded-lg overflow-hidden">
                             <h5 class="bg-gray-200 text-lg font-semibold p-4">Data Kelas</h5>
 
                             <div class="table-responsive overflow-x-auto" 
@@ -58,7 +58,7 @@
                                 data-lists-sort-by="js-lists-values-date" 
                                 data-lists-sort-desc="true" 
                                 data-lists-values='["js-lists-values-name", "js-lists-values-company", "js-lists-values-phone", "js-lists-values-date"]'>
-
+<div class="overflow-x-auto">
                                 <table class="table mb-0 thead-border-top-0 table-nowrap table-sm">
                                     <thead>
                                         <tr>
@@ -99,7 +99,7 @@
                                             </tr>
                                         @endforeach
                                     </tbody>
-                                </table>
+                                </table></div>
                             </div>
                         </div>
                         <!-- Pagination Links -->

@@ -71,7 +71,7 @@
                         </div>
 
                         <div class="flex">
-                            <div class="flex-1 bg-white border border-gray-300 rounded-lg">
+                            <div class="flex-1 overflow-x-auto bg-white border border-gray-300 rounded-lg">
                                 <table class="min-w-full">
                                     <thead>
                                         <tr class="bg-gray-200 text-gray-700 border-b">

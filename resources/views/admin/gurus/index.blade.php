@@ -38,6 +38,7 @@
 
             <!-- User Table -->
             <!-- Your existing Blade template -->
+             <div class="flex-1 overflow-x-auto bg-white border border-gray-300 rounded-lg">
 <table class="min-w-full bg-white border border-gray-200">
     <thead>
         <tr>
@@ -70,7 +71,7 @@
             </tr>
         @endforeach
     </tbody>
-</table>
+</table></div>
 
 
             <!-- Pagination -->

@@ -48,7 +48,7 @@ class DashboardController extends Controller
 
                 // Fetch counts for cards
                 $totalUsers = User::count();
-                $adminCount = User::where('role_id', 2)->count(); // Role ID for Admins
+                $adminCount = User::where('role_id', 1)->count(); // Role ID for Admins
                 $guruCount = User::where('role_id', 3)->count();  // Role ID for Gurus
                 $siswaCount = User::where('role_id', 4)->count();  // Role ID for Students
                 $kelasCount = Kelas::count();
