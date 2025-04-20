@@ -121,7 +121,7 @@ class TugasController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'tanggal_deadline' => 'required|date',
-            'file' => 'nullable|file|mimes:pdf,docx,pptx,png,jpg,jpeg|max:20480',
+            'file' => 'nullable|file|mimes:zip,xlsx,rar,pdf,docx,pptx,png,jpg,jpeg|max:20480',
             'link' => 'nullable|url',
             'meeting_id' => 'required|exists:meetings,id', // Validasi kelas_id
         ]);
@@ -178,7 +178,7 @@ class TugasController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'tanggal_deadline' => 'required|date',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,pptx,png,jpg,jpeg|max:20480',
+            'file' => 'nullable|file|mimes:zip,xlsx,rar,pdf,doc,docx,pptx,png,jpg,jpeg|max:20480',
             'link' => 'nullable|url',
             'meeting_id' => 'required|exists:meetings,id', // Validasi meeting_id
         ]);

@@ -139,23 +139,7 @@
                         <x-content.outher-landing />
 
                         <script>
-                            document.getElementById("registrationForm").addEventListener("submit", function(event) {
-                                event.preventDefault();
-
-                                var namaLengkap = document.getElementById("namaLengkap").value;
-                                var nik = document.getElementById("nik").value;
-                                var tempatLahir = document.getElementById("tempatLahir").value;
-                                var tanggalLahir = document.getElementById("tanggalLahir").value;
-                                var jenisKelamin = document.querySelector('input[name="jenisKelamin"]:checked').nextElementSibling.innerText;
-                                var agama = document.getElementById("select01").value;
-                                var email = document.getElementById("email").value;
-                                var telepon = document.getElementById("telepon").value;
-                                var alamat = document.getElementById("alamat").value;
-
-                                var message = `Halo, saya ingin mendaftar PKBM.\nNama Lengkap: \`${namaLengkap}\`\nNIK: \`${nik}\`\nTempat Lahir: \`${tempatLahir}\`\nTanggal Lahir: \`${tanggalLahir}\`\nJenis Kelamin: \`${jenisKelamin}\`\nAgama: \`${agama}\`\nEmail: \`${email}\`\nNomor Telepon: \`${telepon}\`\nAlamat: \`${alamat}\`\n\nMohon informasi lebih lanjut terkait pendaftaran saya. Terima kasih.`;
-                                var waLink = `https://wa.me/62895613113418?text=${encodeURIComponent(message)}`;
-                                window.location.href = waLink;
-                            });
+                           
                         </script>
                     </div>
 

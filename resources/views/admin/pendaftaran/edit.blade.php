@@ -94,7 +94,7 @@
                                     <div class="form-group">
     <label class="form-label" for="status">Status</label>
     <select id="status" name="status" class="form-control" required>
-        <option value="Diproses" {{ old('status', $pendaftaran->status) == 'Diproses' ? 'selected' : '' }}>Diproses</option>
+        <option value="proses" {{ old('status', $pendaftaran->status) == 'Proses' ? 'selected' : '' }}>Proses</option>
         <option value="Lunas" {{ old('status', $pendaftaran->status) == 'Lunas' ? 'selected' : '' }}>Lunas</option>
         <option value="Batal" {{ old('status', $pendaftaran->status) == 'Batal' ? 'selected' : '' }}>Batal</option>
     </select>

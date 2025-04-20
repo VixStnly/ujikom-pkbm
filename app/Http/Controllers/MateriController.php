@@ -159,7 +159,7 @@ class MateriController extends Controller
         $validatedData = $request->validate([
             'judul' => 'required|string|max:255',
             'konten' => 'required|string',
-            'file' => 'nullable|file|mimes:pdf,docx,pptx,png,jpg,jpeg,mp4,mov,avi|max:20480',
+            'file' => 'nullable|file|mimes:zip,xlsx,rar,pdf,docx,pptx,png,jpg,jpeg,mp4,mov,avi|max:20480',
             'link' => 'nullable|url',
             'meeting_id' => 'required|exists:meetings,id',
         ]);
@@ -204,7 +204,7 @@ class MateriController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'konten' => 'required|string',
-            'file' => 'nullable|file|mimes:pdf,docx,pptx,png,jpg,jpeg|max:20480',
+            'file' => 'nullable|file|mimes:zip,xlsx,rar,pdf,docx,pptx,png,jpg,jpeg|max:20480',
             'link' => 'nullable|url',
             'meeting_id' => 'required|exists:meetings,id',
         ]);
