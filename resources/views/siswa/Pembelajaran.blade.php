@@ -47,11 +47,21 @@
                             {{-- resources/views/siswa/Pembelajaran.blade.php --}}
                             <div class="row card-group-row">
                                 @if($subjects->isEmpty())
-                                <div class="alert alert-info text-center" style="margin-top: 20px;">
-                                    <h4 class="alert-heading">Belum Ada Pelajaran</h4>
-                                    <p>Anda belum memiliki pelajaran atau tugas. Silakan hubungi guru untuk informasi lebih lanjut.</p>
-                                    <a href="" class="btn btn-primary">Lihat Kursus Tersedia</a>
-                                </div>
+
+                                <div class="flex justify-center align-items-center"
+     style="max-width: 100%;">
+    <div class="alert alert-primary w-100"
+         role="alert">
+        <div class="d-flex align-items-center">
+            <i class="material-icons mr-2">access_time</i>
+            <div>
+                <strong class="d-block">Tidak Ada Pembelajaran</strong>
+                <small class="text-muted">Belum ada pembelajaran yang tersedia saat ini. Silakan cek kembali nanti.</small>
+            </div>
+        </div>
+    </div>
+</div>
+
                                 @else
                                 @foreach($subjects as $subject)
                                 <div class="col-12 col-sm-6 col-md-4"> <!-- Added responsive column classes -->

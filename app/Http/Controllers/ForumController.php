@@ -7,6 +7,7 @@ use App\Models\Forum;
 use App\Models\User;
 use App\Models\Activity;
 use App\Models\Meeting;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 

@@ -41,6 +41,7 @@ use App\Http\Controllers\HistoriController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\FisologiController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\MessageNotificationController;
 use App\Models\Blog;
 use App\Http\Controllers\ForumController;
 // Admin memilih guru dan melihat data kelas si guru
@@ -59,6 +60,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/notifications', [NotificationController::class, 'fetch'])->name('notifications');
     Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.read-all');
+
+    Route::get('/messages', [MessageNotificationController::class, 'index'])->name('messages.index');
+    Route::post('/messages/read-all', [MessageNotificationController::class, 'markAllRead'])->name('messages.read-all');
+
 });
 
 Route::get('/generate', function(){

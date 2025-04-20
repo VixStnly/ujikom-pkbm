@@ -47,7 +47,7 @@
     <div class="bg-gray-100 font-sans leading-normal tracking-normal">
         <div class="container mx-auto px-4 py-6">
             <!-- Notification Message -->
-            <div class="rounded mb-4 mt-3">
+            <div class="rounded mb-4 mt-3" style="max-width: 100%;">
                 <div class="alert alert-soft-warning alert-dismissible fade show mb-0" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>

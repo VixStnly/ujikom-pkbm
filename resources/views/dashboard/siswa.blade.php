@@ -270,7 +270,7 @@
                     <div class="d-flex align-items-end row">
                       <div class="col-sm-7">
                         <div class="card-body">
-                          <h5 class="card-title text-primary" style="width: 500px;">Selamat Datang 🎉</h5>
+                          <h5 class="card-title text-primary">Selamat Datang 🎉</h5>
                           <p class="mb-4 mt-3 text-50">
                             Anda telah menyelesaikan <span class="fw-bold">72%</span> lebih banyak tugas hari ini. Cek pencapaian terbaru Anda di
                             profil.
