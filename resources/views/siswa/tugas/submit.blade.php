@@ -102,11 +102,16 @@
                         <div class="card mb-4">
                             <div class="card-body">
                                 <h4 class="card-title mb-1 text-center"><strong>Download Tugas</strong></h4>
+                                @if($tugas->file_path)
+
                                 <div class="text-center">
                                     <a href="{{ asset('storage/' . $tugas->file_path) }}" class="btn btn-outline-secondary mt-2" download>
                                         Download Tugas <i class="material-icons icon--right">file_download</i>
                                     </a>
                                 </div>
+                                @else
+                                <p class="text-danger text-center mt-2">Tugas belum tersedia untuk diunduh.</p>
+                            @endif
                             </div>
                         </div>
 
