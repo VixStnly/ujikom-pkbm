@@ -25,48 +25,51 @@ class MeetingController extends Controller
 
         return view('guru.meeting.index', compact('meeting', 'tugass', 'materis', 'subjects'));
     }
+
     public function showMeetings($subject_id)
     {
         $this->authorizeAccess(); // Memeriksa akses
-    
-        $user = Auth::user(); // Ambil data pengguna yang sedang login
-    
+
         // Dapatkan subject yang spesifik
         $subject = Subject::findOrFail($subject_id);
-    
-        // Ambil pertemuan yang terkait dengan pelajaran ini, diurutkan dari yang terbaru berdasarkan created_at
+        $user = Auth::user(); // Ambil data pengguna yang sedang login
+
+        // Dapatkan meetings terkait dengan subject ini dan filter tugas dan materi berdasarkan user
         $meetings = Meeting::where('subject_id', $subject_id)
             ->with([
                 'materi' => function ($query) {
-                    $query->where('user_id', auth()->id());
+                    $query->where('user_id', auth()->id()); // Filter materi berdasarkan user
                 },
                 'tugas' => function ($query) {
-                    $query->where('user_id', auth()->id());
+                    $query->where('user_id', auth()->id()); // Filter tugas berdasarkan user
                 },
-                'absensi'
+                'absensi' // Load absensi relationship
             ])
-            ->orderByDesc('created_at') // Urutkan berdasarkan waktu dibuat
             ->get();
-    
-        $today = now()->toDateString();
-        $isToday = [];
-        $isUpcoming = [];
-    
+        $subject = Subject::findOrFail($subject_id); // Menggunakan subject_id
+        $meetings = $subject->meetings; // Ambil pertemuan yang terkait dengan pelajaran ini
+        // Check if today matches any meeting date
+        $today = now()->toDateString(); // Get today's date
+        $isToday = []; // Initialize the array to store meeting IDs that are today
+        $isUpcoming = []; // Initialize the array to store upcoming meeting IDs
+
         foreach ($meetings as $meeting) {
+            // Check if the meeting date is not null before accessing it
             if ($meeting->date) {
                 if ($meeting->date->toDateString() === $today) {
-                    $isToday[] = $meeting->id;
+                    $isToday[] = $meeting->id; // Store meeting ID if it's today
                 }
-    
+
                 if ($meeting->date > now()) {
-                    $isUpcoming[] = $meeting->id;
+                    $isUpcoming[] = $meeting->id; // Store meeting ID if it's upcoming
                 }
             }
         }
-    
+
+        // Pass the subject, meetings, user, isToday, and isUpcoming to the view
         return view('meetings.index', compact('subject', 'meetings', 'user', 'isToday', 'isUpcoming'));
     }
-    
+
     public function index()
     {
         $this->authorizeAccess();
