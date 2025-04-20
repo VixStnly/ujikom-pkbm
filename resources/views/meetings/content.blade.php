@@ -141,6 +141,7 @@
                                                         <i class='bx bx-user-check'></i> Absen & Forum
                                                     </button>
                                                 </li>
+
                                             </ul>
 
                                             <div class="tab-content pt-4">
@@ -250,7 +251,7 @@
 
                                                     <div class="card border-0 bg-light p-3">
                                                         <h6 class="fw-bold"><i class='bx bx-conversation'></i> Forum Diskusi</h6>
-                                                        <p class="mb-2">Topik: Apa manfaat belajar HTML bagi karier kamu?</p>
+                                                        <p class="mb-2">Tanyakan apa saja disini dan diskusi bersama?</p>
                                                         <a href="{{ route('forum.index', $meeting->id) }}" class="btn btn-dark btn-sm" data-bs-toggle="tooltip">
                                                             <i class='bx bx-message-square-dots'></i>&nbsp; Buka Forum
                                                         </a>

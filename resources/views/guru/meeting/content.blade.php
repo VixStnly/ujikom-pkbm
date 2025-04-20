@@ -181,7 +181,11 @@
                                     <div class="d-flex justify-content">
                                         <a href="{{ route('guru.meeting.edit', $meeting->id) }}"
                                             class="btn btn-primary mt-2">Edit Pertemuan</a>
+                                            <a href="{{ route('forum.index', $meeting->id) }}" class="btn btn-dark btn-sm mt-2 ml-4 " data-bs-toggle="tooltip">
+                                                            <i class='bx bx-message-square-dots'></i>&nbsp; Buka Forum
+                                                        </a>
                                     </div>
+
                                     <!-- Thicker divider between meetings -->
                                     <div class="border-top border-3 mt-4"></div>
                                 </div>
