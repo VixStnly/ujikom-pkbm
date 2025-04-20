@@ -66,11 +66,14 @@
                             ->where('is_read', false)
                             ->count();
 
+                        $hasKelas = $user->kelas()->exists();
+
                     @endphp
 
                     @include('components.content.notification-siswa', [
                         'notifications' => $notifications,
                         'unreadCount' => $unreadCount,
+                        'hasKelas' => $hasKelas,
                     ])
                     @endauth
 
@@ -112,7 +115,7 @@
                     <div class="profile-info d-none d-md-flex flex-column align-items-start text-end ms-auto"
                         style="max-width: 100%;">
                         <span class="user-name fw-bold text-dark text-truncate" style="font-size: 14px; max-width: 150px;">
-                            {{ Str::limit($user->name, 12) }}
+                            {{ Str::limit($user->name, 7) }}
                         </span>
                         <span class="text-muted" style="font-size: 12px;">Online</span>
                     </div>
