@@ -128,6 +128,7 @@
                                         </div>
                                         <div class="list-group-item">
 <<<<<<< HEAD
+<<<<<<< HEAD
                                             <form action="{{ route('admin.courses.destroy', $subject->id) }}" method="POST" id="delete-form">
                                                 @csrf
                                                 @method('DELETE')
@@ -136,6 +137,8 @@
                                                 </button>
                                             </form>
 =======
+=======
+>>>>>>> e5b161420338b77501c63cd1bf63ca39d47153b3
                                             <a href="{{ route('admin.courses.destroy') }}" id="delete-button" class="text-danger"><strong>Delete
                                                     Pertemuan</strong></a>
 >>>>>>> e5b161420338b77501c63cd1bf63ca39d47153b3
