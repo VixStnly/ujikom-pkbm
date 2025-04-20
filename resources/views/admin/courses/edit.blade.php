@@ -135,7 +135,7 @@
                                                 href="{{ route('admin.courses.index') }}"><strong>Kembali</strong></a>
                                         </div>
                                         <div class="list-group-item">
-                                            <a href="#" id="delete-button" class="text-danger"><strong>Delete
+                                            <a href="{{ route('admin.courses.destroy') }}" id="delete-button" class="text-danger"><strong>Delete
                                                     Pertemuan</strong></a>
                                         </div>
                                     </div>
