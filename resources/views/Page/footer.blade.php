@@ -3,12 +3,12 @@
         <!-- Branding and Description -->
         <p class="text-70 brand mb-24pt">
             <img class="brand-icon"
-                 src="{{ asset('frontend/images/illustration/student/128/triwala.png') }}"
+                 src="{{ asset('frontend/images/illustration/student/128/ACADEMIA.png') }}"
                  width="40"
-                 alt="Luma"> Triwala
+                 alt="Luma"> ACADEMIA
         </p>
         <p class="measure-lead-max text-50 small mr-8pt">
-            Triwala berkomitmen untuk menyediakan kesempatan belajar yang mudah diakses dan berkualitas tinggi untuk membantu Anda mencapai tujuan Anda. Bergabunglah dengan kami dan ambil langkah selanjutnya dalam pertumbuhan pribadi dan profesional Anda.
+            ACADEMIA berkomitmen untuk menyediakan kesempatan belajar yang mudah diakses dan berkualitas tinggi untuk membantu Anda mencapai tujuan Anda. Bergabunglah dengan kami dan ambil langkah selanjutnya dalam pertumbuhan pribadi dan profesional Anda.
         </p>
 
         <!-- Address, Phone, and Email -->
@@ -18,13 +18,13 @@
                 Ancaran, Kuningan - Jawa Barat
             </p>
             <p class="text-50 small mb-1">
-                <strong>Telepon:</strong> +62 813 8904 0141
+                <strong>Telepon:</strong> +62 895 6131 13418
             </p>
             <p class="text-50 small mb-1">
-                <strong>Email:</strong> kuningan@triwala.co.id
+                <strong>Email:</strong> support@ACADEMIA.co.id
             </p>
             <p class="text-50 small mb-1">
-                <strong>Email:</strong> admin@pkbmtriwala.sch.id
+                <strong>Email:</strong> admin@pkbmACADEMIA.sch.id
             </p>
         </div>
 

@@ -106,28 +106,30 @@
         </div>
         <div class="tehk">
 Berikut terlampir nilai raport berdasarkan pertemuan:         </div>
-        <table class="report-table">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Mata Pelajaran - Guru</th>
-                    <th>Pertemuan</th>
-                    <th>Nilai</th>
-                    <th>Feedback</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($reports as $index => $report)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $report->subject->name }} - {{ $report->subject->user->name }}</td>
-                        <td>{{ $report->meeting_title }}</td>
-                        <td>{{ $report->score }}</td>
-                        <td style="text-align: left;">{{ $report->feedback }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+<table class="report-table">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Mata Pelajaran</th>
+            <th>Guru</th>
+            <th>Pertemuan</th>
+            <th>Nilai</th>
+            <th>Feedback</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($reports as $index => $report)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $report->subject->name }}</td>
+                <td>{{ $report->subject->user->name }}</td>
+                <td>{{ $report->meeting_title }}</td>
+                <td>{{ $report->score }}</td>
+                <td style="text-align: left;">{{ $report->feedback }}</td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
 
         <div class="footer">
             <div class="ttd">
