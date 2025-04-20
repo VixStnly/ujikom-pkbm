@@ -6,14 +6,6 @@
 </head>
 
 <body class="layout-app">
-
-    @if(session('success'))
-        <div class="alert alert-success" role="alert">
-            <span>{{ session('success') }}</span>
-            <span class="close" onclick="this.parentElement.style.display='none'">&times;</span>
-        </div>
-    @endif
-
     @include('layouts.preloader')
 
     <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
@@ -135,10 +127,49 @@
                                                 href="{{ route('admin.courses.index') }}"><strong>Kembali</strong></a>
                                         </div>
                                         <div class="list-group-item">
-                                            <a href="#" id="delete-button" class="text-danger"><strong>Delete
-                                                    Pertemuan</strong></a>
+                                            <form action="{{ route('admin.courses.destroy', $subject->id) }}" method="POST" id="delete-form">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" id="delete-button" class="btn btn-link text-danger p-0">
+                                                    <strong>Delete Pertemuan</strong>
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
+
+                                    <script>
+                                        document.getElementById('delete-button').addEventListener('click', function () {
+                                            Swal.fire({
+                                                title: 'Apakah Anda yakin?',
+                                                text: "Data ini akan dihapus secara permanen dan tidak dapat dikembalikan!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#d33',
+                                                cancelButtonColor: '#3085d6',
+                                                confirmButtonText: 'Ya, hapus!',
+                                                cancelButtonText: 'Batal',
+                                                reverseButtons: true,
+                                                customClass: {
+                                                    popup: 'animated fadeInDown faster',
+                                                    confirmButton: 'bg-red-600 text-white px-4 py-2 rounded ml-2',
+                                                    cancelButton: 'bg-gray-300 text-black px-4 py-2 rounded ml-3'
+                                                }
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    Swal.fire({
+                                                        title: 'Terhapus!',
+                                                        text: 'Data berhasil dihapus.',
+                                                        icon: 'success',
+                                                        timer: 2000,
+                                                        showConfirmButton: false
+                                                    });
+                                                    setTimeout(() => {
+                                                        document.getElementById('delete-form').submit();
+                                                    }, 2000);
+                                                }
+                                            });
+                                        });
+                                    </script>
                                 </div>
                             </div>
                         </div>
@@ -162,80 +193,6 @@
 
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-        $(document).ready(function () {
-            toastr.options = {
-                "closeButton": true,
-                "progressBar": true,
-                "timeOut": "5000",
-                "positionClass": "toast-top-right"
-            };
-
-            @if(session('success'))
-                toastr.success("{{ session('success') }}", "Berhasil!");
-            @endif
-
-            @if($errors->any())
-                toastr.error("{{ $errors->first() }}", "Terjadi Kesalahan!");
-            @endif
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const meetingTitle = "{{ $subject->title }}";
-
-            @if (session('success'))
-                Swal.fire({
-                    title: 'Berhasil!',
-                    text: "{{ session('success') }}",
-                    icon: 'success',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'OK'
-                });
-            @endif
-
-            @if (session('error'))
-                Swal.fire({
-                    title: 'Gagal!',
-                    text: "{{ session('error') }}",
-                    icon: 'error',
-                    confirmButtonColor: '#d33',
-                    confirmButtonText: 'Tutup'
-                });
-            @endif
-
-            const deleteButton = document.getElementById('delete-button');
-            if (deleteButton) {
-                deleteButton.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    Swal.fire({
-                        title: 'Apakah Anda yakin?',
-                        text: `Anda akan menghapus pertemuan ini?`,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Hapus',
-                        cancelButtonText: 'Batal'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            const form = document.createElement('form');
-                            form.method = 'POST';
-                            form.action = "{{ route('admin.courses.destroy', $subject->id) }}";
-                            form.innerHTML = `
-                            @csrf
-                            @method('DELETE')
-                        `;
-                            document.body.appendChild(form);
-                            form.submit();
-                        }
-                    });
-                });
-            }
-        });
-    </script>
-
 
     <!-- Scripts -->
     <script src="{{ asset('frontend/vendor/jquery.min.js') }}"></script>

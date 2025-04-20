@@ -323,8 +323,6 @@
                             </script>
 
 
-
-
                             <div class="page-separator">
                                 <div class="page-separator__text">Pengumuman</div>
                             </div>

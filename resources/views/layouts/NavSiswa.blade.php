@@ -1,16 +1,11 @@
 <head>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CRoboto:400,500%7CExo+2:600&display=swap" rel="stylesheet">
     <style>
-        /* Ensure rounded avatar images */
         .img-profile img {
             border-radius: 50%;
-            /* Round shape */
             width: 32px;
-            /* Set width */
             height: 32px;
-            /* Set height */
             object-fit: cover;
-            /* Maintain aspect ratio */
         }
     </style>
 </head>

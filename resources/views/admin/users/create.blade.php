@@ -21,16 +21,6 @@
 </head>
 
 <body class="layout-app">
-    @if(session('success'))
-    <script>
-        $(document).ready(function () {
-            toastr.success("{{ session('success') }}", "Berhasil!", {
-                closeButton: true,
-                progressBar: true,
-            });
-        });
-    </script>
-    @endif
 
     @include('layouts.preloader')
 
@@ -210,23 +200,6 @@
         </div>
         @include('layouts.sidebarSuper')
     </div>
-    <script>
-        $(document).ready(function () {
-            toastr.options = {
-                "closeButton": true,
-                "progressBar": true,
-                "timeOut": "5000",
-                "positionClass": "toast-top-right"
-            };
-            
-            if ({{ $errors->any() }}) {
-                toastr.error("{{ $errors->first() }}", "Terjadi Kesalahan!", {
-                closeButton: true,
-                progressBar: true,
-            });
-            }
-        });
-    </script>
 
     @include('content.js')
 

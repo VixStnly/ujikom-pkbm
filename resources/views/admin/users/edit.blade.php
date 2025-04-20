@@ -39,13 +39,6 @@
 
                 <!-- ISI KONTENT -->
 
-        <!-- Display Success Message -->
-        @if (session('success'))
-            <div class="bg-green-500 text-white p-4 rounded mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
             @csrf
             @method('PUT')
@@ -209,24 +202,5 @@
             </div>
             <!-- END KONTENT -->
     @include ('content.js')
-
-    <script>
-    $(document).ready(function () {
-        toastr.options = {
-            "closeButton": true,
-            "progressBar": true,
-            "timeOut": "5000",
-            "positionClass": "toast-top-right"
-        };
-
-        @if(session('success'))
-            toastr.success("{{ session('success') }}", "Berhasil!");
-        @endif
-
-        @if($errors->any())
-            toastr.error("{{ $errors->first() }}", "Terjadi Kesalahan!");
-        @endif
-    });
-</script>
 
 </body>

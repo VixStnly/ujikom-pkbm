@@ -68,13 +68,12 @@
                                     </div>
 
                                     <!-- Select Class -->
-                                   <!-- Select Class (single select now) -->
-<div class="form-group">
-    <label class="form-label" for="kelas_id">Pilih Kelas</label>
-    <select name="kelas_id" id="kelas_id" class="form-control" required>
-        <option value="" disabled>Pilih Kelas</option>
-    </select>
-</div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="kelas_id">Pilih Kelas</label>
+                                        <select name="kelas_id" id="kelas_id" class="form-control" required>
+                                            <option value="" disabled>Pilih Kelas</option>
+                                        </select>
+                                    </div>
 
                                     <!-- Select Subject -->
                                     <div class="form-group">
