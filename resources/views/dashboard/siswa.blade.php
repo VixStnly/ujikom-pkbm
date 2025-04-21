@@ -22,17 +22,6 @@
     @include ('content.sidemenu')
     @extends ('content.js')
 
-    @if(session('success'))
-    <script>
-        $(document).ready(function() {
-            toastr.success("{{ session('success') }}", "Selamat Datang!", {
-                closeButton: true,
-                progressBar: true,
-            });
-        });
-    </script>
-    @endif
-
     <div class="mdk-header-layout js-mdk-header-layout">
         <div class="mdk-header-layout__content page-content ">
 

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 use App\Models\Tugas;
 use App\Models\Submission;
+use App\Models\NotificationGuru;
 use App\Models\Score;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -98,6 +99,19 @@ class SubmitTugasController extends Controller
             'deskripsi' => $request->description,
             'file' => $filePath,
         ]);
+
+        $tugas = Tugas::find($id);
+        $siswa = auth()->user();
+    
+        $guruId = $tugas->guru_id; // pastikan kolom ini ada
+
+        NotificationGuru::create([
+            'user_id' => $guruId, // user_id = guru penerima notifikasi
+            'title' => 'Tugas Baru',
+            'message' => auth()->user()->name . ' mengirim tugas pada "' . $tugas->judul . '"',
+            'is_read' => false,
+        ]);
+        
 
         return redirect()->back()->with('success', 'Tugas berhasil disubmit.');
     }

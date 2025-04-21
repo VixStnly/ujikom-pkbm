@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
 use App\Models\User;
 use App\Models\Subject;
 use App\Models\Meeting;
@@ -48,7 +49,7 @@ class MeetingController extends Controller
             ->get();
         $subject = Subject::findOrFail($subject_id); // Menggunakan subject_id
         $meetings = $subject->meetings; // Ambil pertemuan yang terkait dengan pelajaran ini
-        // Check if today matches any meeting date
+        $announcements = Announcement::latest()->take(5)->get(); // Ambil 5 pengumuman terbaru
         $today = now()->toDateString(); // Get today's date
         $isToday = []; // Initialize the array to store meeting IDs that are today
         $isUpcoming = []; // Initialize the array to store upcoming meeting IDs
@@ -66,24 +67,24 @@ class MeetingController extends Controller
             }
         }
 
-        // Pass the subject, meetings, user, isToday, and isUpcoming to the view
-        return view('meetings.index', compact('subject', 'meetings', 'user', 'isToday', 'isUpcoming'));
+        return view('meetings.index', compact('subject', 'meetings', 'user', 'isToday', 'isUpcoming', 'announcements'));
     }
 
     public function index()
     {
         $this->authorizeAccess();
-
+    
         $user = Auth::user();
-
+    
         // Ambil semua meetings yang terkait dengan subjects yang dimiliki user dengan paginasi
         $meetings = Meeting::whereHas('subject', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->with(['materi', 'tugas'])->paginate(10);
+    
         $subjects = Subject::where('user_id', $user->id)->paginate(6);
-
+    
         return view('guru.meeting.index', compact('meetings', 'user', 'subjects'));
-    }
+    }    
 
     public function create()
     {

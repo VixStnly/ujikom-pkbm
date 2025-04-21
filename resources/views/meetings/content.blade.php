@@ -303,37 +303,40 @@
                                 <div class="page-separator__text">Lainnya</div>
                             </div>
 
-                            <!-- Statistik Kehadiran -->
-                            <div class="card mb-4 shadow-sm rounded-3">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-3">📊 Statistik Kehadiran</h5>
-                                    <p class="mb-1">Total Pertemuan: <strong>12</strong></p>
-                                    <p class="mb-1">Rata-rata Kehadiran: <strong>87%</strong></p>
-                                    <p class="mb-0">Pertemuan Terbanyak: <strong>17 siswa</strong></p>
+                            <div id="carouselExampleFade" class="carousel carousel-card slide mb-24pt">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <a class="card border-0 mb-0 shadow-sm" href="javascript:void(0);">
+                                            <img src="{{ asset('frontend/images/achievements/banner-meeting.png') }}" alt="Flinto"
+                                                class="card-img" style="max-height: 100%; width: initial;">
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Pertemuan Selanjutnya -->
-                            <div class="card mb-4 shadow-sm rounded-3 bg-light border-0">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-3">📅 Pertemuan Selanjutnya</h5>
-                                    <p class="mb-1">🗓️ Senin, 21 April 2025</p>
-                                    <p class="mb-1">⏰ Jam 10:00 WIB</p>
-                                    <p class="mb-0">📍 Ruang Lab 2</p>
+                            @foreach ($announcements as $announcement)
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <a href="student-course.html" class="card-title mb-4pt">{{ $announcement->title }}</a>
+                                        <p class="lh-1 mb-0">
+                                            <small class="text-muted mr-8pt">
+                                                {!! Str::limit(strip_tags($announcement->description), 35) !!}
+                                            </small>
+                                        </p>
+                                    </div>
+                                    <small class="text-muted ml-3">
+                                        @if ($announcement->created_at)
+                                        {{ $announcement->created_at->diffForHumans() }}
+                                        @else
+                                        Tanggal tidak tersedia
+                                        @endif
+                                    </small>
                                 </div>
                             </div>
+                            @endforeach
 
-                            <!-- Pengumuman -->
-                            <div class="card mb-4 shadow-sm rounded-3 border-start border-primary border-3">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-3">📢 Pengumuman</h5>
-                                    <ul class="list-unstyled mb-0">
-                                        <li>✅ Tugas minggu ini dikumpulkan Jumat</li>
-                                        <li>📎 Link materi terbaru ada di Google Drive</li>
-                                        <li>📝 Absensi ditutup jam 12.00 siang</li>
-                                    </ul>
-                                </div>
-                            </div>
+
                         </div>
 
                     </div>

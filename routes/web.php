@@ -61,6 +61,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.read-all');
 });
 
+
+
 Route::get('/generate', function(){
    \Illuminate\Support\Facades\Artisan::call('storage:link');
    echo 'ok';
