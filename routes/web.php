@@ -44,6 +44,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NotificationGuruController;
 use App\Models\Blog;
 use App\Http\Controllers\ForumController;
+use App\Models\NotificationGuru;
 use Illuminate\Support\Facades\Notification;
 
 // Admin memilih guru dan melihat data kelas si guru

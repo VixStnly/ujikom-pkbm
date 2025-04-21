@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\NotificationGuru;
 use Illuminate\Support\Facades\Auth;
 
-class NotificationController extends Controller
+class NotificationGuruController extends Controller
 {
     // Ambil semua notifikasi guru
     public function index()

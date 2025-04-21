@@ -20,7 +20,8 @@
             <div class="dropdown-header"><strong>Notifikasi Guru</strong></div>
             <div class="list-group list-group-flush mb-0">
                 @forelse ($notifications as $notif)
-                <a href="{{ $notif->link ?? '#' }}"
+                
+                <a href="{{ route('notification.read', $notif->id) }}"
                     class="list-group-item list-group-item-action {{ $notif->is_read ? '' : 'unread' }}">
                     <span class="d-flex align-items-center mb-1">
                         <small class="text-black-50">{{ $notif->created_at->diffForHumans() }}</small>
