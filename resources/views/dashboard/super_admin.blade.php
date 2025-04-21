@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                             <div class="ml-lg-16pt">
-                                <a href="teacher-profile.html"
+                                <a href="/profileAdmin"
                                 class="btn btn-light">My Profile</a>
                             </div>
                         </div>
