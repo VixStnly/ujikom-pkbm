@@ -49,18 +49,18 @@
                                 @if($subjects->isEmpty())
 
                                 <div class="flex justify-center align-items-center"
-     style="max-width: 100%;">
-    <div class="alert alert-primary w-100"
-         role="alert">
-        <div class="d-flex align-items-center">
-            <i class="material-icons mr-2">access_time</i>
-            <div>
-                <strong class="d-block">Tidak Ada Pembelajaran</strong>
-                <small class="text-muted">Belum ada pembelajaran yang tersedia saat ini. Silakan cek kembali nanti.</small>
-            </div>
-        </div>
-    </div>
-</div>
+                                    style="max-width: 100%;">
+                                    <div class="alert alert-primary w-100"
+                                        role="alert">
+                                        <div class="d-flex align-items-center">
+                                            <i class="material-icons mr-2">access_time</i>
+                                            <div>
+                                                <strong class="d-block">Tidak Ada Pembelajaran</strong>
+                                                <small class="text-muted">Belum ada pembelajaran yang tersedia saat ini. Silakan cek kembali nanti.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 @else
                                 @foreach($subjects as $subject)
@@ -116,6 +116,7 @@
                             <div class="page-separator">
                                 <div class="page-separator__text">Pengumuman</div>
                             </div>
+                            
                             @foreach ($announcements as $announcement)
                             <div class="list-group list-group-flush">
                                 <div class="list-group-item px-0 d-flex justify-content-between align-items-center">

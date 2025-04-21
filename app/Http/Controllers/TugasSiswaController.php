@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Tugas;
 use App\Models\Submission;
+use App\Models\NotificationGuru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -60,32 +61,44 @@ class TugasSiswaController extends Controller
         // Kirim data tugas ke view
         return view('siswa.tugas.submit', compact('tugas'));
     }
+
+
     public function submitAssignment(Request $request)
     {
         $this->authorizeAccess(); // Memeriksa akses
-
-        // Validate the incoming request
+    
         $request->validate([
             'class' => 'required|string',
             'attendance' => 'required|string',
             'description' => 'required|string',
-            'file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png', // Specify allowed file types
+            'file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png',
         ]);
-
-        // Store the uploaded file and get the path
+    
         $filePath = $request->file('file')->store('uploads', 'public');
-
-        // Create a new entry in the submissions table
-        Submission::create([
-            'tugas_id' => $request->tugas_id, // Ensure you pass this from your form
+    
+        // Simpan ke tabel submissions
+        $submission = Submission::create([
+            'tugas_id' => $request->tugas_id,
             'user_id' => auth()->id(),
-            'judul' => $request->class, // Assuming 'class' is the title
+            'judul' => $request->class,
             'deskripsi' => $request->description,
             'file' => $filePath,
         ]);
-
+    
+        // Ambil info tugas
+        $tugas = Tugas::findOrFail($request->tugas_id);
+    
+        // Buat notifikasi untuk guru
+        NotificationGuru::create([
+            'user_id' => $tugas->user_id, // ID guru
+            'title' => 'Pengumpulan Tugas Baru',
+            'message' => auth()->user()->name . ' telah mengumpulkan tugas "' . $tugas->judul . '"',
+            'is_read' => false,
+        ]);
+    
         return redirect()->back()->with('success', 'Tugas berhasil disubmit!');
     }
+
 
     protected function authorizeAccess()
     {
