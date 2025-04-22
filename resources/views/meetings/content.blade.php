@@ -104,10 +104,14 @@
                                 <div class="card border-0 shadow-sm">
                                     <div class="card-body">
                                         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-1">
-                                            <div>
-                                                <h5 class="card-title fw-bold mb-0" style="font-size: 1.2rem;">📁 {{ $meeting->title }}</h5>
-                                                <small class="text-muted">{{ $meetingDate->translatedFormat('l, d F Y') }}</small>
-                                            </div>
+                                        <div class="d-flex align-items-center mb-2">
+    <div class="me-3 fw-bold" style="font-size: 1.2rem;">{{ $loop->iteration }}.</div>
+    <div>
+        <h5 class="card-title fw-bold mb-0" style="font-size: 1.2rem;"> {{ $meeting->title }}</h5>
+        <small class="text-muted">{{ $meetingDate->translatedFormat('l, d F Y') }}</small>
+    </div>
+</div>
+
 
                                             @if($isToday)
                                             <span class="alert alert-info py-1 px-2 mt-2 mt-sm-0 mb-0" role="alert" style="font-size: 0.75rem;">
