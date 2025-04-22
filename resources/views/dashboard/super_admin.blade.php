@@ -12,17 +12,6 @@
         <!-- Your sidebar content here -->
     </div>
     <div class="main-content flex-1">
-    @if(session('success'))
-                <script>
-                    $(document).ready(function() {
-                        toastr.success("{{ session('success') }}", "Selamat Datang!", {
-                            closeButton: true,
-                            progressBar: true,
-                        });
-                    });
-                </script>
-            @endif
-        <!-- Rest of your main content here -->
     </div>
 </div>
 
@@ -61,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="ml-lg-16pt">
-                                <a href="teacher-profile.html"
+                                <a href="/profileAdmin"
                                 class="btn btn-light">My Profile</a>
                             </div>
                         </div>

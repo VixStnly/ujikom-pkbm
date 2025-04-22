@@ -132,7 +132,6 @@
 
                         <button type="submit" class="btn btn-primary btn-sm w-100" style="font-weight: bold; background-color:rgb(72, 151, 231); border-color: #4da6ff;" onmouseover="this.style.backgroundColor='#4da6ff';" onmouseout="this.style.backgroundColor='rgb(72, 151, 231)';">Login</button>
                     </form>
-                    <p class="mt-2">Belum Mempunyai Akun? <a href="/pendaftaran" class="text-primary">Daftar</a></p>
                 </div>
             </div>
         </div>

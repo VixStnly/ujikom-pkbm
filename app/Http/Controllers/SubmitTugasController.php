@@ -101,16 +101,18 @@ class SubmitTugasController extends Controller
         ]);
 
         $tugas = Tugas::find($id);
-        $siswa = auth()->user();
-    
-        $guruId = $tugas->guru_id; // pastikan kolom ini ada
+        $siswa = auth()->user(); // <== ini penting
+        
+        $guruId = $tugas->user_id;
 
         NotificationGuru::create([
-            'user_id' => $guruId, // user_id = guru penerima notifikasi
+            'user_id' => $guruId,
+            'tugas_id' => $id,
             'title' => 'Tugas Baru',
-            'message' => auth()->user()->name . ' mengirim tugas pada "' . $tugas->judul . '"',
+            'message' => $siswa->name . ' mengirim tugas pada "' . $tugas->judul . '"',
             'is_read' => false,
         ]);
+        
         
 
         return redirect()->back()->with('success', 'Tugas berhasil disubmit.');

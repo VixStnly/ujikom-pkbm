@@ -27,9 +27,8 @@
                 </div>
             </div>
 
-            <!-- Page Content -->
-            <form action="{{ route('admin.courses.update', $subject->id) }}" method="POST"
-                enctype="multipart/form-data">
+            <!-- FORM UPDATE -->
+            <form action="{{ route('admin.courses.update', $subject->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -45,14 +44,12 @@
                                         <label class="form-label" for="name">Nama Pelajaran</label>
                                         <input name="name" id="name" type="text"
                                             class="form-control @error('name') is-invalid @enderror"
-                                            value="{{ old('name', $subject->name) }}" placeholder="Masukan Nama"
-                                            required>
+                                            value="{{ old('name', $subject->name) }}" placeholder="Masukan Nama" required>
                                         @error('name')
-                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
                                         <small class="mt-3 text-gray-500">
-                                            <a class="text-blue-500 mt-3">Tolong masukan nama mata pelajaran yang
-                                                benar</a>
+                                            <a class="text-blue-500 mt-3">Tolong masukan nama mata pelajaran yang benar</a>
                                         </small>
                                     </div>
 
@@ -62,7 +59,7 @@
                                             class="form-control @error('description') is-invalid @enderror" rows="3"
                                             placeholder="Deskripsi Materi">{{ old('description', $subject->description) }}</textarea>
                                         @error('description')
-                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
                                     </div>
 
@@ -71,10 +68,9 @@
                                         <div class="custom-file">
                                             <input type="file" name="image" class="custom-file-input" id="image"
                                                 onchange="updateFileName(); validateFileSize()">
-                                            <label for="image" class="custom-file-label" id="file-label">Choose
-                                                file</label>
+                                            <label for="image" class="custom-file-label" id="file-label">Choose file</label>
                                             @error('image')
-                                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                             @enderror
                                         </div>
                                     </div>
@@ -84,29 +80,28 @@
                                         <select id="guru" name="user_id" class="form-control" required>
                                             <option value="" disabled>Pilih Guru</option>
                                             @foreach($users as $user)
-                                                <option value="{{ $user->id }}" {{ $subject->user_id == $user->id ? 'selected' : '' }}>
-                                                    {{ $user->name }}
-                                                </option>
+                                            <option value="{{ $user->id }}" {{ $subject->user_id == $user->id ? 'selected' : '' }}>
+                                                {{ $user->name }}
+                                            </option>
                                             @endforeach
                                         </select>
                                         @error('user_id')
-                                            <div class="text-danger">{{ $message }}</div>
+                                        <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-
 
                                     <div class="form-group">
                                         <label class="form-label" for="kelas">Pilih Kelas</label>
                                         <select id="kelas" name="kelas_id" data-toggle="select"
                                             class="form-control @error('kelas_id') is-invalid @enderror" required>
                                             @foreach ($kelasOptions as $kelas)
-                                                <option value="{{ $kelas->id }}" {{ (old('kelas_id', $subject->kelas_id) == $kelas->id) ? 'selected' : '' }}>
-                                                    {{ $kelas->name }}
-                                                </option>
+                                            <option value="{{ $kelas->id }}" {{ (old('kelas_id', $subject->kelas_id) == $kelas->id) ? 'selected' : '' }}>
+                                                {{ $kelas->name }}
+                                            </option>
                                             @endforeach
                                         </select>
                                         @error('kelas_id')
-                                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
                                     </div>
 
@@ -123,67 +118,39 @@
                                     </div>
                                     <div class="list-group list-group-flush">
                                         <div class="list-group-item d-flex">
-                                            <a class="flex"
-                                                href="{{ route('admin.courses.index') }}"><strong>Kembali</strong></a>
+                                            <a class="flex" href="{{ route('admin.courses.index') }}">
+                                                <strong>Kembali</strong>
+                                            </a>
                                         </div>
                                         <div class="list-group-item">
-<<<<<<< HEAD
-<<<<<<< HEAD
-                                            <form action="{{ route('admin.courses.destroy', $subject->id) }}" method="POST" id="delete-form">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" id="delete-button" class="btn btn-link text-danger p-0">
-                                                    <strong>Delete Pertemuan</strong>
-                                                </button>
-                                            </form>
-=======
-=======
->>>>>>> e5b161420338b77501c63cd1bf63ca39d47153b3
-                                            <a href="{{ route('admin.courses.destroy') }}" id="delete-button" class="text-danger"><strong>Delete
-                                                    Pertemuan</strong></a>
->>>>>>> e5b161420338b77501c63cd1bf63ca39d47153b3
+                                            <button type="button" onclick="confirmDelete()" class="btn btn-link text-danger p-0">
+                                                <strong>Delete Pertemuan</strong>
+                                            </button>
                                         </div>
                                     </div>
-
-                                    <script>
-                                        document.getElementById('delete-button').addEventListener('click', function () {
-                                            Swal.fire({
-                                                title: 'Apakah Anda yakin?',
-                                                text: "Data ini akan dihapus secara permanen dan tidak dapat dikembalikan!",
-                                                icon: 'warning',
-                                                showCancelButton: true,
-                                                confirmButtonColor: '#d33',
-                                                cancelButtonColor: '#3085d6',
-                                                confirmButtonText: 'Ya, hapus!',
-                                                cancelButtonText: 'Batal',
-                                                reverseButtons: true,
-                                                customClass: {
-                                                    popup: 'animated fadeInDown faster',
-                                                    confirmButton: 'bg-red-600 text-white px-4 py-2 rounded ml-2',
-                                                    cancelButton: 'bg-gray-300 text-black px-4 py-2 rounded ml-3'
-                                                }
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    Swal.fire({
-                                                        title: 'Terhapus!',
-                                                        text: 'Data berhasil dihapus.',
-                                                        icon: 'success',
-                                                        timer: 2000,
-                                                        showConfirmButton: false
-                                                    });
-                                                    setTimeout(() => {
-                                                        document.getElementById('delete-form').submit();
-                                                    }, 2000);
-                                                }
-                                            });
-                                        });
-                                    </script>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </form>
+
+            <!-- FORM DELETE dipisah di luar -->
+            <form action="{{ route('admin.courses.destroy', $subject->id) }}" method="POST" id="delete-form">
+                @csrf
+                @method('DELETE')
+            </form>
+
+            <!-- KONFIRMASI DELETE -->
+            <script>
+                function confirmDelete() {
+                    if (confirm("Apakah kamu yakin ingin menghapus pertemuan ini?")) {
+                        document.getElementById('delete-form').submit();
+                    }
+                }
+            </script>
+
 
             <script>
                 function updateFileName() {
@@ -198,6 +165,40 @@
         </div>
         @include('layouts.sidebarSuper')
     </div>
+
+    <script>
+        document.getElementById('delete-button').addEventListener('click', function() {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data ini akan dihapus secara permanen dan tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal',
+                reverseButtons: true,
+                customClass: {
+                    popup: 'animated fadeInDown faster',
+                    confirmButton: 'bg-red-600 text-white px-4 py-2 rounded ml-2',
+                    cancelButton: 'bg-gray-300 text-black px-4 py-2 rounded ml-3'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Terhapus!',
+                        text: 'Data berhasil dihapus.',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(() => {
+                        document.getElementById('delete-form').submit();
+                    }, 2000);
+                }
+            });
+        });
+    </script>
 
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

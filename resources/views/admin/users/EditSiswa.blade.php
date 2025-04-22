@@ -243,6 +243,7 @@
                 placeholder: 'Pilih...',
                 allowClear: true
             });
+            const kelasGuruRoute = "{{ route('get.kelas.by.guru') }}";
 
             // Save initial subjects for reference
             let allSubjects = [];
@@ -258,8 +259,7 @@
             function loadDataByTeacher(guruIds) {
                 if (guruIds && guruIds.length > 0) {
                     $.ajax({
-                        url: '{{ route('
-                        get.kelas.by.guru ') }}',
+                        url: '{{ route('get.kelas.by.guru') }}',
                         type: 'GET',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -310,8 +310,7 @@
 
                 if (kelasIds && kelasIds.length > 0 && guruIds && guruIds.length > 0) {
                     $.ajax({
-                        url: '{{ route('
-                        get.subjects.by.kelas ') }}',
+                        url: '{{ route('get.subjects.by.kelas') }}',
                         type: 'GET',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

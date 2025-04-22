@@ -41,8 +41,12 @@ use App\Http\Controllers\HistoriController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\FisologiController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\NotificationGuruController;
 use App\Models\Blog;
 use App\Http\Controllers\ForumController;
+use App\Models\NotificationGuru;
+use Illuminate\Support\Facades\Notification;
+
 // Admin memilih guru dan melihat data kelas si guru
 Route::get('/admin/view-guru/{id}/kelas', [\App\Http\Controllers\AdminViewGuruController::class, 'kelasGuru'])->name('admin.viewGuru.kelas');
 Route::post('/admin/clear-guru-view', function () {
@@ -373,6 +377,7 @@ Route::delete('guru/tugas/{tugas}', [TugasController::class, 'destroy'])->name('
 Route::get('/paketA-SD', function () {
     return view('landing.Program_Sd');
 });
+Route::get('/notification/{id}/read', [NotificationGuruController::class, 'readAndRedirect'])->name('notification.read');
 
 Route::get('/paketB-SMP', function () {
     return view('landing.Program_Smp');

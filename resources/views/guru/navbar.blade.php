@@ -25,27 +25,27 @@
 
     <div class="nav navbar-nav flex-nowrap d-flex">
 
-    @auth
-    @php
-    $user = auth()->user();
+        @auth
+        @php
+        $user = auth()->user();
 
-    // Ambil notifikasi guru (global & personal)
-    $notifications = \App\Models\NotificationGuru::where('user_id', $user->id)
+        // Ambil notifikasi guru (global & personal)
+        $notifications = \App\Models\NotificationGuru::where('user_id', $user->id)
         ->latest()
         ->take(5)
         ->get();
 
-    $unreadCount = \App\Models\NotificationGuru::where('user_id', $user->id)
+        $unreadCount = \App\Models\NotificationGuru::where('user_id', $user->id)
         ->where('is_read', false)
         ->count();
-@endphp
+        @endphp
 
 
-    @include('components.content.notification-guru', [
+        @include('components.content.notification-guru', [
         'notifications' => $notifications,
         'unreadCount' => $unreadCount,
-    ])
-@endauth
+        ])
+        @endauth
 
 
         <div class="nav-item dropdown">

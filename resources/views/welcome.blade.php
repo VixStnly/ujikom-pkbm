@@ -115,17 +115,6 @@
 </head>
 
 <body class="layout-sticky-subnav layout-default">
-    @if(session('success'))
-    <script>
-        $(document).ready(function() {
-            toastr.success("{{ session('success') }}", "Well Done!", {
-                closeButton: true,
-                progressBar: true,
-            });
-        });
-    </script>
-    @endif
-
     <div class="preloader">
         <div class="sk-chase">
             @for ($i = 0; $i < 6; $i++)

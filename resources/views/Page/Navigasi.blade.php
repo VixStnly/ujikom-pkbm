@@ -44,7 +44,6 @@
                             <span class="d-none d-lg-block">PKBM</span>
                         </a>
 
-
                         <ul class="nav navbar-nav d-none d-sm-flex flex justify-content-center ml-8pt">
                             <li class="nav-item active">
                                 <a href="{{ url('/') }}"

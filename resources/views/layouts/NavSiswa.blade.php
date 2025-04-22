@@ -30,10 +30,10 @@
 
                     <!-- Navbar Brand -->
                     <a href="index.html" class="navbar-brand mr-16pt">
-                        <span class="avatar avatar-sm navbar-brand-icon mr-0 mr-lg-8pt">
-                            <span class="avatar-title rounded bg-success">
-                                <img src="{{ asset('frontend/images/illustration/student/128/triwala.png') }}"
-                                    alt="logo" class="img-fluid" />
+                        <span class="avatar avatar-lg navbar-brand-icon mr-lg-8pt">
+                            <span class="avatar-title rounded bg-transparent">
+                                <img src="{{ asset('frontend/images/illustration/student/128/logo-academia.png') }}"
+                                    alt="logo" class="img-fluid" style="width: 55px; height: 55px;" />
                             </span>
                         </span>
                         <span class="d-none d-lg-block">Elearning</span>

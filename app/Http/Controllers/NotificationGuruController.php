@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\NotificationGuru;
 use Illuminate\Support\Facades\Auth;
 
-class NotificationController extends Controller
+class NotificationGuruController extends Controller
 {
     // Ambil semua notifikasi guru
     public function index()
@@ -33,5 +33,12 @@ class NotificationController extends Controller
         NotificationGuru::where('user_id', Auth::id())->update(['is_read' => true]);
 
         return redirect()->back()->with('success', 'Semua notifikasi ditandai sudah dibaca.');
+    }public function readAndRedirect($id)
+    {
+        $notif = NotificationGuru::where('user_id', Auth::id())->findOrFail($id);
+        $notif->update(['is_read' => true]);
+    
+        return redirect($notif->link ?? '/dashboard');
     }
+    
 }

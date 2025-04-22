@@ -14,7 +14,6 @@
     <!-- Icons -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css')}}" />
 
-    <!-- Custom CSS -->
     <style>
         body {
             background-color: #f8f9fa;
@@ -205,13 +204,11 @@
             color: #6c757d;
         }
     </style>
+
 </head>
 
 <body>
-    <!-- Toast Notifications -->
     <div id="toast-container" class="position-fixed top-0 end-0 p-3"></div>
-
-    <!-- Page Header -->
     <div class="page-header">
         <div class="container">
             <div class="row align-items-center">
@@ -233,7 +230,6 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="container pb-5">
         <div class="row mb-4">
             <div class="col-12">
@@ -245,7 +241,6 @@
             </div>
         </div>
 
-        <!-- Subject List -->
         @foreach($subjects as $subject)
         <div class="meeting-card">
             <div class="meeting-header d-flex justify-content-between align-items-center">
@@ -296,19 +291,19 @@
                             <p>{{ $meeting->description }}</p>
                             
                             <div class="card-actions mb-4 d-flex gap-2">
-    <a href="{{ route('guru.meeting.edit', $meeting->id) }}" 
-       class="btn btn-primary d-flex align-items-center">
-        <i class='bx bx-edit me-1'></i> Edit Pertemuan
-    </a>
-    <a href="{{ route('forum.index', $meeting->id) }}" 
-       class="btn btn-info d-flex align-items-center">
-        <i class='bx bx-message-square-dots me-1'></i> Forum Diskusi
-    </a>
-    <a href="{{ route('guru.kelas.siswa', ['kelas' => $subject->kelas->id, 'meetingId' => $meeting->id]) }}"
-       class="btn btn-success d-flex align-items-center">
-        <i class='bx bx-user-check me-1'></i> Lihat Siswa yang Hadir
-    </a>
-</div>
+                                <a href="{{ route('guru.meeting.edit', $meeting->id) }}" 
+                                class="btn btn-primary d-flex align-items-center">
+                                    <i class='bx bx-edit me-1'></i> Edit Pertemuan
+                                </a>
+                                <a href="{{ route('forum.index', $meeting->id) }}" 
+                                class="btn btn-info d-flex align-items-center">
+                                    <i class='bx bx-message-square-dots me-1'></i> Forum Diskusi
+                                </a>
+                                <a href="{{ route('guru.kelas.siswa', ['kelas' => $subject->kelas->id, 'meetingId' => $meeting->id]) }}"
+                                class="btn btn-success d-flex align-items-center">
+                                    <i class='bx bx-user-check me-1'></i> Lihat Siswa yang Hadir
+                                </a>
+                            </div>
                             
                             <div class="row">
                                 <!-- Materials Section -->

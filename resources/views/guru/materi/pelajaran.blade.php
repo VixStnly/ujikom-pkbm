@@ -203,7 +203,7 @@
                                     <p class="text-muted small">Belum ada pertemuan untuk mata pelajaran ini.</p>
                                     @else
                                         <div class="meeting-buttons">
-                                            @if($userMeetings->count() > 3)
+                                            @if($userMeetings->count() > 1)
                                             <!-- Use Sweet Alert instead of Bootstrap modal -->
                                             <button type="button" class="btn btn-outline-primary btn-block show-meetings-btn" 
                                                     data-subject-id="{{ $subject->id }}"

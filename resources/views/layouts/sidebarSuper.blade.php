@@ -23,7 +23,7 @@
                 <span class="avatar avatar-xl sidebar-brand-icon h-auto">
 
                     <span class="avatar-title rounded bg-success"><img
-                            src="{{ asset('frontend/images/illustration/student/128/triwala.png') }}" class="img-fluid"
+                            src="{{ asset('frontend/images/illustration/student/128/academia.png') }}" class="img-fluid"
                             alt="logo" /></span>
 
                 </span>

@@ -9,11 +9,26 @@ class NotificationGuru extends Model
     protected $table = 'notifications_guru';
 
     protected $fillable = [
-        'user_id', 'title', 'message', 'is_read', 'created_at', 'updated_at',
+        'user_id',
+        'tugas_id',
+        'title',
+        'message',
+        'is_read',
     ];
-    
+
+    /**
+     * Relasi ke model User (Guru penerima notifikasi)
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Relasi ke model Tugas
+     */
+    public function tugas()
+    {
+        return $this->belongsTo(Tugas::class);
     }
 }

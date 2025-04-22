@@ -86,7 +86,7 @@ class CourseController extends Controller
 
         $subject->save();
 
-        return redirect()->route('admin.courses.index')->with('success', 'Pembelajaran berhasil dibuat.');
+        return redirect()->route('admin.courses.index')->with('success', 'Pembelajaran berhasil.');
     }
 
 
@@ -146,7 +146,7 @@ class CourseController extends Controller
 
         $subject->save();
 
-        return redirect()->route('admin.courses.index')->with('success', 'Pelajaran berhasil diperbarui.');
+        return redirect()->route('admin.courses.index')->with('success', 'Subject updated successfully.');
     }
 
     public function destroy($id)
