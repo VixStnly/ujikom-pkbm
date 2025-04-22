@@ -71,7 +71,7 @@
                                         <img class="img-fluid rounded"
                                             src="{{ asset('images/MISI.png') }}"
                                             alt="Image"
-                                            style="width: 100%; height: 100%; object-fit: cover;">
+                                            style="width: 90%; height: 90%; object-fit: cover;">
                                         <div class="overlay__content"></div>
                                     </div>
                                 </div>

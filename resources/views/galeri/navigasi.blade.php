@@ -7,7 +7,7 @@
                  data-condenses>
                 <div class="mdk-header__bg">
                     <div class="mdk-header__bg-front"
-                         style="background-image: url({{ asset('frontend/images/bg-triwala.jpg') }});"></div>
+                         style="background-image: url({{ asset('images/logo-academia.png') }});"></div>
                 </div>
                 <div class="mdk-header__content justify-content-center">
 

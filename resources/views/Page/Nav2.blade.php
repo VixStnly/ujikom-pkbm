@@ -21,7 +21,7 @@
                         <a href="{{ url('/') }}" class="navbar-brand mr-16pt">
                             <span class="avatar avatar-sm navbar-brand-icon mr-0 mr-lg-8pt">
                                 <span class="rounded">
-                                    <img src="{{ asset('frontend/images/illustration/student/128/triwala.png') }}" alt="logo" class="img-fluid" />
+                                    <img src="{{ asset('images/logo-academia.png') }}" alt="logo" class="img-fluid" />
                                 </span>
                             </span>
                             <span class="d-none d-lg-block">PKBM</span>
