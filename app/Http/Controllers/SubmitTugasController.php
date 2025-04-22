@@ -70,6 +70,7 @@ class SubmitTugasController extends Controller
         return view('siswa.tugas.submit', compact('tugas', 'submission', 'score', 'submissions','user'));
     }
 
+    
     public function store(Request $request, $id)
     {
         $this->authorizeAccess(); // Memeriksa akses
@@ -112,9 +113,6 @@ class SubmitTugasController extends Controller
             'message' => $siswa->name . ' mengirim tugas pada "' . $tugas->judul . '"',
             'is_read' => false,
         ]);
-        
-        
-
         return redirect()->back()->with('success', 'Tugas berhasil disubmit.');
     }
 

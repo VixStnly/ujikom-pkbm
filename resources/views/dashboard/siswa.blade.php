@@ -261,11 +261,10 @@
                         <div class="card-body">
                           <h5 class="card-title text-primary">Selamat Datang 🎉</h5>
                           <p class="mb-4 mt-3 text-50">
-                            Anda telah menyelesaikan <span class="fw-bold">72%</span> lebih banyak tugas hari ini. Cek pencapaian terbaru Anda di
-                            profil.
+                            Selamat datang di e-learning PKBM Academia Anda bisa meng akses tugas, materi, absen dan berbagai fitur dengan mudah dan teratur
                           </p>
 
-                          <a href="javascript:;" class="btn btn-sm btn-outline-primary">Lihat Profil</a>
+                          <a href="" class="btn btn-sm btn-outline-primary">Lihat Profil</a>
                         </div>
                       </div>
                       <div class="col-sm-5 text-center text-sm-left">
