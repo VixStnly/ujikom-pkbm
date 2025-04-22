@@ -252,18 +252,18 @@
                                                         </div>
 
                                                         <p class="mb-2">Klik tombol di bawah untuk melakukan absen:</p>@if ($isLate)
-    <button class="btn btn-outline-danger btn-sm opacity-50 cursor-not-allowed" disabled>
-        <i class='bx bx-time text-danger'></i>&nbsp; Terlambat
-    </button>
-@elseif (!($meetingDate->isToday() && $now->isBefore($meetingDate)) && !$hasAttended)
-    <button class="btn btn-outline-secondary btn-sm opacity-50 cursor-not-allowed" disabled>
-        <i class='bx bx-block text-secondary'></i>&nbsp; Belum dimulai
-    </button>
-@else
-    <button class="btn btn-outline-info btn-sm" data-bs-toggle="tooltip" onclick="location.href='{{ route('siswa.absensi', ['meeting' => $meeting->id]) }}'">
-        <i class='bx bx-check text-info'></i>&nbsp; Isi Absen
-    </button>
-@endif
+                                                        <button class="btn btn-outline-danger btn-sm opacity-50 cursor-not-allowed" disabled>
+                                                            <i class='bx bx-time text-danger'></i>&nbsp; Terlambat
+                                                        </button>
+                                                        @elseif (!($meetingDate->isToday() && $now->isBefore($meetingDate)) && !$hasAttended)
+                                                        <button class="btn btn-outline-secondary btn-sm opacity-50 cursor-not-allowed" disabled>
+                                                            <i class='bx bx-block text-secondary'></i>&nbsp; Belum dimulai
+                                                        </button>
+                                                        @else
+                                                        <button class="btn btn-outline-info btn-sm" data-bs-toggle="tooltip" onclick="location.href='{{ route('siswa.absensi', ['meeting' => $meeting->id]) }}'">
+                                                            <i class='bx bx-check text-info'></i>&nbsp; Isi Absen
+                                                        </button>
+                                                        @endif
 
 
                                                     </div>

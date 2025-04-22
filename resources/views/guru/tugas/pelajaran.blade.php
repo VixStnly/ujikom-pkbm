@@ -15,26 +15,26 @@
             overflow: hidden;
             height: 100%;
         }
-        
+
         .subject-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
-        
+
         .subject-thumbnail {
             height: 160px;
             object-fit: cover;
             width: 100%;
             border-radius: 8px;
         }
-        
+
         .subject-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
         }
-        
+
         .class-badge {
             font-size: 0.75rem;
             padding: 0.25rem 0.5rem;
@@ -44,47 +44,47 @@
             margin-left: 8px;
             border: 1px solid #dee2e6;
         }
-        
+
         .meeting-container {
             margin-bottom: 15px;
         }
-        
+
         .meeting-buttons {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             margin-bottom: 15px;
         }
-        
+
         .action-buttons {
             display: flex;
             gap: 8px;
         }
-        
+
         .breadcrumb {
             background: none;
             padding: 0;
         }
-        
+
         .page-header {
             padding: 20px 0;
             background-color: #f8f9fa;
             margin-bottom: 30px;
         }
-        
+
         .alert {
             border-radius: 8px;
             margin-bottom: 20px;
         }
-        
+
         .btn-meeting {
             transition: all 0.2s;
         }
-        
+
         .btn-meeting:hover {
             transform: scale(1.05);
         }
-        
+
         /* Meeting modal specific styles */
         .meeting-count-badge {
             font-size: 0.7rem;
@@ -97,40 +97,58 @@
             min-width: 20px;
             text-align: center;
         }
-        
+
         /* Fixed modal styles to ensure visibility */
         .meetings-modal {
             z-index: 1050;
             background-color: rgba(0, 0, 0, 0.5);
         }
-        
+
         .meetings-modal .modal-content {
             background-color: #fff;
             margin: auto;
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
-        
+
         .meeting-list-item {
             padding: 12px 15px;
             border-bottom: 1px solid #eee;
             transition: background-color 0.2s;
             cursor: pointer;
         }
-        
+
         .meeting-list-item:hover {
             background-color: #f8f9fa;
         }
-        
+
         .meeting-list-item:last-child {
             border-bottom: none;
         }
-        
+
         /* Maintain original styles required for sidebar */
         .layout-app {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+        }
+
+        .title-shadow {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-weight: bold;
+            font-size: 2rem;
+            color: #f1f1f1;
+            text-shadow:
+                -2px -2px 0 #003366,
+                2px -2px 0 #003366,
+                -2px 2px 0 #003366,
+                2px 2px 0 #003366;
+            padding: 10px;
+            text-align: center;
+            border-radius: 12px;
+            line-height: 1.1;
+            margin: 0;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -181,10 +199,18 @@
                         <div class="card subject-card h-100">
                             <div class="card-body d-flex flex-column">
                                 <div class="subject-image mb-3">
-                                    <img src="{{ asset('storage/pelajaran/' . $subject->image) }}"
-                                        alt="{{ $subject->name }}" class="subject-thumbnail">
+                                    @if($subject->image)
+                                    <img src="{{ asset('storage/pelajaran/' . $subject->image) }}" class="subject-thumbnail" alt="{{ $subject->name }}">
+                                    @else
+                                    <div class="position-relative">
+                                        <img src="{{ asset('images/achievements/cover-pembelajaran.png') }}" class="subject-thumbnail" alt="{{ $subject->name }}">
+                                        <div class="card-img-overlay d-flex justify-content-center align-items-center pt-4">
+                                            <h1 class="title-shadow text-center">{{ $subject->name }}</h1>
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
-                                
+
                                 <div class="subject-header">
                                     <h5 class="card-title mb-0">{{ $subject->name }}</h5>
                                     <span class="class-badge">
@@ -198,37 +224,37 @@
 
                                 <div class="meeting-container">
                                     <h6 class="text-muted mb-2"><i class="fas fa-tasks mr-1"></i> Tugas Pertemuan</h6>
-                                    
+
                                     @if($userMeetings->isEmpty())
                                     <p class="text-muted small">Belum ada pertemuan untuk mata pelajaran ini.</p>
                                     @else
-                                        <div class="meeting-buttons">
-                                            @if($userMeetings->count() > 1)
-                                            <!-- Use Sweet Alert instead of Bootstrap modal -->
-                                            <button type="button" class="btn btn-outline-primary btn-block show-meetings-btn" 
-                                                    data-subject-id="{{ $subject->id }}"
-                                                    data-subject-name="{{ $subject->name }}">
-                                                <i class="fas fa-list-ul mr-1"></i>Lihat Tugas Pertemuan
-                                                <span class="meeting-count-badge">{{ $userMeetings->count() }}</span>
-                                            </button>
-                                            <!-- Hidden data for meetings -->
-                                            <div id="meetings-data-{{ $subject->id }}" style="display: none;">
-                                                @foreach($userMeetings as $meeting)
-                                                <div class="meeting-data" 
-                                                     data-title="{{ $meeting->title }}" 
-                                                     data-url="{{ route('guru.tugas.index', ['meeting_id' => $meeting->id]) }}">
-                                                </div>
-                                                @endforeach
+                                    <div class="meeting-buttons">
+                                        @if($userMeetings->count() > 1)
+                                        <!-- Use Sweet Alert instead of Bootstrap modal -->
+                                        <button type="button" class="btn btn-outline-primary btn-block show-meetings-btn"
+                                            data-subject-id="{{ $subject->id }}"
+                                            data-subject-name="{{ $subject->name }}">
+                                            <i class="fas fa-list-ul mr-1"></i>Lihat Tugas Pertemuan
+                                            <span class="meeting-count-badge">{{ $userMeetings->count() }}</span>
+                                        </button>
+                                        <!-- Hidden data for meetings -->
+                                        <div id="meetings-data-{{ $subject->id }}" style="display: none;">
+                                            @foreach($userMeetings as $meeting)
+                                            <div class="meeting-data"
+                                                data-title="{{ $meeting->title }}"
+                                                data-url="{{ route('guru.tugas.index', ['meeting_id' => $meeting->id]) }}">
                                             </div>
-                                            @else
-                                                @foreach($userMeetings as $meeting)
-                                                <a href="{{ route('guru.tugas.index', ['meeting_id' => $meeting->id]) }}"
-                                                    class="btn btn-outline-primary btn-meeting">
-                                                    <i class="fas fa-tasks mr-1"></i>{{ $meeting->title }}
-                                                </a>
-                                                @endforeach
-                                            @endif
+                                            @endforeach
                                         </div>
+                                        @else
+                                        @foreach($userMeetings as $meeting)
+                                        <a href="{{ route('guru.tugas.index', ['meeting_id' => $meeting->id]) }}"
+                                            class="btn btn-outline-primary btn-meeting">
+                                            <i class="fas fa-tasks mr-1"></i>{{ $meeting->title }}
+                                        </a>
+                                        @endforeach
+                                        @endif
+                                    </div>
                                     @endif
                                 </div>
 
@@ -257,24 +283,24 @@
                         </li>
 
                         @foreach(range(1, $subjects->lastPage()) as $i)
-                            @if($i == 1 || $i == $subjects->lastPage() || abs($i - $subjects->currentPage()) < 2)
+                        @if($i == 1 || $i == $subjects->lastPage() || abs($i - $subjects->currentPage()) < 2)
                             <li class="page-item {{ $i == $subjects->currentPage() ? 'active' : '' }}">
-                                <a class="page-link" href="{{ $subjects->url($i) }}">{{ $i }}</a>
+                            <a class="page-link" href="{{ $subjects->url($i) }}">{{ $i }}</a>
                             </li>
                             @elseif(abs($i - $subjects->currentPage()) == 2)
                             <li class="page-item disabled">
                                 <span class="page-link">...</span>
                             </li>
                             @endif
-                        @endforeach
+                            @endforeach
 
-                        <li class="page-item {{ $subjects->hasMorePages() ? '' : 'disabled' }}">
-                            <a class="page-link" href="{{ $subjects->nextPageUrl() }}" aria-label="Next"
-                                {{ $subjects->hasMorePages() ? '' : 'tabindex="-1"' }}>
-                                <span>Selanjutnya</span>
-                                <i class="fas fa-chevron-right ml-1"></i>
-                            </a>
-                        </li>
+                            <li class="page-item {{ $subjects->hasMorePages() ? '' : 'disabled' }}">
+                                <a class="page-link" href="{{ $subjects->nextPageUrl() }}" aria-label="Next"
+                                    {{ $subjects->hasMorePages() ? '' : 'tabindex="-1"' }}>
+                                    <span>Selanjutnya</span>
+                                    <i class="fas fa-chevron-right ml-1"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
                 @endif
@@ -304,7 +330,7 @@
     <script src="{{ asset('frontend/vendor/list.min.js') }}"></script>
     <script src="{{ asset('frontend/js/list.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <!-- Script for meetings modal and help button -->
     <script>
         $(document).ready(function() {
@@ -332,12 +358,12 @@
                     confirmButtonText: 'Mengerti'
                 });
             });
-            
+
             // Using SweetAlert2 for meetings list instead of Bootstrap modal
             $('.show-meetings-btn').on('click', function() {
                 const subjectId = $(this).data('subject-id');
                 const subjectName = $(this).data('subject-name');
-                
+
                 // Get meeting data
                 const meetingsData = [];
                 $(`#meetings-data-${subjectId} .meeting-data`).each(function() {
@@ -346,7 +372,7 @@
                         url: $(this).data('url')
                     });
                 });
-                
+
                 // Generate HTML for meeting list
                 let meetingsHtml = '';
                 meetingsData.forEach(meeting => {
@@ -361,7 +387,7 @@
                         </div>
                     </div>`;
                 });
-                
+
                 // Show SweetAlert with meetings list
                 Swal.fire({
                     title: `Tugas untuk pelajaran ${subjectName}`,
@@ -377,11 +403,15 @@
                     }
                 });
             });
-            
+
             // Add hover effect for better UX
             $('.subject-card').hover(
-                function() { $(this).addClass('shadow-lg'); },
-                function() { $(this).removeClass('shadow-lg'); }
+                function() {
+                    $(this).addClass('shadow-lg');
+                },
+                function() {
+                    $(this).removeClass('shadow-lg');
+                }
             );
         });
     </script>

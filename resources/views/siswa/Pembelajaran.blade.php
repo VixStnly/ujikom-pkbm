@@ -71,10 +71,17 @@
                                         data-trigger="click">
 
                                         <a href="{{ route('meetings.index', $subject->id) }}" class="js-image" data-position="">
-                                            <img src="{{ $subject->image ? asset('storage/pelajaran/'.$subject->image) : asset('frontend/images/paths/mailchimp_430x168.png') }}"
-                                                alt="{{ $subject->name }}"
-                                                class="img-fluid"
-                                                style="width: 100%; height: 150px; object-fit: cover;">
+                                            @if($subject->image)
+                                            <img src="{{ asset('storage/pelajaran/' . $subject->image) }}" class="card-img-top" alt="{{ $subject->name }}">
+                                            @else
+                                            <div class="position-relative">
+                                                <img src="{{ asset('images/achievements/cover-pembelajaran.png') }}" class="card-img-top p-5" alt="{{ $subject->name }}">
+                                                <div class="card-img-overlay d-flex justify-content-center align-items-center pt-4">
+                                                    <h1 class="title-shadow text-center">{{ $subject->name }}</h1>
+                                                </div>
+                                            </div>
+                                            @endif
+
                                             <!-- Image fallback -->
                                             <span class="overlay__content align-items-start justify-content-start">
                                                 <span class="overlay__action card-body d-flex align-items-center">
@@ -116,7 +123,7 @@
                             <div class="page-separator">
                                 <div class="page-separator__text">Pengumuman</div>
                             </div>
-                            
+
                             @foreach ($announcements as $announcement)
                             <div class="list-group list-group-flush">
                                 <div class="list-group-item px-0 d-flex justify-content-between align-items-center">
@@ -145,5 +152,25 @@
             </div>
             @include ('Page.footer')
         </div>
+
+        <style>
+            .title-shadow {
+                font-family: 'Comic Sans MS', cursive, sans-serif;
+                font-weight: bold;
+                font-size: 2rem;
+                color: #f1f1f1;
+                text-shadow:
+                    -2px -2px 0 #003366,
+                    2px -2px 0 #003366,
+                    -2px 2px 0 #003366,
+                    2px 2px 0 #003366;
+                padding: 10px;
+                text-align: center;
+                border-radius: 12px;
+                line-height: 1.1;
+                margin: 0;
+                margin-top: 20px;
+            }
+        </style>
 
 </body>

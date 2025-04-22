@@ -61,12 +61,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/forum/{meeting}', [ForumController::class, 'store'])->name('forum.store');
     Route::post('/forums/{id}/like', [ForumController::class, 'like'])->name('forums.like');
 
-    Route::get('/notifications', [NotificationController::class, 'fetch'])->name('notifications');
-    Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.read-all');
 });
 
 
 
+// routes/web.php
+Route::get('/notifications', [NotificationController::class, 'fetch'])->name('notifications.fetch');
+
+Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.read-all');
 Route::get('/generate', function(){
    \Illuminate\Support\Facades\Artisan::call('storage:link');
    echo 'ok';
@@ -377,7 +379,7 @@ Route::delete('guru/tugas/{tugas}', [TugasController::class, 'destroy'])->name('
 Route::get('/paketA-SD', function () {
     return view('landing.Program_Sd');
 });
-Route::get('/notification/{id}/read', [NotificationGuruController::class, 'readAndRedirect'])->name('notification.read');
+Route::get('/guru/notification/{id}/read', [NotificationGuruController::class, 'readAndRedirect'])->name('notification.read');
 
 Route::get('/paketB-SMP', function () {
     return view('landing.Program_Smp');

@@ -57,6 +57,8 @@
         }
         
         .meeting-button {
+            white-space: nowrap; /* Cegah teks wrap ke bawah */
+
             background-color: #fff;
             color: #495057;
             border: 1px solid #cdd4e0;
@@ -244,7 +246,7 @@
         @foreach($subjects as $subject)
         <div class="meeting-card">
             <div class="meeting-header d-flex justify-content-between align-items-center">
-                <h4 class="mb-0 text-white">{{ $subject->name }} - {{ $subject->kelas->name }}</h4>
+                <h4 class="mb-0 text-white" >{{ $subject->name }} - {{ $subject->kelas->name }}</h4>
                 <span class="badge bg-light text-dark">{{ $subject->meetings->where('user_id', auth()->id())->count() }} Pertemuan</span>
             </div>
             
@@ -255,7 +257,7 @@
                     <div class="d-flex overflow-auto pb-2">
                         @foreach($subject->meetings as $meeting)
                             @if($meeting->user_id === auth()->id())
-                                <button class="meeting-button" 
+                                <button class="meeting-button whitespace-nowrap" 
                                         onclick="toggleMeeting('meeting{{ $meeting->id }}', '{{ $subject->id }}')">
                                     {{ $meeting->title }}
                                 </button>

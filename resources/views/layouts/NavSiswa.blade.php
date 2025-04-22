@@ -44,33 +44,10 @@
                         <span class="material-icons">short_text</span>
                     </button>
 
-                    @auth
-                        @php
-                        $notifications = \App\Models\Notification::where(function ($query) {
-                                $query->whereNull('user_id') // notifikasi global
-                                    ->orWhere('user_id', auth()->id()); // atau personal
-                            })
-                            ->latest()
-                            ->take(5)
-                            ->get();
+                    <x-notification-siswa :notifications="$notifications" :unreadCount="$unreadCount" />
 
-                        $unreadCount = \App\Models\Notification::where(function ($query) {
-                                $query->whereNull('user_id')
-                                    ->orWhere('user_id', auth()->id());
-                            })
-                            ->where('is_read', false)
-                            ->count();
 
-                        $hasKelas = $user->kelas()->exists();
 
-                    @endphp
-
-                    @include('components.content.notification-siswa', [
-                        'notifications' => $notifications,
-                        'unreadCount' => $unreadCount,
-                        'hasKelas' => $hasKelas,
-                    ])
-                    @endauth
 
                     <!-- Account dropdown -->
                     <div class="nav-item dropdown">

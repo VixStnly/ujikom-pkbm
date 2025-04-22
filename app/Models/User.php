@@ -23,7 +23,7 @@ class User extends Authenticatable
     ];
 
 
-
+    
     public function role()
     {
         return $this->belongsTo(Role::class);
@@ -93,6 +93,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Materi::class);
     }
+    // app/Models/User.php
+
+public function notifications()
+{
+    return $this->hasMany(Notification::class, 'user_id'); // Menentukan relasi one-to-many
+}
+
     public function tugasDibuat()
     {
         return $this->hasMany(Tugas::class);  // Guru membuat banyak tugas
@@ -128,6 +135,10 @@ class User extends Authenticatable
     {
         return $this->role_id === 1; // Adjust based on your admin role ID
     }
+
+    // Di dalam User.php
+
+
 
 
 }

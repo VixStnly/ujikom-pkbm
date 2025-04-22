@@ -125,12 +125,28 @@
         .meeting-list-item:last-child {
             border-bottom: none;
         }
-        
-        /* Maintain original styles required for sidebar */
         .layout-app {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+        }
+
+        .title-shadow {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-weight: bold;
+            font-size: 2rem;
+            color: #f1f1f1;
+            text-shadow:
+                -2px -2px 0 #003366,
+                2px -2px 0 #003366,
+                -2px 2px 0 #003366,
+                2px 2px 0 #003366;
+            padding: 10px;
+            text-align: center;
+            border-radius: 12px;
+            line-height: 1.1;
+            margin: 0;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -181,8 +197,16 @@
                         <div class="card subject-card h-100">
                             <div class="card-body d-flex flex-column">
                                 <div class="subject-image mb-3">
-                                    <img src="{{ asset('storage/pelajaran/' . $subject->image) }}"
-                                        alt="{{ $subject->name }}" class="subject-thumbnail">
+                                        @if($subject->image)
+                                    <img src="{{ asset('storage/pelajaran/' . $subject->image) }}" class="subject-thumbnail" alt="{{ $subject->name }}">
+                                    @else
+                                    <div class="position-relative">
+                                        <img src="{{ asset('images/achievements/cover-pembelajaran.png') }}" class="subject-thumbnail" alt="{{ $subject->name }}">
+                                        <div class="card-img-overlay d-flex justify-content-center align-items-center pt-4">
+                                            <h1 class="title-shadow text-center">{{ $subject->name }}</h1>
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
                                 
                                 <div class="subject-header">

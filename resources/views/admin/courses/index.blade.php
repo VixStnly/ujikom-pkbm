@@ -127,7 +127,6 @@
                                                 <div class="card-img-overlay d-flex justify-content-center align-items-center pt-4">
                                                     <h1 class="title-shadow text-center">{{ $subject->name }}</h1>
                                                 </div>
-
                                             </div>
                                             @endif
 

@@ -1,31 +1,39 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\User;
 
 use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    public function fetch()
+
+    public function fetch(Request $request)
     {
-        $notifications = Notification::where('user_id', auth()->id())
-            ->latest()
-            ->take(4)
-            ->get();
+        // Ambil notifikasi berdasarkan user yang sedang login
+        $user = auth()->user();
+        $notifications = $user->notifications()->latest()->limit(5)->get();  // Ambil 5 notifikasi terbaru
+        $unreadCount = $notifications->where('is_read', false)->count();
 
-        $unreadCount = Notification::where('user_id', auth()->id())
-            ->where('is_read', false)
-            ->count();
-
-        return view('content.notification-siswa', compact('notifications', 'unreadCount'));
+        // Kembalikan data notifikasi dan unreadCount
+        return response()->json([
+            'notifications' => $notifications,
+            'unreadCount' => $unreadCount
+        ]);
     }
+    
 
-    public function readAll()
-    {
-        Notification::where('user_id', auth()->id())
-            ->update(['is_read' => true]);
+public function readAll()
+{
+    $user = auth()->user();
 
-        return back();
-    }
+    Notification::where('user_id', $user->id)
+        ->where('is_read', false)
+        ->update(['is_read' => true]);
+
+    return back(); // Kembali ke halaman sebelumnya
+}
+
+
 }

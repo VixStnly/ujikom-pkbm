@@ -109,14 +109,12 @@ class TugasController extends Controller
         return view('guru.tugas.create', compact('meetings', 'user'));
     }
 
-
-    // Menyimpan tugas ke database  
     public function store(Request $request)
     {
         $this->authorizeAccess(); // Memeriksa akses
-
+    
         \Log::info('Data yang diterima:', $request->all());
-
+    
         $validatedData = $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
@@ -125,35 +123,42 @@ class TugasController extends Controller
             'link' => 'nullable|url',
             'meeting_id' => 'required|exists:meetings,id', // Validasi kelas_id
         ]);
-
+    
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $filePath = $file->store('tugas_files', 'public');
             $validatedData['file_path'] = $filePath;
         }
-
-        $validatedData['user_id'] = auth()->id();
-
+    
+        $validatedData['user_id'] = auth()->id(); // ID guru yang membuat tugas
+    
         \DB::enableQueryLog();
         $tugas = Tugas::create($validatedData);
         \Log::info('Query yang dijalankan:', \DB::getQueryLog());
-
+    
         $tugas->load('meeting.subject');
-        $subjectName = $tugas->meeting->subject->name ?? 'Mata Pelajaran';
-
-        Notification::create([
-            'user_id' => null,
-            'message' => "📌 Tugas baru untuk mata pelajaran: {$subjectName}",
-            'icon' => 'assignment',
-            'icon_color' => 'warning',
-        ]);
-        
-
+        $subjectName = $tugas->meeting->subject->name ?? 'Mata Pelajaran'; // Menggunakan relasi subject dengan benar
+    
+        // Dapatkan siswa yang terhubung dengan guru yang membuat tugas
+        $students = User::whereHas('guru', function ($query) {
+            $query->where('guru_id', auth()->id()); // Filter berdasarkan guru yang sedang login
+        })->get();
+    
+        // Kirim notifikasi ke setiap siswa
+        foreach ($students as $student) {
+            Notification::create([
+                'user_id' => $student->id, // ID siswa yang menerima notifikasi
+                'subject_id' => $tugas->meeting->subject_id,
+                'message' => "📌 Tugas baru untuk mata pelajaran: {$subjectName}",
+                'icon' => 'assignment',
+                'icon_color' => 'warning',
+            ]);
+        }
+    
         return redirect()->route('guru.tugas.index', ['meeting_id' => $validatedData['meeting_id']])
             ->with('success', 'Tugas berhasil ditambahkan');
     }
-
-
+    
 
 
     // Form edit tugas
